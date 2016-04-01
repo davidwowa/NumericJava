@@ -85,4 +85,27 @@ public interface DoubleFunctions {
 		double result = 1. / cos_2;
 		return result;
 	}
+
+	// Newton Method
+	default double sqrt(double x, int limit, int initialGuess) {
+		double two = 2.;
+		double x0 = initialGuess;
+		for (int i = 0; i <= limit; i++) {
+			double pow = pow(x0, 2);
+			double fx0 = pow - x;
+			double f_x0 = two * x0;
+			double subtrahend = fx0 / f_x0;
+			x0 = x0 - subtrahend;
+		}
+		return x0;
+	}
+
+	default double euler(double x, int limit) {
+		double result = 0.;
+		for (int i = 0; i <= limit; i++) {
+			double fac = fac(i);
+			result = result + (1. / fac);
+		}
+		return result;
+	}
 }
