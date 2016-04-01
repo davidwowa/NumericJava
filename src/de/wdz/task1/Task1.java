@@ -6,13 +6,18 @@ import java.math.MathContext;
 import de.wdz.functions.BigDecimalFunctions;
 import de.wdz.functions.DoubleFunctions;
 import de.wdz.num.NumericTools;
+import de.wdz.num.Strategy;
 
-public class Task1 implements DoubleFunctions, BigDecimalFunctions, NumericTools {
+public class Task1 implements DoubleFunctions, BigDecimalFunctions, NumericTools, Strategy {
 	private int iterations = 1000;
 	private int guess = 10;
 
-	public void runBigDecimal(int limit) {
+	private int limit = 100;
+
+	@Override
+	public void runBigDecimal() {
 		BigDecimal two = new BigDecimal(2.);
+		System.out.println("i, factorial, factorial, absolute error, relative error");
 		for (int i = 0; i <= limit; i++) {
 			// 2 * pi * n
 			BigDecimal underSquare = (two.multiply(pi(), MathContext.DECIMAL128)).multiply(new BigDecimal(i));
@@ -28,7 +33,8 @@ public class Task1 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 		}
 	}
 
-	public void runDouble(int limit) {
+	@Override
+	public void runDouble() {
 		double two = 2.;
 		System.out.println("i, factorial, factorial, absolute error, relative error");
 		for (int i = 1; i <= limit; i++) {
@@ -47,8 +53,9 @@ public class Task1 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 	}
 
 	public static void main(String[] args) {
-		Task1 tast = new Task1();
-		// tast.runBigDecimal(10);
-		tast.runDouble(10);
+		Task1 task1 = new Task1();
+		task1.runDouble();
+		System.out.println("---");
+		task1.runBigDecimal();
 	}
 }
