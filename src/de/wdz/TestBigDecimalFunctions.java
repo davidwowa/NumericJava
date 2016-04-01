@@ -73,7 +73,7 @@ public class TestBigDecimalFunctions implements BigDecimalFunctions, NumericTool
 		System.out.println("absolute error \t" + test.absoluteError(euler, new BigDecimal(Math.E)));
 		System.out.println("relative error \t" + test.relativeError(euler, new BigDecimal(Math.E)));
 
-		BigDecimal pi = test.PI(new BigDecimal(1000000, MathContext.DECIMAL128));
+		BigDecimal pi = test.pi();
 		System.out.println("+pi \t" + pi);
 		System.out.println("-pi \t" + Math.PI);
 		System.out.println("absolute error \t" + test.absoluteError(pi, new BigDecimal(Math.PI)));

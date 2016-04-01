@@ -10,7 +10,7 @@ package de.wdz.functions;
 
 public class Bpp {
 
-	final static int NUM = 0; // nth number of pi to print out
+	final static int NUM = 10; // nth number of pi to print out
 
 	/**
 	 * Returns the nth digit of pi followed by the next 8 numbers
