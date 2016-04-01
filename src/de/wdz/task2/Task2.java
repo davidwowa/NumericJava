@@ -1,5 +1,7 @@
 package de.wdz.task2;
 
+import java.math.BigDecimal;
+
 import de.wdz.functions.BigDecimalFunctions;
 import de.wdz.functions.DoubleFunctions;
 import de.wdz.num.NumericTools;
@@ -19,8 +21,7 @@ public class Task2 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 
 	@Override
 	public void runDouble() {
-		// TODO Auto-generated method stub
-
+		BigDecimal result = new BigDecimal("0");
 	}
 
 	public static void main(String[] args) {
