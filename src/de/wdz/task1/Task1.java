@@ -37,7 +37,7 @@ public class Task1 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 	public void runDouble() {
 		double two = 2.;
 		System.out.println("i, factorial, factorial, absolute error, relative error");
-		for (int i = 1; i <= limit; i++) {
+		for (int i = 0; i <= limit; i++) {
 			// 2 * pi * n
 			double underSquare = two * Math.PI * i;
 			double sqrt = sqrt(underSquare, iterations, guess);
