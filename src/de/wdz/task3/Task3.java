@@ -65,8 +65,8 @@ public class Task3 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 
 	public static void main(String[] args) {
 		Task3 task3 = new Task3();
-		// task3.runDouble();
+		task3.runDouble();
 		System.out.println("---");
-		task3.runBigDecimal();
+		//task3.runBigDecimal();
 	}
 }
