@@ -47,11 +47,16 @@ public class Task3 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 		for (int i = 0; i <= limit; i++) {
 			int k = (-1) * i;
 			double h = pow(ten, k);
-			double xh = testValueD + h;
-			double fxh = tan(xh, iterations);
-			double fx = tan(testValueD, iterations);
-			double fxh_fx = fxh - fx;
-			double result = fxh_fx / h;
+
+			double x_add_h = testValueD + h;
+			double x_minus_h = testValueD - h;
+
+			double fx_add_h = tan(x_add_h, iterations);
+			double fx_minus_h = tan(x_minus_h, iterations);
+
+			double dif = fx_add_h - fx_minus_h;
+			double result = dif / (2. * h);
+
 			double sec_2 = sec_2(testValueD, iterations);
 			System.out.format("%d, %s, %s, %s, %s\n", i, result, sec_2, absoluteError(sec_2, result),
 					relativeError(sec_2, result));
