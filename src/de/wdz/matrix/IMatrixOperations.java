@@ -45,8 +45,13 @@ public interface IMatrixOperations {
 		return permutetMatrix;
 	}
 
-	default Matrix scale(Matrix a) {
-		return null;
+	default Matrix scale(int row, double factor, Matrix a) {
+		for (int i = 0; i < a.getMatrix().length; i++) {
+			double tmp = a.getMatrix()[row][i];
+			tmp = tmp * factor;
+			a.getMatrix()[row][i] = tmp;
+		}
+		return a;
 	}
 
 	// c nur als integer
