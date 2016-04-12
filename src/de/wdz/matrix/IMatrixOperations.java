@@ -55,7 +55,8 @@ public interface IMatrixOperations {
 	}
 
 	// c nur als integer
-	default Matrix eliminate(int c, double[] l, double[] k, int n) {
+	default Matrix eliminate(int c, double[] l, double[] k, int n, Matrix matrix) {
+		// TODO next here
 		return null;
 	}
 

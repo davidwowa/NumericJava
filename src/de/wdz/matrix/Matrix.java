@@ -1,6 +1,6 @@
 package de.wdz.matrix;
 
-public class Matrix {
+public class Matrix implements IMatrixOperations {
 
 	private double[][] matrix;
 

@@ -1,12 +1,16 @@
 package de.wdz.matrix;
 
-public class Main implements IMatrixOperations {
+public class Main {
 
 	public static void main(String[] args) {
-		Main main = new Main();
-		Matrix matrix = main.getRandomMatrix(100);
+		Matrix matrix = new Matrix(10);
+		matrix.getIdentityMatrix(10);
 
-		main.scale(2, 2., matrix);
+		matrix.toString();
+		for (int i = 0; i < 10; i++) {
+			matrix.scale(i, i + 1, matrix);
+		}
+		System.out.println("--");
 		matrix.toString();
 	}
 }
