@@ -3,14 +3,17 @@ package de.wdz.matrix;
 public class Main {
 
 	public static void main(String[] args) {
-		Matrix matrix = new Matrix(10);
-		matrix.getIdentityMatrix(10);
+		Matrix identityMatrix = new Matrix();
+		identityMatrix = identityMatrix.getIdentityMatrix(10);
 
-		matrix.toString();
-		for (int i = 0; i < 10; i++) {
-			matrix.scale(i, i + 1, matrix);
-		}
+		Matrix testMatrix = identityMatrix.getTestMatrix();
+		Matrix testVector = identityMatrix.getTestVector();
+
+		testMatrix.toString();
 		System.out.println("--");
-		matrix.toString();
+		testVector.toString();
+
+		Matrix resultMatrix = identityMatrix.multWithVector(testMatrix, testVector);
+		resultMatrix.toString();
 	}
 }

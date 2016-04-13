@@ -1,8 +1,13 @@
 package de.wdz.matrix;
 
+import java.util.logging.Logger;
+
 public class Matrix implements IMatrixOperations {
 
 	private double[][] matrix;
+
+	public Matrix() {
+	}
 
 	public Matrix(int size) {
 		this.matrix = new double[size][size];
@@ -26,12 +31,17 @@ public class Matrix implements IMatrixOperations {
 
 	@Override
 	public String toString() {
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				System.out.print(matrix[i][j] + " ");
+		if (matrix != null) {
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix[0].length; j++) {
+					System.out.print(matrix[i][j] + " ");
+				}
+				System.out.print("\n");
 			}
-			System.out.print("\n");
+			return super.toString();
+		} else {
+			Logger.getAnonymousLogger().severe("create prior a matrix");
 		}
-		return super.toString();
+		return null;
 	}
 }

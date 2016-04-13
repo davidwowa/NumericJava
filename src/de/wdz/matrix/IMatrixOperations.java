@@ -2,8 +2,15 @@ package de.wdz.matrix;
 
 public interface IMatrixOperations {
 
+	/**
+	 * Matrix multiplication
+	 * 
+	 * @param a
+	 * @param b
+	 * @return
+	 */
 	default Matrix mult(Matrix a, Matrix b) {
-
+		// TODO validate input
 		double[][] resultMatrix = null;
 
 		if (a.getMatrix().length == b.getMatrix().length) {
@@ -36,7 +43,14 @@ public interface IMatrixOperations {
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param sigma
+	 * @param matrix
+	 * @return
+	 */
 	default Matrix permute(int[] sigma, Matrix matrix) {
+		// TODO validate input
 		Matrix permutetMatrix = new Matrix(matrix.getMatrix().length);
 		for (int i = 0; i < sigma.length; i++) {
 			double[] tmp = matrix.getMatrix()[sigma[i]];
@@ -45,7 +59,16 @@ public interface IMatrixOperations {
 		return permutetMatrix;
 	}
 
+	/**
+	 * Page 70 in Book
+	 * 
+	 * @param row
+	 * @param factor
+	 * @param a
+	 * @return scaled matrix
+	 */
 	default Matrix scale(int row, double factor, Matrix a) {
+		// TODO validate input
 		for (int i = 0; i < a.getMatrix().length; i++) {
 			double tmp = a.getMatrix()[row][i];
 			tmp = tmp * factor;
@@ -54,15 +77,65 @@ public interface IMatrixOperations {
 		return a;
 	}
 
-	// c nur als integer
-	default Matrix eliminate(int c, double[] l, double[] k, int n, Matrix matrix) {
-		// TODO next here
-		return null;
+	/**
+	 * Elimination (Page 70 in Book)
+	 * 
+	 * @param c
+	 *            the factor
+	 * @param e_l
+	 * @param e_k
+	 * @param n
+	 *            Wenn das die Größe für die Identity Matrix ist, dann kann man
+	 *            es ingorieren, da die Größe kann ich von Matrix herausbekommen
+	 *            was in Methode-Signatur drin ist
+	 * @param matrix
+	 *            result Matrix
+	 * @return new Matrix
+	 */
+	default Matrix eliminate(int c, Matrix e_l, Matrix e_k, Matrix matrix) {
+		// TODO validate input
+		// identityMatrix * factor * e_l * e_k
+		Matrix identityMatrix = matrix.getIdentityMatrix(matrix.getMatrix().length);
+		Matrix identityMatrixMutlC = identityMatrix.multWithFactor(c, identityMatrix);
+		Matrix identityMatrixMultCMultE_L = identityMatrixMutlC.multWithVector(identityMatrixMutlC, e_l);
+		Matrix identityMatrixMultCMultE_LMultE_K = identityMatrixMultCMultE_L.multWithVector(identityMatrixMultCMultE_L,
+				e_k);
+		return identityMatrixMultCMultE_LMultE_K;
 	}
 
-	default Matrix getIdentityMatrix(int size) {
-		Matrix identityMatrix = new Matrix(size);
+	/**
+	 * Beachte die Reihenfolge
+	 */
+	default Matrix multWithVector(Matrix matrix, Matrix vector) {
+		// TODO validate input
+		return mult(matrix, vector);
+	}
 
+	/**
+	 * Multiplication with Factor
+	 * 
+	 * @param factor
+	 * @param matrix
+	 * @return
+	 */
+	default Matrix multWithFactor(double factor, Matrix matrix) {
+		// TODO validate input
+		Matrix resultMatrix = new Matrix(matrix.getMatrix().length);
+		for (int i = 0; i < matrix.getMatrix().length; i++) {
+			for (int j = 0; j < matrix.getMatrix().length; j++) {
+				double tmp = matrix.getMatrix()[i][j] * factor;
+				resultMatrix.getMatrix()[i][j] = tmp;
+			}
+		}
+		return resultMatrix;
+	}
+
+	/**
+	 * Get identity matrix with diagonale with 1
+	 */
+	default Matrix getIdentityMatrix(int size) {
+		// TODO validate input
+		Matrix identityMatrix = new Matrix(size);
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (i == j) {
@@ -76,8 +149,8 @@ public interface IMatrixOperations {
 	}
 
 	default Matrix getRandomMatrix(int size) {
+		// TODO validate input
 		Matrix identityMatrix = new Matrix(size);
-
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (i == j) {
@@ -88,5 +161,19 @@ public interface IMatrixOperations {
 			}
 		}
 		return identityMatrix;
+	}
+
+	default Matrix getTestMatrix() {
+		double[][] doubleMatrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
+	}
+
+	default Matrix getTestVector() {
+		double[][] doubleMatrix = { { 3 }, { 6 }, { 9 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
 	}
 }
