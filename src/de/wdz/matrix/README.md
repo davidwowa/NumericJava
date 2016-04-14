@@ -13,6 +13,7 @@ E eliminate(c, l, k, n)
 	c float, l int, k int, n int
 	
 	
-	
 Für MatLab
 https://gist.github.com/1d57b1d16d54cde37332.git
+
+http://www.colorado.edu/mechanical/programs/undergraduate/matlab_tutorials/numerical/cp1.htm
