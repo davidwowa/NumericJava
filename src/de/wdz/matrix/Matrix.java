@@ -1,7 +1,5 @@
 package de.wdz.matrix;
 
-import java.util.logging.Logger;
-
 public class Matrix implements IMatrixOperations {
 
 	private double[][] matrix;
@@ -10,10 +8,12 @@ public class Matrix implements IMatrixOperations {
 	}
 
 	public Matrix(int size) {
+		System.out.println("create matrix with size " + size);
 		this.matrix = new double[size][size];
 	}
 
 	public Matrix(int x, int y) {
+		System.out.println("create matrix with size " + x + " and " + y);
 		this.matrix = new double[x][y];
 	}
 
@@ -36,11 +36,11 @@ public class Matrix implements IMatrixOperations {
 				for (int j = 0; j < matrix[0].length; j++) {
 					System.out.print(matrix[i][j] + " ");
 				}
-				System.out.print("\n");
+				System.out.print(";\n");
 			}
 			return super.toString();
 		} else {
-			Logger.getAnonymousLogger().severe("create prior a matrix");
+			System.out.println("ERROR: create prior a matrix");
 		}
 		return null;
 	}

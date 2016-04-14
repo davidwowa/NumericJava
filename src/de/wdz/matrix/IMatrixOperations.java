@@ -1,6 +1,54 @@
 package de.wdz.matrix;
 
+import java.util.Arrays;
+
 public interface IMatrixOperations {
+
+	default boolean checkSizeMatrix(Matrix a, Matrix b) {
+		if (a != null && b != null) {
+			// TODO CHECK THIS
+			int a_columns = a.getMatrix().length;
+			int b_row = b.getMatrix()[1].length;
+			if (a_columns != b_row) {
+				// https://de.wikipedia.org/wiki/Matrizenmultiplikation
+				System.out.println(
+						"ERROR: number of columns in matrix a is not equal the number of row in matrix b\n see https://de.wikipedia.org/wiki/Matrizenmultiplikation");
+			} else {
+				return true;
+			}
+		} else {
+			if (a == null) {
+				System.out.println("ERROR: matrix a is null");
+			}
+			if (b == null) {
+				System.out.println("ERROR: matrix b is null");
+			}
+		}
+		return false;
+	}
+
+	default boolean checkSizeMatrix(int[] a, Matrix b) {
+		if (a != null && b != null) {
+			// TODO CHECK THIS
+			int a_columns = a.length;
+			int b_row = b.getMatrix()[1].length;
+			if (a_columns != b_row) {
+				// https://de.wikipedia.org/wiki/Matrizenmultiplikation
+				System.out.println(
+						"ERROR: number of columns in matrix a is not equal the number of row in matrix b\n see https://de.wikipedia.org/wiki/Matrizenmultiplikation");
+			} else {
+				return true;
+			}
+		} else {
+			if (a == null) {
+				System.out.println("ERROR: matrix a is null");
+			}
+			if (b == null) {
+				System.out.println("ERROR: matrix b is null");
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Matrix multiplication
@@ -10,37 +58,39 @@ public interface IMatrixOperations {
 	 * @return
 	 */
 	default Matrix mult(Matrix a, Matrix b) {
-		// TODO validate input
-		double[][] resultMatrix = null;
+		if (checkSizeMatrix(a, b)) {
+			double[][] resultMatrix = null;
 
-		if (a.getMatrix().length == b.getMatrix().length) {
-			int row_a = a.getMatrix().length;
-			int column_a = a.getMatrix()[0].length;
-			int column_b = b.getMatrix()[0].length;
+			if (a.getMatrix().length == b.getMatrix().length) {
+				int row_a = a.getMatrix().length;
+				int column_a = a.getMatrix()[0].length;
+				int column_b = b.getMatrix()[0].length;
 
-			resultMatrix = new double[row_a][column_b];
+				resultMatrix = new double[row_a][column_b];
 
-			for (int i = 0; i < row_a; i++) {
-				for (int j = 0; j < column_b; j++) {
-					resultMatrix[i][j] = 0;
-					for (int k = 0; k < column_a; k++) {
-						resultMatrix[i][j] += a.getMatrix()[i][k] * b.getMatrix()[k][j];
+				for (int i = 0; i < row_a; i++) {
+					for (int j = 0; j < column_b; j++) {
+						resultMatrix[i][j] = 0;
+						for (int k = 0; k < column_a; k++) {
+							resultMatrix[i][j] += a.getMatrix()[i][k] * b.getMatrix()[k][j];
+						}
+					}
+				}
+			} else {
+				int rows = a.getMatrix().length;
+				int columns = b.getMatrix()[0].length;
+
+				resultMatrix = new double[rows][columns];
+				for (int i = 0; i < a.getMatrix().length; i++) {
+					for (int j = 0; j < a.getMatrix()[0].length; j++) {
+						resultMatrix[i][j] = 0;
 					}
 				}
 			}
-		} else {
-			int rows = a.getMatrix().length;
-			int columns = b.getMatrix()[0].length;
-
-			resultMatrix = new double[rows][columns];
-			for (int i = 0; i < a.getMatrix().length; i++) {
-				for (int j = 0; j < a.getMatrix()[0].length; j++) {
-					resultMatrix[i][j] = 0;
-				}
-			}
+			Matrix result = new Matrix(resultMatrix);
+			return result;
 		}
-		Matrix result = new Matrix(resultMatrix);
-		return result;
+		return null;
 	}
 
 	/**
@@ -50,13 +100,23 @@ public interface IMatrixOperations {
 	 * @return
 	 */
 	default Matrix permute(int[] sigma, Matrix matrix) {
-		// TODO validate input
-		Matrix permutetMatrix = new Matrix(matrix.getMatrix().length);
-		for (int i = 0; i < sigma.length; i++) {
-			double[] tmp = matrix.getMatrix()[sigma[i]];
-			permutetMatrix.getMatrix()[i] = tmp;
+		if (checkSizeMatrix(sigma, matrix)) {
+
+			System.out.println("permute matrix");
+			matrix.toString();
+			System.out.println("with sigma");
+			System.out.println(Arrays.toString(sigma));
+
+			Matrix permutetMatrix = new Matrix(matrix.getMatrix().length);
+			for (int i = 0; i < sigma.length; i++) {
+				double[] tmp = matrix.getMatrix()[sigma[i]];
+				permutetMatrix.getMatrix()[i] = tmp;
+			}
+			System.out.println("result matrix");
+			permutetMatrix.toString();
+			return permutetMatrix;
 		}
-		return permutetMatrix;
+		return null;
 	}
 
 	/**
@@ -149,10 +209,24 @@ public interface IMatrixOperations {
 	}
 
 	default Matrix getRandomMatrix(int size) {
-		// TODO validate input
 		Matrix identityMatrix = new Matrix(size);
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
+				if (i == j) {
+					identityMatrix.getMatrix()[i][j] = Math.random();
+				} else {
+					identityMatrix.getMatrix()[i][j] = Math.random();
+				}
+			}
+		}
+		return identityMatrix;
+	}
+
+	default Matrix getRandomMatrix(int x, int y) {
+		// TODO not tested
+		Matrix identityMatrix = new Matrix(x, y);
+		for (int i = 0; i < identityMatrix.getMatrix().length; i++) {
+			for (int j = 0; j < identityMatrix.getMatrix()[0].length; j++) {
 				if (i == j) {
 					identityMatrix.getMatrix()[i][j] = Math.random();
 				} else {
