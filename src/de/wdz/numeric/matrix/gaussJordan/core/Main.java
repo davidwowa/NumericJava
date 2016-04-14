@@ -1,4 +1,6 @@
-package de.wdz.matrix;
+package de.wdz.numeric.matrix.gaussJordan.core;
+
+import de.wdz.numeric.matrix.Matrix;
 
 public class Main {
 

@@ -1,14 +1,14 @@
-package de.wdz.task3;
+package de.wdz.numeric.functions.task3;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import de.wdz.functions.BigDecimalFunctions;
-import de.wdz.functions.DoubleFunctions;
-import de.wdz.num.NumericTools;
-import de.wdz.num.Strategy;
+import de.wdz.numeric.functions.BigDecimalFunctions;
+import de.wdz.numeric.functions.DoubleFunctions;
+import de.wdz.numeric.util.NumericTools;
+import de.wdz.numeric.util.Strategy;
 
-public class Task3Test implements DoubleFunctions, BigDecimalFunctions, NumericTools, Strategy {
+public class Task3 implements DoubleFunctions, BigDecimalFunctions, NumericTools, Strategy {
 	private int iterations = 1000;
 
 	private BigDecimal testValue = BigDecimal.ONE;
@@ -55,7 +55,7 @@ public class Task3Test implements DoubleFunctions, BigDecimalFunctions, NumericT
 			double fx_minus_h = tan(x_minus_h, iterations);
 
 			double dif = fx_add_h - fx_minus_h;
-			double result = dif / (4. * h);
+			double result = dif / (2. * h);
 
 			double sec_2 = sec_2(testValueD, iterations);
 			System.out.format("%d, %s, %s, %s, %s\n", i, result, sec_2, absoluteError(sec_2, result),
@@ -67,6 +67,6 @@ public class Task3Test implements DoubleFunctions, BigDecimalFunctions, NumericT
 		Task3 task3 = new Task3();
 		task3.runDouble();
 		System.out.println("---");
-		// task3.runBigDecimal();
+		//task3.runBigDecimal();
 	}
 }

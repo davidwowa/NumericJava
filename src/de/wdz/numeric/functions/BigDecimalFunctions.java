@@ -1,4 +1,4 @@
-package de.wdz.functions;
+package de.wdz.numeric.functions;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

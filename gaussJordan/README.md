@@ -1,3 +1,5 @@
+proposed methods signatures for gauss jordan alg.
+
 c 	m_mult(a, b);
 	a, b 2D-Arrays, die reguläre Matrizen repr.
 	c 2D-Array, das Matrix repr.

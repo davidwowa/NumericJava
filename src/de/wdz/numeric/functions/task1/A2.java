@@ -1,7 +1,7 @@
-package de.wdz.task1;
+package de.wdz.numeric.functions.task1;
 
 public class A2 {
-	// Näherungswerte für die Ableitung einer Funktion berechnen
+	// Nï¿½herungswerte fï¿½r die Ableitung einer Funktion berechnen
 	// f'(x) = (f(x +h) - f(x)) / h
 	// Funktion = tan(), Vergleichsfunktion = sec^2(x)
 	// h = 10 ^(-k) mit k = 0 ... 16

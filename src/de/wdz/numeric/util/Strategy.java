@@ -1,4 +1,4 @@
-package de.wdz.num;
+package de.wdz.numeric.util;
 
 public interface Strategy {
 

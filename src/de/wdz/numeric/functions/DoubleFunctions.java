@@ -1,4 +1,4 @@
-package de.wdz.functions;
+package de.wdz.numeric.functions;
 
 public interface DoubleFunctions {
 

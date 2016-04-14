@@ -1,12 +1,12 @@
-package de.wdz.task1;
+package de.wdz.numeric.functions.task1;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import de.wdz.functions.BigDecimalFunctions;
-import de.wdz.functions.DoubleFunctions;
-import de.wdz.num.NumericTools;
-import de.wdz.num.Strategy;
+import de.wdz.numeric.functions.BigDecimalFunctions;
+import de.wdz.numeric.functions.DoubleFunctions;
+import de.wdz.numeric.util.NumericTools;
+import de.wdz.numeric.util.Strategy;
 
 public class Task1 implements DoubleFunctions, BigDecimalFunctions, NumericTools, Strategy {
 	private int iterations = 1000;

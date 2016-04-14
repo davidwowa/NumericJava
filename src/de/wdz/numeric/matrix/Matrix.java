@@ -1,4 +1,6 @@
-package de.wdz.matrix;
+package de.wdz.numeric.matrix;
+
+import de.wdz.numeric.matrix.operation.IMatrixOperations;
 
 public class Matrix implements IMatrixOperations {
 

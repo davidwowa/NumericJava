@@ -1,14 +1,14 @@
-package de.wdz.task2;
+package de.wdz.numeric.functions.task3;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import de.wdz.functions.BigDecimalFunctions;
-import de.wdz.functions.DoubleFunctions;
-import de.wdz.num.NumericTools;
-import de.wdz.num.Strategy;
+import de.wdz.numeric.functions.BigDecimalFunctions;
+import de.wdz.numeric.functions.DoubleFunctions;
+import de.wdz.numeric.util.NumericTools;
+import de.wdz.numeric.util.Strategy;
 
-public class Task2 implements DoubleFunctions, BigDecimalFunctions, NumericTools, Strategy {
+public class Task3Test implements DoubleFunctions, BigDecimalFunctions, NumericTools, Strategy {
 	private int iterations = 1000;
 
 	private BigDecimal testValue = BigDecimal.ONE;
@@ -23,15 +23,17 @@ public class Task2 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 		for (int i = 0; i <= limit; i++) {
 			int k = (-1) * i;
 			BigDecimal h = pow(ten, k);
-			BigDecimal xh = testValue.add(h, MathContext.DECIMAL128);
 
-			BigDecimal fxh = tan(xh, iterations);
-			BigDecimal fx = tan(testValue, iterations);
+			BigDecimal x_add_h = testValue.add(h, MathContext.DECIMAL128);
+			BigDecimal x_minus_h = testValue.subtract(h, MathContext.DECIMAL128);
 
-			BigDecimal fxh_fx = fxh.subtract(fx, MathContext.DECIMAL128);
-			BigDecimal result = fxh_fx.divide(h, MathContext.DECIMAL128);
+			BigDecimal fx_add_h = tan(x_add_h, iterations);
+			BigDecimal fx_minus_h = tan(x_minus_h, iterations);
+
+			BigDecimal dif = fx_add_h.subtract(fx_minus_h, MathContext.DECIMAL128);
+			BigDecimal result = dif.divide((new BigDecimal("2").multiply(h)), MathContext.DECIMAL128);
+
 			BigDecimal sec_2 = sec_2(testValue, iterations);
-
 			System.out.format("%d, %s, %s, %s, %s\n", i, result.toEngineeringString(), sec_2.toEngineeringString(),
 					absoluteError(sec_2, result).toEngineeringString(),
 					relativeError(sec_2, result).toEngineeringString());
@@ -45,11 +47,16 @@ public class Task2 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 		for (int i = 0; i <= limit; i++) {
 			int k = (-1) * i;
 			double h = pow(ten, k);
-			double xh = testValueD + h;
-			double fxh = tan(xh, iterations);
-			double fx = tan(testValueD, iterations);
-			double fxh_fx = fxh - fx;
-			double result = fxh_fx / h;
+
+			double x_add_h = testValueD + h;
+			double x_minus_h = testValueD - h;
+
+			double fx_add_h = tan(x_add_h, iterations);
+			double fx_minus_h = tan(x_minus_h, iterations);
+
+			double dif = fx_add_h - fx_minus_h;
+			double result = dif / (4. * h);
+
 			double sec_2 = sec_2(testValueD, iterations);
 			System.out.format("%d, %s, %s, %s, %s\n", i, result, sec_2, absoluteError(sec_2, result),
 					relativeError(sec_2, result));
@@ -57,9 +64,9 @@ public class Task2 implements DoubleFunctions, BigDecimalFunctions, NumericTools
 	}
 
 	public static void main(String[] args) {
-		Task2 task2 = new Task2();
-		task2.runDouble();
+		Task3 task3 = new Task3();
+		task3.runDouble();
 		System.out.println("---");
-		// task2.runBigDecimal();
+		// task3.runBigDecimal();
 	}
 }

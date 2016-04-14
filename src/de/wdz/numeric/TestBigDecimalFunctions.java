@@ -1,10 +1,10 @@
-package de.wdz;
+package de.wdz.numeric;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import de.wdz.functions.BigDecimalFunctions;
-import de.wdz.num.NumericTools;
+import de.wdz.numeric.functions.BigDecimalFunctions;
+import de.wdz.numeric.util.NumericTools;
 
 public class TestBigDecimalFunctions implements BigDecimalFunctions, NumericTools {
 

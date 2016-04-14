@@ -1,7 +1,7 @@
-package de.wdz;
+package de.wdz.numeric;
 
-import de.wdz.functions.DoubleFunctions;
-import de.wdz.num.NumericTools;
+import de.wdz.numeric.functions.DoubleFunctions;
+import de.wdz.numeric.util.NumericTools;
 
 public class TestDoubleFunctions implements DoubleFunctions, NumericTools {
 
