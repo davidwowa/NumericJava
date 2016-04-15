@@ -261,6 +261,20 @@ public interface IMatrixOperations {
 		return resultMatrix;
 	}
 
+	default Matrix getTestMatrix5() {
+		double[][] doubleMatrix = { { 0, 0, 3 }, { 0, 5, 6 }, { 7, 8, 9 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
+	}
+	
+	default Matrix getTestMatrix6() {
+		double[][] doubleMatrix = { { 0, 0, 3 }, { 0, 0, 6 }, { 7, 8, 9 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
+	}
+	
 	default Matrix getTestVector() {
 		double[][] doubleMatrix = { { 3 }, { 6 }, { 9 } };
 		Matrix resultMatrix = new Matrix();

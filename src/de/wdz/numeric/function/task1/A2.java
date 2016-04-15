@@ -1,4 +1,4 @@
-package de.wdz.numeric.functions.task1;
+package de.wdz.numeric.function.task1;
 
 public class A2 {
 	// N�herungswerte f�r die Ableitung einer Funktion berechnen

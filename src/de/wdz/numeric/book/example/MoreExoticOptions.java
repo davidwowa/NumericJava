@@ -1,4 +1,4 @@
-package de.wdz.numeric.book.examples;
+package de.wdz.numeric.book.example;
 
 public class MoreExoticOptions {
 	public static void main(String[] args) {

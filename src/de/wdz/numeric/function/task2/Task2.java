@@ -1,10 +1,10 @@
-package de.wdz.numeric.functions.task2;
+package de.wdz.numeric.function.task2;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-import de.wdz.numeric.functions.BigDecimalFunctions;
-import de.wdz.numeric.functions.DoubleFunctions;
+import de.wdz.numeric.function.BigDecimalFunctions;
+import de.wdz.numeric.function.DoubleFunctions;
 import de.wdz.numeric.util.NumericTools;
 import de.wdz.numeric.util.Strategy;
 
