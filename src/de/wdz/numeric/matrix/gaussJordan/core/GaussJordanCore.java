@@ -22,10 +22,20 @@ public class GaussJordanCore implements IMatrixOperations {
 					matrix = scale(i, matrix.getMatrix()[i][j], matrix);
 				}
 
-				Matrix e_l = build_e_l_Matrix(matrix.getMatrix().length, i);
-				Matrix e_k = build_e_k_Matrix(matrix.getMatrix()[0].length, j);
+				for (int j2 = 0; j2 < matrix.getMatrix()[0].length; j2++) {
+					matrix = scale(i, matrix.getMatrix()[j2][i], matrix);
 
-				Matrix matrixx = eliminate(matrix.getMatrix()[i][j], e_l, e_k);
+					Matrix e_l = build_e_l_Matrix(matrix.getMatrix()[0].length, j2);
+					Matrix e_k = build_e_k_Matrix(matrix.getMatrix()[0].length, i);
+
+					Matrix mm = eliminate(matrix.getMatrix()[j2][i], e_l, e_k);
+
+					System.out.println("-------------------------------");
+					mm.toString();
+					System.out.println("-------------------------------");
+					// System.out.println("to scale " +
+					// matrix.getMatrix()[j2][i]);
+				}
 			}
 		}
 	}
