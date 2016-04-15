@@ -1,16 +1,19 @@
 package de.wdz.numeric.matrix;
 
-import de.wdz.numeric.matrix.operation.IMatrixOperations;
-
-public class Matrix implements IMatrixOperations {
+public class Matrix {
 
 	private double[][] matrix;
 
+	public Matrix() {
+	}
+
 	public Matrix(int size) {
+		System.out.println("create matrix with size " + size);
 		this.matrix = new double[size][size];
 	}
 
 	public Matrix(int x, int y) {
+		System.out.println("create matrix with size " + x + " and " + y);
 		this.matrix = new double[x][y];
 	}
 
@@ -28,12 +31,17 @@ public class Matrix implements IMatrixOperations {
 
 	@Override
 	public String toString() {
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[0].length; j++) {
-				System.out.print(matrix[i][j] + " ");
+		if (matrix != null) {
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix[0].length; j++) {
+					System.out.print(matrix[i][j] + " ");
+				}
+				System.out.print(";\n");
 			}
-			System.out.print("\n");
+			return super.toString();
+		} else {
+			System.out.println("ERROR: create prior a matrix");
 		}
-		return super.toString();
+		return null;
 	}
 }
