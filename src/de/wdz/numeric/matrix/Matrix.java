@@ -8,12 +8,12 @@ public class Matrix {
 	}
 
 	public Matrix(int size) {
-		System.out.println("create matrix with size " + size);
+		// System.out.println("create matrix with size " + size);
 		this.matrix = new double[size][size];
 	}
 
 	public Matrix(int x, int y) {
-		System.out.println("create matrix with size " + x + " and " + y);
+		// System.out.println("create matrix with size " + x + " and " + y);
 		this.matrix = new double[x][y];
 	}
 

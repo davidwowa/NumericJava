@@ -116,7 +116,7 @@ public interface IMatrixOperations {
 
 		for (int i = 0; i < a.getMatrix().length; i++) {
 			double tmp = a.getMatrix()[row][i];
-			tmp = tmp * factor;
+			tmp = tmp / factor;
 			a.getMatrix()[row][i] = tmp;
 		}
 		System.out.println("result matrix");
@@ -155,6 +155,8 @@ public interface IMatrixOperations {
 		Matrix identityMatrixMutlC = multWithFactor(c, identityMatrix);
 		Matrix identityMatrixMultCMultE_L = multWithVector(identityMatrixMutlC, e_l);
 		Matrix identityMatrixMultCMultE_LMultE_K = multWithVector(identityMatrixMultCMultE_L, e_k);
+		System.out.println("=");
+		identityMatrixMultCMultE_LMultE_K.toString();
 
 		return identityMatrixMultCMultE_LMultE_K;
 	}
@@ -267,9 +269,16 @@ public interface IMatrixOperations {
 		resultMatrix.setMatrix(doubleMatrix);
 		return resultMatrix;
 	}
-	
+
 	default Matrix getTestMatrix6() {
 		double[][] doubleMatrix = { { 0, 0, 3 }, { 0, 0, 6 }, { 7, 8, 9 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
+	}
+
+	default Matrix getTestMatrix7() {
+		double[][] doubleMatrix = { { 0, 1, 2, 1 }, { 0, 0, 1, 2 }, { 2, 1, 0, 0 }, { 1, 2, 1, 0 } };
 		Matrix resultMatrix = new Matrix();
 		resultMatrix.setMatrix(doubleMatrix);
 		return resultMatrix;

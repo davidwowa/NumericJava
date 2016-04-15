@@ -13,10 +13,41 @@ import de.wdz.numeric.matrix.operation.IMatrixOperations;
 public class GaussJordanCore implements IMatrixOperations {
 
 	public void run(Matrix matrix) {
-		permute(permutating(matrix), matrix);
+		matrix = permute(permutating(matrix), matrix);
 		for (int i = 0; i < matrix.getMatrix().length; i++) {
-		
+			matrix = permute(permutating(matrix), matrix);
+			for (int j = 0; j < matrix.getMatrix()[0].length; j++) {
+
+				if (i == j) {
+					matrix = scale(i, matrix.getMatrix()[i][j], matrix);
+				}
+
+				Matrix e_l = build_e_l_Matrix(matrix.getMatrix().length, i);
+				Matrix e_k = build_e_k_Matrix(matrix.getMatrix()[0].length, j);
+
+				Matrix matrixx = eliminate(matrix.getMatrix()[i][j], e_l, e_k);
+			}
 		}
+	}
+
+	private Matrix build_e_l_Matrix(int size, int index) {
+		Matrix resultMatrix = new Matrix(size, 1);
+		for (int i = 0; i < size; i++) {
+			if (i == index) {
+				resultMatrix.getMatrix()[i][0] = 1;
+			}
+		}
+		return resultMatrix;
+	}
+
+	private Matrix build_e_k_Matrix(int size, int index) {
+		Matrix resultMatrix = new Matrix(1, size);
+		for (int i = 0; i < size; i++) {
+			if (i == index) {
+				resultMatrix.getMatrix()[0][i] = 1;
+			}
+		}
+		return resultMatrix;
 	}
 
 	private int[] permutating(Matrix matrix) {
@@ -55,9 +86,9 @@ public class GaussJordanCore implements IMatrixOperations {
 		return newSigma;
 	}
 
-	private boolean containsIndex(int[] sigma, int index) {
+	private boolean containsIndex(int[] sigma, int value) {
 		for (int i = 0; i < sigma.length; i++) {
-			if (sigma[i] == index) {
+			if (sigma[i] == value) {
 				return true;
 			}
 		}
