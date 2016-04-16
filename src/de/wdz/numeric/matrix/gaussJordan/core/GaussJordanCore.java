@@ -12,29 +12,34 @@ import de.wdz.numeric.matrix.operation.IMatrixOperations;
 
 public class GaussJordanCore implements IMatrixOperations {
 
+	// scalierung(einmal) -> eliminierung(for each row)
 	public void run(Matrix matrix) {
 		matrix = permute(permutating(matrix), matrix);
+
 		for (int i = 0; i < matrix.getMatrix().length; i++) {
 			matrix = permute(permutating(matrix), matrix);
 			for (int j = 0; j < matrix.getMatrix()[0].length; j++) {
-
 				if (i == j) {
-					matrix = scale(i, matrix.getMatrix()[i][j], matrix);
+					if (matrix.getMatrix()[i][j] != 0) {
+						matrix = scale(i, 1. / matrix.getMatrix()[i][j], matrix);
+					} else {
+						// ??
+						matrix = permute(permutating(matrix), matrix);
+					}
 				}
 
-				for (int j2 = 0; j2 < matrix.getMatrix()[0].length; j2++) {
-					matrix = scale(i, matrix.getMatrix()[j2][i], matrix);
+				for (int j2 = 1; j2 < matrix.getMatrix()[0].length; j2++) {
+					// find first element != 0 in column
 
-					Matrix e_l = build_e_l_Matrix(matrix.getMatrix()[0].length, j2);
-					Matrix e_k = build_e_k_Matrix(matrix.getMatrix()[0].length, i);
+					double p = matrix.getMatrix()[j2][i];
+					System.out.println("p = " + matrix.getMatrix()[j2][i]);
+					if (p != 0) {
+						System.out.println("matrix.getMatrix()[" + j2 + "][" + i + "] = " + p);
+						// matrix = scale(j2, p, matrix);
+						matrix = eliminate(p, build_e_l_Matrix(matrix.getMatrix().length, j2),
+								build_e_k_Matrix(matrix.getMatrix().length, i));
 
-					Matrix mm = eliminate(matrix.getMatrix()[j2][i], e_l, e_k);
-
-					System.out.println("-------------------------------");
-					mm.toString();
-					System.out.println("-------------------------------");
-					// System.out.println("to scale " +
-					// matrix.getMatrix()[j2][i]);
+					}
 				}
 			}
 		}

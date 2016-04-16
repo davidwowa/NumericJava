@@ -71,6 +71,8 @@ public interface IMatrixOperations {
 			Matrix resultMatrix = new Matrix();
 			resultMatrix.setMatrix(newMatrix);
 			return resultMatrix;
+		} else {
+			System.out.println("ERROR:");
 		}
 		return null;
 	}
@@ -82,9 +84,8 @@ public interface IMatrixOperations {
 	 * @return
 	 */
 	default Matrix permute(int[] sigma, Matrix matrix) {
-		System.out.println("<-------->");
+		System.out.println("<---permute---->");
 
-		System.out.println("permute matrix");
 		matrix.toString();
 		System.out.println("with sigma");
 		System.out.println(Arrays.toString(sigma));
@@ -109,14 +110,13 @@ public interface IMatrixOperations {
 	 */
 	default Matrix scale(int row, double factor, Matrix a) {
 		// TODO validate input
-		System.out.println("<-------->");
-		System.out.println("scale matrix ");
+		System.out.println("<---scale---->");
 		a.toString();
 		System.out.println("with factor " + factor + " and row " + row);
 
 		for (int i = 0; i < a.getMatrix().length; i++) {
 			double tmp = a.getMatrix()[row][i];
-			tmp = tmp / factor;
+			tmp = tmp * factor;
 			a.getMatrix()[row][i] = tmp;
 		}
 		System.out.println("result matrix");
@@ -132,16 +132,16 @@ public interface IMatrixOperations {
 	 * @param e_l
 	 * @param e_k
 	 * @param n
-	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann man
-	 *            es ingorieren, da die Grˆﬂe kann ich von Matrix herausbekommen
-	 *            was in Methode-Signatur drin ist
+	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann
+	 *            man es ingorieren, da die Grˆﬂe kann ich von Matrix
+	 *            herausbekommen was in Methode-Signatur drin ist
 	 * @param matrix
 	 *            result Matrix
 	 * @return new Matrix
 	 */
 	default Matrix eliminate(double c, Matrix e_l, Matrix e_k) {
 		// TODO validate input
-		System.out.println("<-------->");
+		System.out.println("<---eliminate--->");
 		Matrix identityMatrix = getIdentityMatrix(e_l.getMatrix().length);
 		// identityMatrix * factor * e_l * e_k
 		System.out.println("identity matrix");
@@ -152,13 +152,13 @@ public interface IMatrixOperations {
 		System.out.println("with vector e_k");
 		e_k.toString();
 
-		Matrix identityMatrixMutlC = multWithFactor(c, identityMatrix);
-		Matrix identityMatrixMultCMultE_L = multWithVector(identityMatrixMutlC, e_l);
-		Matrix identityMatrixMultCMultE_LMultE_K = multWithVector(identityMatrixMultCMultE_L, e_k);
-		System.out.println("=");
-		identityMatrixMultCMultE_LMultE_K.toString();
+		Matrix lk = mult(e_l, e_k);
+		Matrix lkc = multWithFactor(c, lk);
+		Matrix lkcid = mult(identityMatrix, lkc);
 
-		return identityMatrixMultCMultE_LMultE_K;
+		System.out.println("=");
+		lkcid.toString();
+		return lkcid;
 	}
 
 	/**
@@ -283,7 +283,7 @@ public interface IMatrixOperations {
 		resultMatrix.setMatrix(doubleMatrix);
 		return resultMatrix;
 	}
-	
+
 	default Matrix getTestVector() {
 		double[][] doubleMatrix = { { 3 }, { 6 }, { 9 } };
 		Matrix resultMatrix = new Matrix();
