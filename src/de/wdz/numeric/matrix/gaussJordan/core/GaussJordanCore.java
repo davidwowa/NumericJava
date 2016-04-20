@@ -7,10 +7,28 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
+import de.wdz.numeric.matrix.LUMatrix;
 import de.wdz.numeric.matrix.Matrix;
 import de.wdz.numeric.matrix.operation.IMatrixOperations;
 
 public class GaussJordanCore implements IMatrixOperations {
+
+	// scalierung(einmal) -> eliminierung(for each row)
+	public Matrix[] lu(Matrix matrix) {
+		LUMatrix luMatrix = new LUMatrix(matrix.getMatrix());
+		matrix.toString();
+		double pivot = 0;
+		for (int i = 0; i < matrix.getMatrix().length; i++) {
+			// find pivot
+			// System.out.println(matrix.getMatrix()[i][0]);
+			System.out.println("index = " + i);
+			if (Math.abs(matrix.getMatrix()[i][0]) >= Math.abs(pivot)) {
+				pivot = matrix.getMatrix()[i][0];
+				System.out.println("pivot = " + pivot);
+			}
+		}
+		return null;
+	}
 
 	// scalierung(einmal) -> eliminierung(for each row)
 	public void run(Matrix matrix) {
@@ -38,7 +56,6 @@ public class GaussJordanCore implements IMatrixOperations {
 						// matrix = scale(j2, p, matrix);
 						matrix = eliminate(p, build_e_l_Matrix(matrix.getMatrix().length, j2),
 								build_e_k_Matrix(matrix.getMatrix().length, i));
-
 					}
 				}
 			}
