@@ -6,11 +6,11 @@ import java.util.List;
 import de.wdz.numeric.matrix.Matrix;
 import de.wdz.numeric.matrix.operation.IMatrixOperations;
 
-public class GaussJordanCore implements IMatrixOperations {
+public class GJCore implements IMatrixOperations {
 
 	private List<Matrix> matrixList;
 
-	public GaussJordanCore() {
+	public GJCore() {
 		this.setMatrixList(new ArrayList<>());
 	}
 
