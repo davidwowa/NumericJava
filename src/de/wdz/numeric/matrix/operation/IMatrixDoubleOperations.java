@@ -2,14 +2,25 @@ package de.wdz.numeric.matrix.operation;
 
 import java.util.Arrays;
 
-import de.wdz.numeric.matrix.Matrix;
+public interface IMatrixDoubleOperations {
 
-public interface IMatrixOperations {
+	default void printMatrix(double[][] matrixToShow) {
+		if (matrixToShow != null) {
+			for (int i = 0; i < matrixToShow.length; i++) {
+				for (int j = 0; j < matrixToShow[0].length; j++) {
+					System.out.print(matrixToShow[i][j] + " ");
+				}
+				System.out.print(";\n");
+			}
+		} else {
+			System.out.println("ERROR: create prior a matrix");
+		}
+	}
 
-	default boolean checkSizeMatrix(Matrix a, Matrix b) {
+	default boolean checkSizeMatrix(double[][] a, double[][] b) {
 		if (a != null && b != null) {
-			int a_columns = a.getMatrix()[0].length;
-			int b_rows = b.getMatrix().length;
+			int a_columns = a[0].length;
+			int b_rows = b.length;
 			if (a_columns != b_rows) {
 				System.out.println(
 						"ERROR: number of columns in matrix a is not equal the number of row in matrix b\n see https://de.wikipedia.org/wiki/Matrizenmultiplikation");
@@ -34,25 +45,22 @@ public interface IMatrixOperations {
 	 * @param b
 	 * @return
 	 */
-	default Matrix mult(Matrix a, Matrix b) {
+	default double[][] mult(double[][] a, double[][] b) {
 		if (checkSizeMatrix(a, b)) {
-
-			double[][] aMatrix = a.getMatrix();
-			double[][] bMatrix = b.getMatrix();
 			// System.out.println(
 			// "create new matrix with dimension " + b.getMatrix().length + "x"
 			// + a.getMatrix()[0].length);
-			double[][] newMatrix = new double[aMatrix.length][bMatrix[0].length];
+			double[][] newMatrix = new double[a.length][b[0].length];
 
-			for (int i = 0; i < aMatrix.length; i++) {
-				for (int j = 0; j < bMatrix[0].length; j++) {
+			for (int i = 0; i < a.length; i++) {
+				for (int j = 0; j < b[0].length; j++) {
 
-					double[] array_i = aMatrix[i];
+					double[] array_i = a[i];
 					// System.out.println(Arrays.toString(array_i));
 
-					double[] array_j = new double[bMatrix.length];
+					double[] array_j = new double[b.length];
 					for (int k = 0; k < array_j.length; k++) {
-						array_j[k] = bMatrix[k][j];
+						array_j[k] = b[k][j];
 					}
 
 					// System.out.println(Arrays.toString(array_j));
@@ -68,9 +76,7 @@ public interface IMatrixOperations {
 					newMatrix[i][j] = tmp;
 				}
 			}
-			Matrix resultMatrix = new Matrix();
-			resultMatrix.setMatrix(newMatrix);
-			return resultMatrix;
+			return newMatrix;
 		} else {
 			System.out.println("ERROR:");
 		}
@@ -83,21 +89,19 @@ public interface IMatrixOperations {
 	 * @param matrix
 	 * @return
 	 */
-	default Matrix permute(int[] sigma, Matrix matrix) {
+	default double[][] permute(int[] sigma, double[][] matrix) {
 		System.out.println("<---permute---->");
-
-		matrix.toString();
+		// TODO show function
 		System.out.println("with sigma");
 		System.out.println(Arrays.toString(sigma));
 
-		Matrix permutetMatrix = new Matrix(matrix.getMatrix().length);
+		double[][] permutetMatrix = new double[matrix.length][matrix.length];
 		for (int i = 0; i < sigma.length; i++) {
-			double[] tmp = matrix.getMatrix()[sigma[i]];
-			permutetMatrix.getMatrix()[i] = tmp;
+			double[] tmp = matrix[sigma[i]];
+			permutetMatrix[i] = tmp;
 		}
 		System.out.println("result matrix");
-		permutetMatrix.toString();
-		matrix.setMatrix(permutetMatrix.getMatrix());
+		// TODO show matrix
 		return permutetMatrix;
 	}
 
@@ -109,19 +113,19 @@ public interface IMatrixOperations {
 	 * @param a
 	 * @return scaled matrix
 	 */
-	default Matrix scale(int row, double factor, Matrix a) {
+	default double[][] scale(int row, double factor, double[][] a) {
 		// TODO validate input
 		System.out.println("<---scale---->");
-		a.toString();
+		// TODO show function
 		System.out.println("with factor " + factor + " and row " + row);
 
-		for (int i = 0; i < a.getMatrix()[0].length; i++) {
-			double tmp = a.getMatrix()[row][i];
+		for (int i = 0; i < a[0].length; i++) {
+			double tmp = a[row][i];
 			tmp = 1. / factor;
-			a.getMatrix()[row][i] = tmp;
+			a[row][i] = tmp;
 		}
 		System.out.println("result matrix");
-		a.toString();
+		// TODO show function
 		return a;
 	}
 
@@ -140,33 +144,33 @@ public interface IMatrixOperations {
 	 *            result Matrix
 	 * @return new Matrix
 	 */
-	default Matrix eliminate(double c, Matrix e_l, Matrix e_k) {
+	default double[][] eliminate(double c, double[][] e_l, double[][] e_k) {
 		// TODO validate input
 		System.out.println("<---eliminate--->");
-		Matrix identityMatrix = getIdentityMatrix(e_l.getMatrix().length);
+		double[][] identityMatrix = getIdentityMatrix(e_l.length);
 		// identityMatrix * factor * e_l * e_k
 		System.out.println("identity matrix");
-		identityMatrix.toString();
+		// TODO show matrix
 		System.out.println("with factor " + c);
 		System.out.println("with vector e_l");
-		e_l.toString();
+		// TODO show matrix
 		System.out.println("with vector e_k");
-		e_k.toString();
+		// TODO show matrix
 
-		Matrix lk = mult(e_l, e_k);
-		Matrix lkc = multWithFactor(c, lk);
-		Matrix lkcid = mult(identityMatrix, lkc);
+		double[][] lk = mult(e_l, e_k);
+		double[][] lkc = multWithFactor(c, lk);
+		double[][] lkcid = mult(identityMatrix, lkc);
 
 		System.out.println("=");
-		lkcid.toString();
+		// TODO show matrix
 		return lkcid;
 	}
 
-	default Matrix addRows(int rowIndex1, int rowIndex2, Matrix matrix) {
+	default double[][] addRows(int rowIndex1, int rowIndex2, double[][] matrix) {
 		System.out.println("<---add rows in matrix---->");
-		matrix.toString();
-		double[] row1 = matrix.getMatrix()[rowIndex1];
-		double[] row2 = matrix.getMatrix()[rowIndex2];
+		// TODO show matrix
+		double[] row1 = matrix[rowIndex1];
+		double[] row2 = matrix[rowIndex2];
 
 		System.out.println(Arrays.toString(row1) + " + " + Arrays.toString(row2));
 		for (int i = 0; i < row1.length; i++) {
@@ -174,15 +178,15 @@ public interface IMatrixOperations {
 			row2[i] = tmp;
 		}
 		System.out.println("result matrix");
-		matrix.toString();
+		// TODO show matrix
 		return matrix;
 	}
 
-	default Matrix subtractRows(int rowIndex1, int rowIndex2, Matrix matrix) {
+	default double[][] subtractRows(int rowIndex1, int rowIndex2, double[][] matrix) {
 		System.out.println("subtract rows in matrix");
-		matrix.toString();
-		double[] row1 = matrix.getMatrix()[rowIndex1];
-		double[] row2 = matrix.getMatrix()[rowIndex2];
+		// TODO show matrix
+		double[] row1 = matrix[rowIndex1];
+		double[] row2 = matrix[rowIndex2];
 
 		System.out.println(Arrays.toString(row1) + " - " + Arrays.toString(row2));
 		for (int i = 0; i < row1.length; i++) {
@@ -190,14 +194,14 @@ public interface IMatrixOperations {
 			row2[i] = tmp;
 		}
 		System.out.println("result matrix");
-		matrix.toString();
+		// TODO show matrix
 		return matrix;
 	}
 
 	/**
 	 * Beachte die Reihenfolge
 	 */
-	default Matrix multWithVector(Matrix matrix, Matrix vector) {
+	default double[][] multWithVector(double[][] matrix, double[][] vector) {
 		// TODO validate input
 		return mult(matrix, vector);
 	}
@@ -209,13 +213,13 @@ public interface IMatrixOperations {
 	 * @param matrix
 	 * @return
 	 */
-	default Matrix multWithFactor(double factor, Matrix matrix) {
+	default double[][] multWithFactor(double factor, double[][] matrix) {
 		// TODO validate input
-		Matrix resultMatrix = new Matrix(matrix.getMatrix().length);
-		for (int i = 0; i < matrix.getMatrix().length; i++) {
-			for (int j = 0; j < matrix.getMatrix().length; j++) {
-				double tmp = matrix.getMatrix()[i][j] * factor;
-				resultMatrix.getMatrix()[i][j] = tmp;
+		double[][] resultMatrix = new double[matrix.length][matrix.length];
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				double tmp = matrix[i][j] * factor;
+				resultMatrix[i][j] = tmp;
 			}
 		}
 		return resultMatrix;
@@ -224,124 +228,102 @@ public interface IMatrixOperations {
 	/**
 	 * Get identity matrix with diagonale with 1
 	 */
-	default Matrix getIdentityMatrix(int size) {
+	default double[][] getIdentityMatrix(int size) {
 		// TODO validate input
-		Matrix identityMatrix = new Matrix(size);
+		double[][] identityMatrix = new double[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (i == j) {
-					identityMatrix.getMatrix()[i][j] = 1.;
+					identityMatrix[i][j] = 1.;
 				} else {
-					identityMatrix.getMatrix()[i][j] = 0.;
+					identityMatrix[i][j] = 0.;
 				}
 			}
 		}
 		return identityMatrix;
 	}
 
-	default Matrix getRandomMatrix(int size) {
-		Matrix identityMatrix = new Matrix(size);
+	default double[][] getRandomMatrix(int size) {
+		double[][] identityMatrix = new double[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				if (i == j) {
-					identityMatrix.getMatrix()[i][j] = Math.random();
+					identityMatrix[i][j] = Math.random();
 				} else {
-					identityMatrix.getMatrix()[i][j] = Math.random();
+					identityMatrix[i][j] = Math.random();
 				}
 			}
 		}
 		return identityMatrix;
 	}
 
-	default Matrix getRandomMatrix(int x, int y) {
+	default double[][] getRandomMatrix(int x, int y) {
 		// TODO not tested
-		Matrix identityMatrix = new Matrix(x, y);
-		for (int i = 0; i < identityMatrix.getMatrix().length; i++) {
-			for (int j = 0; j < identityMatrix.getMatrix()[0].length; j++) {
+		double[][] identityMatrix = new double[x][y];
+		for (int i = 0; i < identityMatrix.length; i++) {
+			for (int j = 0; j < identityMatrix[0].length; j++) {
 				if (i == j) {
-					identityMatrix.getMatrix()[i][j] = Math.random();
+					identityMatrix[i][j] = Math.random();
 				} else {
-					identityMatrix.getMatrix()[i][j] = Math.random();
+					identityMatrix[i][j] = Math.random();
 				}
 			}
 		}
 		return identityMatrix;
 	}
 
-	default Matrix getTestMatrix() {
+	default double[][] getTestMatrix() {
 		double[][] doubleMatrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix2() {
+	default double[][] getTestMatrix2() {
 		double[][] doubleMatrix = { { 9, 8, 7 }, { 6, 5, 4 }, { 3, 2, 1 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix3() {
+	default double[][] getTestMatrix3() {
 		double[][] doubleMatrix = { { 3, 2, 1 }, { 1, 0, 2 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix4() {
+	default double[][] getTestMatrix4() {
 		double[][] doubleMatrix = { { 1, 2 }, { 0, 1 }, { 4, 0 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix5() {
+	default double[][] getTestMatrix5() {
 		double[][] doubleMatrix = { { 0, 0, 3 }, { 0, 5, 6 }, { 7, 8, 9 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix6() {
+	default double[][] getTestMatrix6() {
 		double[][] doubleMatrix = { { 0, 0, 3 }, { 0, 0, 6 }, { 7, 8, 9 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix7() {
+	default double[][] getTestMatrix7() {
 		double[][] doubleMatrix = { { 0, 1, 2, 1 }, { 0, 0, 1, 2 }, { 2, 1, 0, 0 }, { 1, 2, 1, 0 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix8() {
+	default double[][] getTestMatrix8() {
 		double[][] doubleMatrix = { { 1, 1, -2, -3 }, { 0, 1, -1, -1 }, { 3, -1, 1, 4 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestMatrix9() {
+	default double[][] getTestMatrix9() {
 		double[][] doubleMatrix = { { 1, 1, -2 }, { 0, 1, -1 }, { 3, -1, 1 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestVector() {
+	default double[][] getTestVector() {
 		double[][] doubleMatrix = { { -3 }, { -1 }, { 4 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 
-	default Matrix getTestVectorNotizen() {
+	default double[][] getTestVectorNotizen() {
 		double[][] doubleMatrix = { { 4 }, { 8 }, { 2 }, { 1 } };
-		Matrix resultMatrix = new Matrix();
-		resultMatrix.setMatrix(doubleMatrix);
-		return resultMatrix;
+		return doubleMatrix;
 	}
 }

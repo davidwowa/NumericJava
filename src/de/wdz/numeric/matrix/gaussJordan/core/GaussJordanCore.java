@@ -15,6 +15,29 @@ public class GaussJordanCore implements IMatrixOperations {
 	}
 
 	public void forwardSubstitution(Matrix a, Matrix b) {
+		double[][] A = a.getMatrix();
+		double[][] B = b.getMatrix();
+
+		int N = A[0].length;
+		for (int k = 0; k < N; k++) {
+			permutate(a, b, A, N, k);
+			scale(k, A[k][k], a);
+			// scale(k, A[k][k], b);
+		}
+	}
+
+	private void permutate(Matrix a, Matrix b, double[][] A, int N, int k) {
+		// find pivot row
+		int max = k;
+		for (int i = k + 1; i < N; i++) {
+			if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
+				max = i;
+		}
+		// swap row in A matrix
+		int[] sigma = getSigma(k, max, N);
+		permute(sigma, a);
+		// swap corresponding values in constants matrix
+		// permute(sigma, b);
 	}
 
 	public void backSubstitution(Matrix a, Matrix b) {

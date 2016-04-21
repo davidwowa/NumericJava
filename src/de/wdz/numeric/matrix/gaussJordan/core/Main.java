@@ -19,7 +19,7 @@ public class Main {
 		System.out.println("--");
 		b.toString();
 		System.out.println("--");
-		core.runGaussSimple(A, b);
+		core.forwardSubstitution(A, b);
 
 		// GaussAlgorithmus algorithmus = new GaussAlgorithmus();
 		// double[] b = { -3, -1, 4 };
