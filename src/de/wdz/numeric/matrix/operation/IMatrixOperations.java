@@ -97,7 +97,7 @@ public interface IMatrixOperations {
 		}
 		System.out.println("result matrix");
 		permutetMatrix.toString();
-		matrix = permutetMatrix;
+		matrix.setMatrix(permutetMatrix.getMatrix());
 		return permutetMatrix;
 	}
 
@@ -117,7 +117,7 @@ public interface IMatrixOperations {
 
 		for (int i = 0; i < a.getMatrix()[0].length; i++) {
 			double tmp = a.getMatrix()[row][i];
-			tmp = tmp * factor;
+			tmp = tmp / factor;
 			a.getMatrix()[row][i] = tmp;
 		}
 		System.out.println("result matrix");

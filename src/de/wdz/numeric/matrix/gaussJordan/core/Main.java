@@ -19,7 +19,7 @@ public class Main {
 		System.out.println("--");
 		b.toString();
 		System.out.println("--");
-		core.runAlg5(A, b);
+		core.runAlg4(A, b);
 
 		// GaussAlgorithmus algorithmus = new GaussAlgorithmus();
 		// double[] b = { -3, -1, 4 };

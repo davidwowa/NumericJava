@@ -5,26 +5,6 @@ import de.wdz.numeric.matrix.operation.IMatrixOperations;
 
 public class GaussJordanCore implements IMatrixOperations {
 
-	public void runAlg5(Matrix a, Matrix b) {
-		double[][] A = a.getMatrix();
-		double[][] B = b.getMatrix();
-
-		double pivot = 0;
-		int forSigma = 0;
-		for (int i = 0; i < B.length; i++) {
-			// find pivot
-			if (Math.abs(A[i][0]) >= Math.abs(pivot)) {
-				pivot = A[i][0];
-				forSigma = i;
-				System.out.println("pivot = " + pivot);
-				System.out.println("index = " + forSigma);
-			}
-			int[] sigma = getSigma(forSigma, i, A[0].length);
-			permute(sigma, a);
-			permute(sigma, b);
-		}
-	}
-
 	public void runAlg4(Matrix a, Matrix b) {
 		double[][] A = a.getMatrix();
 		double[][] B = b.getMatrix();
@@ -33,11 +13,9 @@ public class GaussJordanCore implements IMatrixOperations {
 		for (int k = 0; k < N; k++) {
 			// find pivot row
 			int max = k;
-			double pivot = 0;
 			for (int i = k + 1; i < N; i++) {
 				if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
 					max = i;
-				pivot = A[i][k];
 			}
 			// swap row in A matrix
 			int[] sigma = getSigma(k, max, N);
@@ -45,31 +23,36 @@ public class GaussJordanCore implements IMatrixOperations {
 			// swap corresponding values in constants matrix
 			permute(sigma, b);
 
-			scale(k, pivot, a);
-			scale(k, pivot, b);
-
-			// pivot within A and B
 			for (int i = k + 1; i < N; i++) {
-				subtractRows(i, k, a);
-				subtractRows(i, k, b);
+				scale(i, A[k][i], a);
+				addRows(i, k, a);
 			}
+
+			// scale(k, pivot, a);
+			// scale(k, pivot, b);
+			//
+			// // pivot within A and B
+			// for (int i = k + 1; i < N; i++) {
+			// subtractRows(i, k, a);
+			// subtractRows(i, k, b);
+			// }
 		}
 
-		System.out.println("--");
-		a.toString();
-		System.out.println("--");
-		// back substitution
-		double[] solution = new double[N];
-		for (int i = N - 1; i >= 0; i--) {
-			double sum = 0.0;
-			for (int j = i + 1; j < N; j++)
-				sum += A[i][j] * solution[j];
-			solution[i] = (B[i][0] - sum) / A[i][i];
-		}
-
-		System.out.println("solution");
-		Matrix sol = new Matrix(solution);
-		sol.toString();
+		// System.out.println("--");
+		// a.toString();
+		// System.out.println("--");
+		// // back substitution
+		// double[] solution = new double[N];
+		// for (int i = N - 1; i >= 0; i--) {
+		// double sum = 0.0;
+		// for (int j = i + 1; j < N; j++)
+		// sum += A[i][j] * solution[j];
+		// solution[i] = (B[i][0] - sum) / A[i][i];
+		// }
+		//
+		// System.out.println("solution");
+		// Matrix sol = new Matrix(solution);
+		// sol.toString();
 	}
 
 	public void runAlg3(Matrix a, Matrix b) {
