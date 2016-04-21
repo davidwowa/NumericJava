@@ -13,7 +13,7 @@ public interface IMatrixDoubleOperations {
 				System.out.print(";\n");
 			}
 		} else {
-			System.out.println("ERROR: create prior a matrix");
+			System.out.println("\t\t\t ERROR: create prior a matrix");
 		}
 	}
 
@@ -24,7 +24,7 @@ public interface IMatrixDoubleOperations {
 			}
 			System.out.print(";\n");
 		} else {
-			System.out.println("ERROR: create prior a matrix");
+			System.out.println("\t\t\t ERROR: create prior a matrix");
 		}
 	}
 
@@ -34,16 +34,16 @@ public interface IMatrixDoubleOperations {
 			int b_rows = b.length;
 			if (a_columns != b_rows) {
 				System.out.println(
-						"ERROR: number of columns in matrix a is not equal the number of row in matrix b\n see https://de.wikipedia.org/wiki/Matrizenmultiplikation");
+						"\t\t\t ERROR: number of columns in matrix a is not equal the number of row in matrix b\n see https://de.wikipedia.org/wiki/Matrizenmultiplikation");
 			} else {
 				return true;
 			}
 		} else {
 			if (a == null) {
-				System.out.println("ERROR: matrix a is null");
+				System.out.println("\t\t\t ERROR: matrix a is null");
 			}
 			if (b == null) {
-				System.out.println("ERROR: matrix b is null");
+				System.out.println("\t\t\t ERROR: matrix b is null");
 			}
 		}
 		return false;
@@ -89,7 +89,7 @@ public interface IMatrixDoubleOperations {
 			}
 			return newMatrix;
 		} else {
-			System.out.println("ERROR:");
+			System.out.println("\t\t\t ERROR:");
 		}
 		return null;
 	}
@@ -101,9 +101,9 @@ public interface IMatrixDoubleOperations {
 	 * @return
 	 */
 	default double[][] permute(int[] sigma, double[][] matrix) {
-		System.out.println("<---permute---->");
+		System.out.println("\t\t\t <---permute---->");
 		printMatrix(matrix);
-		System.out.println("with sigma");
+		System.out.println("\t\t\t with sigma");
 		System.out.println(Arrays.toString(sigma));
 
 		double[][] permutetMatrix = new double[matrix.length][matrix.length];
@@ -111,7 +111,7 @@ public interface IMatrixDoubleOperations {
 			double[] tmp = matrix[sigma[i]];
 			permutetMatrix[i] = tmp;
 		}
-		System.out.println("result matrix");
+		System.out.println("\t\t\t result matrix");
 		printMatrix(permutetMatrix);
 		matrix = permutetMatrix;
 		return permutetMatrix;
@@ -127,16 +127,16 @@ public interface IMatrixDoubleOperations {
 	 */
 	default double[][] scale(int row, double factor, double[][] a) {
 		// TODO validate input
-		System.out.println("<---scale---->");
+		System.out.println("\t\t\t <---scale---->");
 		printMatrix(a);
-		System.out.println("with factor " + factor + " and row " + row);
+		System.out.println("\t\t\t with factor " + factor + " and row " + row);
 
 		for (int i = 0; i < a[0].length; i++) {
 			double tmp = a[row][i];
 			tmp = tmp * factor;
 			a[row][i] = tmp;
 		}
-		System.out.println("result matrix");
+		System.out.println("\t\t\t result matrix");
 		printMatrix(a);
 		return a;
 	}
@@ -158,15 +158,15 @@ public interface IMatrixDoubleOperations {
 	 */
 	default double[][] eliminate(double c, double[][] e_l, double[][] e_k) {
 		// TODO validate input
-		System.out.println("<---eliminate--->");
+		System.out.println("\t\t\t <---eliminate--->");
 		double[][] identityMatrix = getIdentityMatrix(e_l.length);
 		// identityMatrix * factor * e_l * e_k
-		System.out.println("identity matrix");
+		System.out.println("\t\t\t identity matrix");
 		printMatrix(identityMatrix);
-		System.out.println("with factor " + c);
-		System.out.println("with vector e_l");
+		System.out.println("\t\t\t with factor " + c);
+		System.out.println("\t\t\t with vector e_l");
 		printMatrix(e_l);
-		System.out.println("with vector e_k");
+		System.out.println("\t\t\t with vector e_k");
 		printMatrix(e_k);
 
 		double[][] lk = mult(e_l, e_k);
@@ -179,7 +179,7 @@ public interface IMatrixDoubleOperations {
 	}
 
 	default double[][] addRows(int rowIndex1, int rowIndex2, double[][] matrix) {
-		System.out.println("<---add rows in matrix---->");
+		System.out.println("\t\t\t <---add rows in matrix---->");
 		printMatrix(matrix);
 		double[] row1 = matrix[rowIndex1];
 		double[] row2 = matrix[rowIndex2];
@@ -189,35 +189,40 @@ public interface IMatrixDoubleOperations {
 			double tmp = row1[i] + row2[i];
 			row2[i] = tmp;
 		}
-		System.out.println("result matrix");
+		System.out.println("\t\t\t result matrix");
 		printMatrix(matrix);
 		return matrix;
 	}
 
 	default double[][] addRows(int rowIndex1, int rowIndex2, double factor, double[][] matrix) {
-		System.out.println("<---add rows in matrix---->");
+		System.out.println("\t\t\t <---add rows in matrix---->");
 		printMatrix(matrix);
 		double[] row1 = matrix[rowIndex1];
+		double[] tmpRow = new double[row1.length];
 
+		System.out.println("\t\t\t row to scale with factor " + factor);
+		System.out.println(Arrays.toString(row1));
 		// scale row p with s
 		for (int i = 0; i < row1.length; i++) {
-			row1[i] = row1[i] * factor;
+			tmpRow[i] = row1[i] * factor;
 		}
 
 		double[] row2 = matrix[rowIndex2];
-
-		System.out.println(Arrays.toString(row1) + " + " + Arrays.toString(row2));
+		System.out.println("\t\t\t row to add (first row is scaled)");
+		System.out.println(Arrays.toString(tmpRow) + " + " + Arrays.toString(row2));
 		for (int i = 0; i < row1.length; i++) {
-			double tmp = row1[i] + row2[i];
+			double tmp = tmpRow[i] + row2[i];
 			row2[i] = tmp;
 		}
-		System.out.println("result matrix");
+
+		matrix[rowIndex2] = row2;
+		System.out.println("\t\t\t result matrix");
 		printMatrix(matrix);
 		return matrix;
 	}
 
 	default double[][] subtractRows(int rowIndex1, int rowIndex2, double[][] matrix) {
-		System.out.println("subtract rows in matrix");
+		System.out.println("\t\t\t subtract rows in matrix");
 		printMatrix(matrix);
 		double[] row1 = matrix[rowIndex1];
 		double[] row2 = matrix[rowIndex2];
@@ -227,7 +232,7 @@ public interface IMatrixDoubleOperations {
 			double tmp = row1[i] - row2[i];
 			row2[i] = tmp;
 		}
-		System.out.println("result matrix");
+		System.out.println("\t\t\t result matrix");
 		printMatrix(matrix);
 		return matrix;
 	}

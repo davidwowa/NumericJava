@@ -9,6 +9,7 @@ public class Main {
 		core.printMatrix(A);
 		double[][] b = core.getTestVector();
 		core.printMatrix(b);
-		core.forwardSubstitution(A, b);
+//		core.forwardSubstitution(A, b);
+		core.runGaussSimple(A, b);
 	}
 }
