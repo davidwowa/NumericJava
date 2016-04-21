@@ -16,8 +16,6 @@ public class GJCore2 implements IMatrixDoubleOperations {
 	public void forwardSubstitution(double[][] A, double[][] B) {
 		// iterate over current pivot row p
 		for (int p = 0; p < A.length; p++) {
-			// System.out.println(A[0][p]); // show the values in row
-			// System.out.println(A[p][0]); // show the values in column
 
 			// pivot code here
 			int max = p;
@@ -36,27 +34,10 @@ public class GJCore2 implements IMatrixDoubleOperations {
 			double s = 1. / A[p][p]; // s <- 1/u_pp
 			A = scale(p, s, A); // Yp <- s * Yp
 
-			// Upc <- s * Upc
-//			for (int c = 0; c < A.length; c++) {
-//				
-//			}
-
-			// das brauche ich nicht, dieser schritt ist bereits in methode
-			// scale implementiert
-			// for (int c = p; c < A.length; c++) {
-			// Upc <- s * Upc
-			// }
-
-			// eliminate from future rows
-//			for (int r = p + 1; r < A.length; r++) {
-//				// scale row p by s and add to row r
-//				// A = scale(p, s, A);
-//				A = addRows(p, r, A);
-//				for (int c = p; c < A.length; c++) {
-//					A = scale(c, s, A);
-//					A = addRows(r, c, A);
-//				}
-//			}
+			for (int r = p + 1; r < A.length; r++) {
+				s = (-1.) * A[r][p];
+				A = addRows(p, r, s, A);
+			}
 		}
 	}
 

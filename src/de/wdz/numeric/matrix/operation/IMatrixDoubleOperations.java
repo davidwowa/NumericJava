@@ -194,6 +194,28 @@ public interface IMatrixDoubleOperations {
 		return matrix;
 	}
 
+	default double[][] addRows(int rowIndex1, int rowIndex2, double factor, double[][] matrix) {
+		System.out.println("<---add rows in matrix---->");
+		printMatrix(matrix);
+		double[] row1 = matrix[rowIndex1];
+
+		// scale row p with s
+		for (int i = 0; i < row1.length; i++) {
+			row1[i] = row1[i] * factor;
+		}
+
+		double[] row2 = matrix[rowIndex2];
+
+		System.out.println(Arrays.toString(row1) + " + " + Arrays.toString(row2));
+		for (int i = 0; i < row1.length; i++) {
+			double tmp = row1[i] + row2[i];
+			row2[i] = tmp;
+		}
+		System.out.println("result matrix");
+		printMatrix(matrix);
+		return matrix;
+	}
+
 	default double[][] subtractRows(int rowIndex1, int rowIndex2, double[][] matrix) {
 		System.out.println("subtract rows in matrix");
 		printMatrix(matrix);
