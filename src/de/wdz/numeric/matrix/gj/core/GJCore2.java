@@ -16,18 +16,18 @@ public class GJCore2 implements IMatrixDoubleOperations {
 	public void forwardSubstitution(double[][] A, double[][] B) {
 		// iterate over current pivot row p
 		for (int p = 0; p < A.length; p++) {
-			System.out.println("\t\t\t current row " + p);
+
 			// pivot code here
-			int max = p;
-			for (int i = 0; i < B.length; i++) {
-				if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
-					max = i;
-				}
-			}
+//			int max = p;
+//			for (int i = 0; i < B.length; i++) {
+//				if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
+//					max = i;
+//				}
+//			}
 
 			// permutate rows
-			int[] sigma = getSigma(max, p, B.length);
-			A = permute(sigma, A);
+//			int[] sigma = getSigma(max, p, B.length);
+//			A = permute(sigma, A);
 			// B = permute(sigma, B);
 
 			// scale row p to make element at (p, p) equal one

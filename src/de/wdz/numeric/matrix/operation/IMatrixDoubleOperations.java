@@ -326,6 +326,11 @@ public interface IMatrixDoubleOperations {
 		return doubleMatrix;
 	}
 
+	/**
+	 * Not for Gauss Jordan
+	 * 
+	 * @return
+	 */
 	default double[][] getTestMatrix4() {
 		double[][] doubleMatrix = { { 1, 2 }, { 0, 1 }, { 4, 0 } };
 		return doubleMatrix;
