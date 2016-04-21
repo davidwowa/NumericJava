@@ -1,4 +1,4 @@
-package de.wdz.numeric.matrix.gaussJordan.core;
+package de.wdz.numeric.matrix.gj.core;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package de.wdz.numeric.matrix.gaussJordan.core;
+package de.wdz.numeric.matrix.gj.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,49 @@ public class GJCore2 implements IMatrixDoubleOperations {
 	}
 
 	public void forwardSubstitution(double[][] A, double[][] B) {
-		int N = A[0].length;
-		for (int k = 0; k < N; k++) {
+		// iterate over current pivot row p
+		for (int p = 0; p < A.length; p++) {
+			// System.out.println(A[0][p]); // show the values in row
+			// System.out.println(A[p][0]); // show the values in column
+
+			// pivot code here
+			int max = p;
+			for (int i = 0; i < B.length; i++) {
+				if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
+					max = i;
+				}
+			}
+
+			// permutate rows
+			int[] sigma = getSigma(max, p, B.length);
+			A = permute(sigma, A);
+			// B = permute(sigma, B);
+
+			// scale row p to make element at (p, p) equal one
+			double s = 1. / A[p][p]; // s <- 1/u_pp
+			A = scale(p, s, A); // Yp <- s * Yp
+
+			// Upc <- s * Upc
+//			for (int c = 0; c < A.length; c++) {
+//				
+//			}
+
+			// das brauche ich nicht, dieser schritt ist bereits in methode
+			// scale implementiert
+			// for (int c = p; c < A.length; c++) {
+			// Upc <- s * Upc
+			// }
+
+			// eliminate from future rows
+//			for (int r = p + 1; r < A.length; r++) {
+//				// scale row p by s and add to row r
+//				// A = scale(p, s, A);
+//				A = addRows(p, r, A);
+//				for (int c = p; c < A.length; c++) {
+//					A = scale(c, s, A);
+//					A = addRows(r, c, A);
+//				}
+//			}
 		}
 	}
 

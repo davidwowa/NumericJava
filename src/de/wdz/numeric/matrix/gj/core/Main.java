@@ -1,4 +1,4 @@
-package de.wdz.numeric.matrix.gaussJordan.core;
+package de.wdz.numeric.matrix.gj.core;
 
 public class Main {
 
@@ -6,8 +6,9 @@ public class Main {
 		GJCore2 core = new GJCore2();
 
 		double[][] A = core.getTestMatrix9();
+		core.printMatrix(A);
 		double[][] b = core.getTestVector();
-
-		core.runGaussSimple(A, b);
+		core.printMatrix(b);
+		core.forwardSubstitution(A, b);
 	}
 }

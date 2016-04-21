@@ -112,7 +112,8 @@ public interface IMatrixDoubleOperations {
 			permutetMatrix[i] = tmp;
 		}
 		System.out.println("result matrix");
-		printMatrix(matrix);
+		printMatrix(permutetMatrix);
+		matrix = permutetMatrix;
 		return permutetMatrix;
 	}
 
@@ -132,7 +133,7 @@ public interface IMatrixDoubleOperations {
 
 		for (int i = 0; i < a[0].length; i++) {
 			double tmp = a[row][i];
-			tmp = 1. / factor;
+			tmp = tmp * factor;
 			a[row][i] = tmp;
 		}
 		System.out.println("result matrix");
