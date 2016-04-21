@@ -1,66 +1,249 @@
 package de.wdz.numeric.matrix.gaussJordan.core;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.lang.ArrayUtils;
-
-import de.wdz.numeric.matrix.LUMatrix;
 import de.wdz.numeric.matrix.Matrix;
 import de.wdz.numeric.matrix.operation.IMatrixOperations;
 
 public class GaussJordanCore implements IMatrixOperations {
 
-	// scalierung(einmal) -> eliminierung(for each row)
-	public Matrix[] lu(Matrix matrix) {
-		LUMatrix luMatrix = new LUMatrix(matrix.getMatrix());
-		matrix.toString();
+	public void runAlg5(Matrix a, Matrix b) {
+		double[][] A = a.getMatrix();
+		double[][] B = b.getMatrix();
+
 		double pivot = 0;
-		for (int i = 0; i < matrix.getMatrix().length; i++) {
+		int forSigma = 0;
+		for (int i = 0; i < B.length; i++) {
 			// find pivot
-			// System.out.println(matrix.getMatrix()[i][0]);
-			System.out.println("index = " + i);
-			if (Math.abs(matrix.getMatrix()[i][0]) >= Math.abs(pivot)) {
-				pivot = matrix.getMatrix()[i][0];
+			if (Math.abs(A[i][0]) >= Math.abs(pivot)) {
+				pivot = A[i][0];
+				forSigma = i;
 				System.out.println("pivot = " + pivot);
+				System.out.println("index = " + forSigma);
+			}
+			int[] sigma = getSigma(forSigma, i, A[0].length);
+			permute(sigma, a);
+			permute(sigma, b);
+		}
+	}
+
+	public void runAlg4(Matrix a, Matrix b) {
+		double[][] A = a.getMatrix();
+		double[][] B = b.getMatrix();
+
+		int N = B.length;
+		for (int k = 0; k < N; k++) {
+			// find pivot row
+			int max = k;
+			double pivot = 0;
+			for (int i = k + 1; i < N; i++) {
+				if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
+					max = i;
+				pivot = A[i][k];
+			}
+			// swap row in A matrix
+			int[] sigma = getSigma(k, max, N);
+			permute(sigma, a);
+			// swap corresponding values in constants matrix
+			permute(sigma, b);
+
+			scale(k, pivot, a);
+			scale(k, pivot, b);
+
+			// pivot within A and B
+			for (int i = k + 1; i < N; i++) {
+				subtractRows(i, k, a);
+				subtractRows(i, k, b);
 			}
 		}
-		return null;
+
+		System.out.println("--");
+		a.toString();
+		System.out.println("--");
+		// back substitution
+		double[] solution = new double[N];
+		for (int i = N - 1; i >= 0; i--) {
+			double sum = 0.0;
+			for (int j = i + 1; j < N; j++)
+				sum += A[i][j] * solution[j];
+			solution[i] = (B[i][0] - sum) / A[i][i];
+		}
+
+		System.out.println("solution");
+		Matrix sol = new Matrix(solution);
+		sol.toString();
+	}
+
+	public void runAlg3(Matrix a, Matrix b) {
+		double[][] A = a.getMatrix();
+		double[][] B = b.getMatrix();
+
+		int N = B.length;
+		for (int k = 0; k < N; k++) {
+			// find pivot row
+			int max = k;
+			for (int i = k + 1; i < N; i++) {
+				if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
+					max = i;
+			}
+			// swap row in A matrix
+			int[] sigma = getSigma(k, max, N);
+			permute(sigma, a);
+			// swap corresponding values in constants matrix
+			permute(sigma, b);
+
+			// pivot within A and B
+			for (int i = k + 1; i < N; i++) {
+				double factor = A[i][k] / A[k][k];
+				// B[i][0] -= factor * B[k][0];
+				// scale(k, factor, a);
+				scale(k, factor, b);
+				// subtractRows(i, k, a);
+				subtractRows(i, k, b);
+				for (int j = k; j < N; j++) {
+					// A[i][j] -= factor * A[k][j];
+
+					scale(k, factor, a);
+					// scale(k, factor, b);
+
+					subtractRows(i, k, a);
+					// subtractRows(i, k, b);
+				}
+			}
+		}
+
+		System.out.println("--");
+		a.toString();
+		System.out.println("--");
+		// back substitution
+		double[] solution = new double[N];
+		for (int i = N - 1; i >= 0; i--) {
+			double sum = 0.0;
+			for (int j = i + 1; j < N; j++)
+				sum += A[i][j] * solution[j];
+			solution[i] = (B[i][0] - sum) / A[i][i];
+		}
+
+		System.out.println("solution");
+		Matrix sol = new Matrix(solution);
+		sol.toString();
+	}
+
+	public void runAlg2(Matrix a, Matrix b) {
+		double[][] A = a.getMatrix();
+		double[][] B = b.getMatrix();
+
+		int N = B.length;
+		for (int k = 0; k < N; k++) {
+			// find pivot row
+			int max = k;
+			for (int i = k + 1; i < N; i++) {
+				if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
+					max = i;
+			}
+			// swap row in A matrix
+			double[] temp = A[k];
+			A[k] = A[max];
+			A[max] = temp;
+
+			int[] sigma = getSigma(k, max, N);
+			permute(sigma, a);
+
+			// swap corresponding values in constants matrix
+			double t = B[k][0];
+			B[k][0] = B[max][0];
+			B[max][0] = t;
+
+			// pivot within A and B
+			for (int i = k + 1; i < N; i++) {
+				double factor = A[i][k] / A[k][k];
+				B[i][0] -= factor * B[k][0];
+				// for (int j = k; j < N; j++) {
+				// A[i][j] -= factor * A[k][j];
+				scale(i, A[k][i], a);
+
+				// sigma = getSigma(k, max, N);
+				// permute(sigma, a);
+
+				build_e_k_Matrix(N, i);
+				build_e_l_Matrix(N, i);
+
+				// }
+			}
+		}
+
+		System.out.println("--");
+		a.toString();
+		System.out.println("--");
+		// back substitution
+		double[] solution = new double[N];
+		for (int i = N - 1; i >= 0; i--) {
+			double sum = 0.0;
+			for (int j = i + 1; j < N; j++)
+				sum += A[i][j] * solution[j];
+			solution[i] = (B[i][0] - sum) / A[i][i];
+		}
+
+		Matrix sol = new Matrix(solution);
+		sol.toString();
+	}
+
+	public void runAlg(Matrix a, Matrix b) {
+		double[][] A = a.getMatrix();
+		double[][] B = b.getMatrix();
+
+		int N = B.length;
+		for (int k = 0; k < N; k++) {
+			// find pivot row
+			int max = k;
+			for (int i = k + 1; i < N; i++)
+				if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
+					max = i;
+
+			// swap row in A matrix
+			double[] temp = A[k];
+			A[k] = A[max];
+			A[max] = temp;
+
+			// swap corresponding values in constants matrix
+			double t = B[k][0];
+			B[k][0] = B[max][0];
+			B[max][0] = t;
+
+			// pivot within A and B
+			for (int i = k + 1; i < N; i++) {
+				double factor = A[i][k] / A[k][k];
+				B[i][0] -= factor * B[k][0];
+				for (int j = k; j < N; j++)
+					A[i][j] -= factor * A[k][j];
+			}
+		}
+
+		System.out.println("--");
+		a.toString();
+		System.out.println("--");
+		// back substitution
+		double[] solution = new double[N];
+		for (int i = N - 1; i >= 0; i--) {
+			double sum = 0.0;
+			for (int j = i + 1; j < N; j++)
+				sum += A[i][j] * solution[j];
+			solution[i] = (B[i][0] - sum) / A[i][i];
+		}
+
+		Matrix sol = new Matrix(solution);
+		sol.toString();
+	}
+
+	private int[] getSigma(int newIndex, int oldIndex, int size) {
+		int[] sigma = new int[size];
+		for (int i = 0; i < sigma.length; i++) {
+			sigma[i] = i;
+		}
+		sigma[newIndex] = oldIndex;
+		sigma[oldIndex] = newIndex;
+		return sigma;
 	}
 
 	// scalierung(einmal) -> eliminierung(for each row)
-	public void run(Matrix matrix) {
-		matrix = permute(permutating(matrix), matrix);
-
-		for (int i = 0; i < matrix.getMatrix().length; i++) {
-			matrix = permute(permutating(matrix), matrix);
-			for (int j = 0; j < matrix.getMatrix()[0].length; j++) {
-				if (i == j) {
-					if (matrix.getMatrix()[i][j] != 0) {
-						matrix = scale(i, 1. / matrix.getMatrix()[i][j], matrix);
-					} else {
-						// ??
-						matrix = permute(permutating(matrix), matrix);
-					}
-				}
-
-				for (int j2 = 1; j2 < matrix.getMatrix()[0].length; j2++) {
-					// find first element != 0 in column
-
-					double p = matrix.getMatrix()[j2][i];
-					System.out.println("p = " + matrix.getMatrix()[j2][i]);
-					if (p != 0) {
-						System.out.println("matrix.getMatrix()[" + j2 + "][" + i + "] = " + p);
-						// matrix = scale(j2, p, matrix);
-						matrix = eliminate(p, build_e_l_Matrix(matrix.getMatrix().length, j2),
-								build_e_k_Matrix(matrix.getMatrix().length, i));
-					}
-				}
-			}
-		}
-	}
 
 	private Matrix build_e_l_Matrix(int size, int index) {
 		Matrix resultMatrix = new Matrix(size, 1);
@@ -82,54 +265,4 @@ public class GaussJordanCore implements IMatrixOperations {
 		return resultMatrix;
 	}
 
-	private int[] permutating(Matrix matrix) {
-		int[] sigma = new int[matrix.getMatrix().length];
-		for (int i = 0; i < matrix.getMatrix().length; i++) {
-			double[] tmp = matrix.getMatrix()[i];
-			int count = 0;
-			boolean read = true;
-			for (int j = 0; j < tmp.length; j++) {
-				if (read) {
-					if (tmp[j] == 0) {
-						count++;
-					} else {
-						read = false;
-					}
-				}
-			}
-			sigma[i] = count;
-		}
-
-		int[] newSigma = new int[matrix.getMatrix().length];
-		List<Integer> listt = Arrays.asList(ArrayUtils.toObject(sigma));
-		ArrayList<Integer> list = new ArrayList<>(listt);
-		int count = 0;
-		while (list.size() > 0) {
-			int index = list.indexOf(Collections.min(list));
-
-			if (containsIndex(newSigma, index)) {
-				addToSigma(newSigma, count, count);
-			} else {
-				addToSigma(newSigma, index, count);
-			}
-			list.remove(index);
-			count++;
-		}
-		return newSigma;
-	}
-
-	private boolean containsIndex(int[] sigma, int value) {
-		for (int i = 0; i < sigma.length; i++) {
-			if (sigma[i] == value) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private void addToSigma(int[] sigma, int value, int index) {
-		if (!containsIndex(sigma, value)) {
-			sigma[index] = value;
-		}
-	}
 }

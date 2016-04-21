@@ -8,17 +8,22 @@ public class Matrix {
 	}
 
 	public Matrix(int size) {
-		// System.out.println("create matrix with size " + size);
 		this.matrix = new double[size][size];
 	}
 
 	public Matrix(int x, int y) {
-		// System.out.println("create matrix with size " + x + " and " + y);
 		this.matrix = new double[x][y];
 	}
 
 	public Matrix(double[][] matrix) {
 		this.matrix = matrix;
+	}
+
+	public Matrix(double[] vector) {
+		matrix = new double[1][vector.length];
+		for (int i = 0; i < vector.length; i++) {
+			matrix[0][i] = vector[i];
+		}
 	}
 
 	public double[][] getMatrix() {

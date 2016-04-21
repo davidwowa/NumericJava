@@ -97,6 +97,7 @@ public interface IMatrixOperations {
 		}
 		System.out.println("result matrix");
 		permutetMatrix.toString();
+		matrix = permutetMatrix;
 		return permutetMatrix;
 	}
 
@@ -114,7 +115,7 @@ public interface IMatrixOperations {
 		a.toString();
 		System.out.println("with factor " + factor + " and row " + row);
 
-		for (int i = 0; i < a.getMatrix().length; i++) {
+		for (int i = 0; i < a.getMatrix()[0].length; i++) {
 			double tmp = a.getMatrix()[row][i];
 			tmp = tmp * factor;
 			a.getMatrix()[row][i] = tmp;
@@ -132,9 +133,9 @@ public interface IMatrixOperations {
 	 * @param e_l
 	 * @param e_k
 	 * @param n
-	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann
-	 *            man es ingorieren, da die Grˆﬂe kann ich von Matrix
-	 *            herausbekommen was in Methode-Signatur drin ist
+	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann man
+	 *            es ingorieren, da die Grˆﬂe kann ich von Matrix herausbekommen
+	 *            was in Methode-Signatur drin ist
 	 * @param matrix
 	 *            result Matrix
 	 * @return new Matrix
@@ -159,6 +160,38 @@ public interface IMatrixOperations {
 		System.out.println("=");
 		lkcid.toString();
 		return lkcid;
+	}
+
+	default Matrix addRows(int rowIndex1, int rowIndex2, Matrix matrix) {
+		System.out.println("add rows in matrix");
+		matrix.toString();
+		double[] row1 = matrix.getMatrix()[rowIndex1];
+		double[] row2 = matrix.getMatrix()[rowIndex2];
+
+		System.out.println(Arrays.toString(row1) + " + " + Arrays.toString(row2));
+		for (int i = 0; i < row1.length; i++) {
+			double tmp = row1[i] + row2[i];
+			row2[i] = tmp;
+		}
+		System.out.println("result matrix");
+		matrix.toString();
+		return matrix;
+	}
+
+	default Matrix subtractRows(int rowIndex1, int rowIndex2, Matrix matrix) {
+		System.out.println("subtract rows in matrix");
+		matrix.toString();
+		double[] row1 = matrix.getMatrix()[rowIndex1];
+		double[] row2 = matrix.getMatrix()[rowIndex2];
+
+		System.out.println(Arrays.toString(row1) + " - " + Arrays.toString(row2));
+		for (int i = 0; i < row1.length; i++) {
+			double tmp = row1[i] - row2[i];
+			row2[i] = tmp;
+		}
+		System.out.println("result matrix");
+		matrix.toString();
+		return matrix;
 	}
 
 	/**
@@ -284,8 +317,29 @@ public interface IMatrixOperations {
 		return resultMatrix;
 	}
 
+	default Matrix getTestMatrix8() {
+		double[][] doubleMatrix = { { 1, 1, -2, -3 }, { 0, 1, -1, -1 }, { 3, -1, 1, 4 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
+	}
+
+	default Matrix getTestMatrix9() {
+		double[][] doubleMatrix = { { 1, 1, -2 }, { 0, 1, -1 }, { 3, -1, 1 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
+	}
+
 	default Matrix getTestVector() {
-		double[][] doubleMatrix = { { 3 }, { 6 }, { 9 } };
+		double[][] doubleMatrix = { { -3 }, { -1 }, { 4 } };
+		Matrix resultMatrix = new Matrix();
+		resultMatrix.setMatrix(doubleMatrix);
+		return resultMatrix;
+	}
+
+	default Matrix getTestVectorNotizen() {
+		double[][] doubleMatrix = { { 4 }, { 8 }, { 2 }, { 1 } };
 		Matrix resultMatrix = new Matrix();
 		resultMatrix.setMatrix(doubleMatrix);
 		return resultMatrix;
