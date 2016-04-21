@@ -163,7 +163,7 @@ public interface IMatrixOperations {
 	}
 
 	default Matrix addRows(int rowIndex1, int rowIndex2, Matrix matrix) {
-		System.out.println("add rows in matrix");
+		System.out.println("<---add rows in matrix---->");
 		matrix.toString();
 		double[] row1 = matrix.getMatrix()[rowIndex1];
 		double[] row2 = matrix.getMatrix()[rowIndex2];
