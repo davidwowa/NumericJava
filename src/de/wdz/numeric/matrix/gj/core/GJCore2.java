@@ -13,43 +13,73 @@ public class GJCore2 implements IMatrixDoubleOperations {
 		this.matrixList = new ArrayList<>();
 	}
 
-	public void U(double[][] A, double[][] B) {
+	public void U(double[][] A) {
 		// iterate over current pivot row p
 		for (int p = 0; p < A.length; p++) {
 
 			// pivot code here
-			// int max = p;
-			// for (int i = 0; i < B.length; i++) {
-			// if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
-			// max = i;
-			// }
-			// }
+			int max = p;
+			for (int i = 0; i < A.length; i++) {
+				if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
+					max = i;
+				}
+			}
 
 			// permutate rows
-			// int[] sigma = getSigma(max, p, B.length);
-			// A = permute(sigma, A);
+			int[] sigma = getSigma(max, p, A.length);
+			A = permute(sigma, A);
 			// B = permute(sigma, B);
 
+			/**
+			 * a) L- Kann S oder E sein - da S eine Diagonale Matrix ist und in
+			 * dem Fall wo eine S mutltiplizerit wird bekommen wir dann wird die
+			 * U angenähert
+			 */
+
+			/**
+			 * b) (Erster Satz) Das ist schon von dem Algorithmus schon
+			 * vorgegeben dass es so ist.
+			 * <p>
+			 * (Zweite Satz) Durch aufmultiplizieren von S und E wird es zu L
+			 * qusi angenähert.
+			 */
+
+			/**
+			 * c) Die ELimination schiebt ein Schritt weiter.
+			 * ...
+			 * i
+			 * ...
+			 * j =>
+			 * ...
+			 * k 
+			 * ...
+			 */
+
+			/**
+			 * d)
+			 */
 			// scale row p to make element at (p, p) equal one
-			double s = 1. / A[p][p]; // s <- 1/u_pp
-			A = scale(p, s, A); // Yp <- s * Yp
-			B = scale(p, s, B);
+			if (A[p][p] != 0.) {
 
-			double[][] sMatrix = getIdentityMatrix(A.length);
-			sMatrix = scale(p, s, sMatrix);
-			System.out.println("\t\t\t\t ADD MATRIX");
-			getMatrixList().add(sMatrix);
+				double s = 1. / A[p][p]; // s <- 1/u_pp
+				A = scale(p, s, A); // Yp <- s * Yp
 
-			for (int r = p + 1; r < A.length; r++) {// Eliminate from future
-				s = (-1.) * A[r][p];
-				A = addRows(p, r, s, A);// scale row p by s and add to row r
-				B = addRows(p, r, s, B);
+				double[][] sMatrix = getIdentityMatrix(A.length);
+				sMatrix = scale(p, s, sMatrix);
+				getMatrixList().add(sMatrix);
 
-				double[][] el = build_e_l_Matrix(A.length, r);
-				double[][] ek = build_e_k_Matrix(A.length, p);
-				double[][] elMatrix = eliminate(s, el, ek);
-				getMatrixList().add(elMatrix);
-				System.out.println("\t\t\t\t ADD MATRIX");
+				for (int r = p + 1; r < A.length; r++) {// Eliminate from future
+					// if (A[r][p] != 0.) {
+					s = (-1.) * A[r][p];
+					A = addRows(p, r, s, A);// scale row p by s and add to
+											// row r
+
+					double[][] el = build_e_l_Matrix(A.length, r);
+					double[][] ek = build_e_k_Matrix(A.length, p);
+					double[][] elMatrix = eliminate(s, el, ek);
+					getMatrixList().add(elMatrix);
+				}
+				// }
 			}
 		}
 	}
@@ -60,7 +90,7 @@ public class GJCore2 implements IMatrixDoubleOperations {
 			for (double[][] currentMatrix : matrixList) {
 				double[][] inverse = getIdentityMatrix(currentMatrix.length);
 				forwardSubstitution(currentMatrix, currentMatrix, inverse);
-				backSubstitution(currentMatrix, currentMatrix, inverse);
+				backwardSubstitution(currentMatrix, currentMatrix, inverse);
 				matrixListWithInverses.add(inverse);
 			}
 		} else {
@@ -71,8 +101,13 @@ public class GJCore2 implements IMatrixDoubleOperations {
 		if (!matrixListWithInverses.isEmpty()) {
 			double[][] currentResult = matrixListWithInverses.get(matrixListWithInverses.size() - 1);
 			for (int i = matrixListWithInverses.size() - 1; i > 1; i--) {
-				System.out.println(i);
+				System.out.println("\t\t\t mult matrix");
+				printMatrix(currentResult);
+				System.out.println("\t\t\t with matrix");
+				printMatrix(matrixListWithInverses.get(i));
 				currentResult = mult(currentResult, matrixListWithInverses.get(i));
+				System.out.println("\t\t\t result");
+				printMatrix(currentResult);
 			}
 			System.out.println("L");
 			printMatrix(currentResult);
@@ -99,32 +134,20 @@ public class GJCore2 implements IMatrixDoubleOperations {
 			// B = permute(sigma, B);
 
 			// scale row p to make element at (p, p) equal one
-			double s = 1. / A[p][p]; // s <- 1/u_pp
-			A = scale(p, s, A); // Yp <- s * Yp
-			B = scale(p, s, B);
-			inverse = scale(p, s, inverse);
-			for (int r = p + 1; r < A.length; r++) {// Eliminate from future
-				s = (-1.) * A[r][p];
-				A = addRows(p, r, s, A);// scale row p by s and add to row r
-				B = addRows(p, r, s, B);
-				inverse = addRows(p, r, s, inverse);
-			}
-		}
-	}
-
-	/**
-	 * TODO to remove
-	 * 
-	 * @param A
-	 * @param B
-	 * @param inverse
-	 */
-	public void backSubstitution(double[][] A, double[][] B, double[][] inverse) {
-		System.out.println("\t\t\t solution");
-		for (int p = A.length - 1; p >= 0; p--) {
-			for (int r = 0; r < p; r++) {
-				B[r][0] = B[r][0] - ((A[r][p] * B[p][0]) / A[p][p]);
-				A[r][p] = 0.;// :-)))
+			if (A[p][p] != 0.) {
+				double s = 1. / A[p][p]; // s <- 1/u_pp
+				A = scale(p, s, A); // Yp <- s * Yp
+				B = scale(p, s, B);
+				inverse = scale(p, s, inverse);
+				for (int r = p + 1; r < A.length; r++) {// Eliminate from future
+					if (A[r][p] != 0.) {
+						s = (-1.) * A[r][p];
+						A = addRows(p, r, s, A);// scale row p by s and add to
+												// row r
+						B = addRows(p, r, s, B);
+						inverse = addRows(p, r, s, inverse);
+					}
+				}
 			}
 		}
 	}
@@ -147,17 +170,23 @@ public class GJCore2 implements IMatrixDoubleOperations {
 			// B = permute(sigma, B);
 
 			// scale row p to make element at (p, p) equal one
-			double s = 1. / A[p][p]; // s <- 1/u_pp
-			A = scale(p, s, A); // Yp <- s * Yp
-			B = scale(p, s, B);
-			inverse = scale(p, s, inverse);
-			for (int r = p - 1; r < A.length - 1 && r >= 0; r--) {// Eliminate
-																	// from
-																	// future
-				s = (-1.) * A[r][p];
-				A = addRows(p, r, s, A);// scale row p by s and add to row r
-				B = addRows(p, r, s, B);
-				inverse = addRows(p, r, s, inverse);
+			if (A[p][p] != 0.) {
+
+				double s = 1. / A[p][p]; // s <- 1/u_pp
+				A = scale(p, s, A); // Yp <- s * Yp
+				B = scale(p, s, B);
+				inverse = scale(p, s, inverse);
+				for (int r = p - 1; r < A.length - 1 && r >= 0; r--) {// Eliminate
+																		// from
+																		// future
+					if (A[r][p] != 0.) {
+						s = (-1.) * A[r][p];
+						A = addRows(p, r, s, A);// scale row p by s and add to
+												// row r
+						B = addRows(p, r, s, B);
+						inverse = addRows(p, r, s, inverse);
+					}
+				}
 			}
 		}
 	}

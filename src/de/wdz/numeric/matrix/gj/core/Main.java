@@ -3,7 +3,7 @@ package de.wdz.numeric.matrix.gj.core;
 public class Main {
 
 	public static void main(String[] args) {
-		testCase2();
+		testCase3LU();
 	}
 
 	/**
@@ -20,7 +20,7 @@ public class Main {
 		core.printMatrix(b);
 		double[][] inverse = core.getIdentityMatrix(A.length);
 		core.forwardSubstitution(A, b, inverse);
-		core.backSubstitution(A, b, inverse);
+		core.backwardSubstitution(A, b, inverse);
 		core.printMatrix(b);
 		// core.runGaussSimple(A, b);
 	}
@@ -34,18 +34,35 @@ public class Main {
 		GJCore2 core = new GJCore2();
 
 		double[][] A = core.getTestMatrix9();
-		// core.printMatrix(A);
 		double[][] b = core.getTestVector();
-		// core.printMatrix(b);
-		// double[][] inverse = core.getIdentityMatrix(A.length);
+		double[][] inverse = core.getIdentityMatrix(A.length);
+		// Gauss
+		core.forwardSubstitution(A, b, inverse);
+		core.backwardSubstitution(A, b, inverse);
+
+		core.printMatrix(A);
+		core.printMatrix(b);
+
 		// core.printMatrix(inverse);
-		// core.forwardSubstitution(A, b, inverse);
-		// core.backwardSubstitution(A, b, inverse);
-		// core.printMatrix(b);
-		// core.printMatrix(A);
-		// core.printMatrix(inverse);
-		core.U(A, b);
-		core.L();
+		// core.U(A, b);
+		// core.L();
+		// core.runGaussSimple(A, b);
+	}
+
+	/**
+	 * example in book
+	 * 
+	 * Richtige Ergebnise OHNE Pivotisierung :-(
+	 */
+	public static void testCase3LU() {
+		GJCore2 core = new GJCore2();
+
+		double[][] A = core.getTestMatrix9();
+		double[][] b = core.getTestVector();
+		// LU
+
+		core.U(A);
+//		core.L();
 		// core.runGaussSimple(A, b);
 	}
 }
