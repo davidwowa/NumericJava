@@ -18,8 +18,9 @@ public class Main {
 		core.printMatrix(A);
 		double[][] b = core.getTestVectorNotizen();
 		core.printMatrix(b);
-		core.forwardSubstitution(A, b);
-		core.backSubstitution(A, b);
+		double[][] inverse = core.getIdentityMatrix(A.length);
+		core.forwardSubstitution(A, b, inverse);
+		core.backSubstitution(A, b, inverse);
 		core.printMatrix(b);
 		// core.runGaussSimple(A, b);
 	}
@@ -33,12 +34,18 @@ public class Main {
 		GJCore2 core = new GJCore2();
 
 		double[][] A = core.getTestMatrix9();
-		core.printMatrix(A);
+		// core.printMatrix(A);
 		double[][] b = core.getTestVector();
-		core.printMatrix(b);
-		core.forwardSubstitution(A, b);
-		core.backSubstitution(A, b);
-		core.printMatrix(b);
+		// core.printMatrix(b);
+		// double[][] inverse = core.getIdentityMatrix(A.length);
+		// core.printMatrix(inverse);
+		// core.forwardSubstitution(A, b, inverse);
+		// core.backwardSubstitution(A, b, inverse);
+		// core.printMatrix(b);
+		// core.printMatrix(A);
+		// core.printMatrix(inverse);
+		core.U(A, b);
+		core.L();
 		// core.runGaussSimple(A, b);
 	}
 }
