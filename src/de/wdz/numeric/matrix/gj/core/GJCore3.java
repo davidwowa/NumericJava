@@ -110,47 +110,24 @@ public class GJCore3 implements IMatrixDoubleOperations {
 	}
 
 	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
-		for (int r = 0; r < A.length; r++) {
-			System.out.println("1. A[" + r + "][" + r + "]= " + A[r][r]);
-			if (A[r][r] != 0. && A[r][r] != 1.) {
+		// iterate over current pivot row p
+		for (int p = 0; p < A.length; p++) {
 
-				double s = 1. / A[r][r];
-				System.out.println("s = " + s);
-				A = scale(r, s, A);
-
-				int x = 0;
-				for (int c = 0; c < A[r].length; c++) {
-					if (x == 0) {
-						System.out.println("2. A[" + r + "][" + c + "]= " + A[r][c]);
-						if (A[r][c] != 0.) {
-							s = (1. / A[r][c]) * (-1.);
-							A = scale(r, s, A);
-							A = addRows(r, r - 1, A);
-						} else {
-							// TODO permutate
-						}
+			// scale row p to make element at (p, p) equal one
+			if (A[p][p] != 0.) {
+				double s = 1. / A[p][p]; // s <- 1/u_pp
+				A = scale(p, s, A); // Yp <- s * Yp
+				B = scale(p, s, B);
+				inverse = scale(p, s, inverse);
+				for (int r = p + 1; r < A.length; r++) {// Eliminate from future
+					if (A[r][p] != 0.) {
+						s = (-1.) * A[r][p];
+						A = addRows(p, r, s, A);// scale row p by s and add to
+												// row r
+						B = addRows(p, r, s, B);
+						inverse = addRows(p, r, s, inverse);
 					}
-					x = ++x;
 				}
-				//
-				// for (int c = 0; c < r; c++) {
-				// System.out.println("COLUMN " + c);
-				// System.out.println("A[" + r + "][" + c + "]=" + A[r][c] + ",
-				// A[" + r + "][0]=" + A[r][0]);
-				// for (int i = 0; i < A[r].length; i++) {
-				// System.out.println("ROW -> " + i);
-				// if (A[r][i] != 0.) {
-				// s = (1. / A[r][i]) * (-1.);
-				// A = scale(r, s, A);
-				// A = addRows(r, r - 1, A);
-				// } else {
-				// // TODO permutate
-				// }
-				// }
-				// }
-				// } else {
-				// // TODO permutate
-				// }
 			}
 		}
 	}

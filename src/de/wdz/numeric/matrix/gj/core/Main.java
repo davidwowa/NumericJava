@@ -3,7 +3,7 @@ package de.wdz.numeric.matrix.gj.core;
 public class Main {
 
 	public static void main(String[] args) {
-		testCase3LU();
+		testCase2();
 	}
 
 	public static void testCase3() {
@@ -18,8 +18,8 @@ public class Main {
 		core.forwardSubstitution(A, b, inverse);
 		// core.backwardSubstitution(A, b, inverse);
 		//
-		// System.out.println("..");
-		// core.printMatrix(A);
+		System.out.println("..");
+		core.printMatrix(A);
 		// core.printMatrix(b);
 		// core.runGaussSimple(A, b);
 	}
@@ -39,8 +39,8 @@ public class Main {
 		core.forwardSubstitution(A, b, inverse);
 		// core.backwardSubstitution(A, b, inverse);
 		//
-		// System.out.println("..");
-		// core.printMatrix(A);
+		System.out.println("..");
+		core.printMatrix(A);
 		// core.printMatrix(b);
 		// core.runGaussSimple(A, b);
 	}
