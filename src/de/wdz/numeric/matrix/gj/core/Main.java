@@ -6,22 +6,42 @@ public class Main {
 		testCase3LU();
 	}
 
+	public static void testCase3() {
+		GJCore3 core = new GJCore3();
+
+		double[][] A = core.getTestMatrix8();
+		double[][] b = core.getTestVectorNotizen();
+		double[][] inverse = core.getIdentityMatrix(A.length);
+
+		core.printMatrix(A);
+		
+		core.forwardSubstitution(A, b, inverse);
+		// core.backwardSubstitution(A, b, inverse);
+		//
+		// System.out.println("..");
+		// core.printMatrix(A);
+		// core.printMatrix(b);
+		// core.runGaussSimple(A, b);
+	}
+
 	/**
 	 * example in class
 	 * 
 	 * Richtige Ergebnise MIT Pivotisierung
 	 */
 	public static void testCase1() {
-		GJCore2 core = new GJCore2();
+		GJCore3 core = new GJCore3();
 
 		double[][] A = core.getTestMatrix7();
-		core.printMatrix(A);
 		double[][] b = core.getTestVectorNotizen();
-		core.printMatrix(b);
 		double[][] inverse = core.getIdentityMatrix(A.length);
+
 		core.forwardSubstitution(A, b, inverse);
-		core.backwardSubstitution(A, b, inverse);
-		core.printMatrix(b);
+		// core.backwardSubstitution(A, b, inverse);
+		//
+		// System.out.println("..");
+		// core.printMatrix(A);
+		// core.printMatrix(b);
 		// core.runGaussSimple(A, b);
 	}
 
@@ -31,17 +51,19 @@ public class Main {
 	 * Richtige Ergebnise OHNE Pivotisierung :-(
 	 */
 	public static void testCase2() {
-		GJCore2 core = new GJCore2();
+		GJCore3 core = new GJCore3();
 
-		double[][] A = core.getTestMatrix9();
-		double[][] b = core.getTestVector();
-		double[][] inverse = core.getIdentityMatrix(A.length);
-		// Gauss
-		core.forwardSubstitution(A, b, inverse);
-		core.backwardSubstitution(A, b, inverse);
+		final double[][] A = core.getTestMatrix9();
+		final double[][] b = core.getTestVector();
+		final double[][] inverse = core.getIdentityMatrix(A.length);
 
 		core.printMatrix(A);
-		core.printMatrix(b);
+		// Gauss
+		core.forwardSubstitution(A, b, inverse);
+		// core.backwardSubstitution(A, b, inverse);
+		// System.out.println("..");
+		// core.printMatrix(A);
+		// core.printMatrix(b);
 
 		// core.printMatrix(inverse);
 		// core.U(A, b);
@@ -55,14 +77,14 @@ public class Main {
 	 * Richtige Ergebnise OHNE Pivotisierung :-(
 	 */
 	public static void testCase3LU() {
-		GJCore2 core = new GJCore2();
+		GJCore3 core = new GJCore3();
 
 		double[][] A = core.getTestMatrix9();
 		double[][] b = core.getTestVector();
 		// LU
 
 		core.U(A);
-//		core.L();
+		// core.L();
 		// core.runGaussSimple(A, b);
 	}
 }

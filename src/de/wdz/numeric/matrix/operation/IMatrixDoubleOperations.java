@@ -187,7 +187,7 @@ public interface IMatrixDoubleOperations {
 		System.out.println(Arrays.toString(row1) + " + " + Arrays.toString(row2));
 		for (int i = 0; i < row1.length; i++) {
 			double tmp = row1[i] + row2[i];
-			row2[i] = tmp;
+			row1[i] = tmp;
 		}
 		System.out.println("\t\t\t result matrix");
 		printMatrix(matrix);
@@ -352,7 +352,7 @@ public interface IMatrixDoubleOperations {
 	}
 
 	default double[][] getTestMatrix8() {
-		double[][] doubleMatrix = { { 1, 1, -2, -3 }, { 0, 1, -1, -1 }, { 3, -1, 1, 4 } };
+		double[][] doubleMatrix = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 1, 2, 3 } };
 		return doubleMatrix;
 	}
 

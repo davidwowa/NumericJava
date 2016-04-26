@@ -5,11 +5,10 @@ import java.util.List;
 
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
-public class GJCore2 implements IMatrixDoubleOperations {
-
+public class GJCore3 implements IMatrixDoubleOperations {
 	private List<double[][]> matrixList;
 
-	public GJCore2() {
+	public GJCore3() {
 		this.matrixList = new ArrayList<>();
 	}
 
@@ -111,66 +110,79 @@ public class GJCore2 implements IMatrixDoubleOperations {
 	}
 
 	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
-		// iterate over current pivot row p
-		for (int p = 0; p < A.length; p++) {
+		for (int r = 0; r < A.length; r++) {
+			System.out.println("1. A[" + r + "][" + r + "]= " + A[r][r]);
+			if (A[r][r] != 0. && A[r][r] != 1.) {
 
-			// pivot code here
-			int max = p;
-			for (int i = 0; i < B.length; i++) {
-				if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
-					max = i;
-				}
-			}
+				double s = 1. / A[r][r];
+				System.out.println("s = " + s);
+				A = scale(r, s, A);
 
-			// permutate rows
-			int[] sigma = getSigma(max, p, B.length);
-			A = permute(sigma, A);
-			B = permute(sigma, B);
-
-			// scale row p to make element at (p, p) equal one
-			if (A[p][p] != 0.) {
-				double s = 1. / A[p][p]; // s <- 1/u_pp
-				A = scale(p, s, A); // Yp <- s * Yp
-				B = scale(p, s, B);
-				inverse = scale(p, s, inverse);
-				for (int r = p + 1; r < A.length; r++) {// Eliminate from future
-					if (A[r][p] != 0.) {
-						s = (-1.) * A[r][p];
-						A = addRows(p, r, s, A);// scale row p by s and add to
-												// row r
-						B = addRows(p, r, s, B);
-						inverse = addRows(p, r, s, inverse);
+				int x = 0;
+				for (int c = 0; c < A[r].length; c++) {
+					if (x == 0) {
+						System.out.println("2. A[" + r + "][" + c + "]= " + A[r][c]);
+						if (A[r][c] != 0.) {
+							s = (1. / A[r][c]) * (-1.);
+							A = scale(r, s, A);
+							A = addRows(r, r - 1, A);
+						} else {
+							// TODO permutate
+						}
 					}
+					x = ++x;
 				}
+				//
+				// for (int c = 0; c < r; c++) {
+				// System.out.println("COLUMN " + c);
+				// System.out.println("A[" + r + "][" + c + "]=" + A[r][c] + ",
+				// A[" + r + "][0]=" + A[r][0]);
+				// for (int i = 0; i < A[r].length; i++) {
+				// System.out.println("ROW -> " + i);
+				// if (A[r][i] != 0.) {
+				// s = (1. / A[r][i]) * (-1.);
+				// A = scale(r, s, A);
+				// A = addRows(r, r - 1, A);
+				// } else {
+				// // TODO permutate
+				// }
+				// }
+				// }
+				// } else {
+				// // TODO permutate
+				// }
 			}
 		}
 	}
 
-	public void backwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
-		// iterate over current pivot row p
-		for (int p = A.length - 1; p >= 0; p--) {
-
-			// pivot code here
-			int max = p;
-			for (int i = 0; i < B.length; i++) {
-				if (Math.abs(A[i][p]) > Math.abs(A[max][p])) {
-					max = i;
-				}
+	public void permuteXS(double[][] A, double[][] B, double[][] inverse, int currentRow) {
+		// pivot code here
+		int max = currentRow;
+		for (int i = 0; i < B.length; i++) {
+			if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
+				max = i;
 			}
+		}
 
-			// permutate rows
-			int[] sigma = getSigma(max, p, B.length);
-			A = permute(sigma, A);
-			B = permute(sigma, B);
+		// permutate rows
+		int[] sigma = getSigma(max, currentRow, B.length);
+		A = permute(sigma, A);
+		B = permute(sigma, B);
+		inverse = permute(sigma, inverse);
+	}
 
-			// scale row p to make element at (p, p) equal one
-			if (A[p][p] != 0.) {
-
+	public void backwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
+		permuteXS(A, B, inverse, A.length - 1);
+		for (int p = 0; p < A.length; p++) {
+			System.out.println("A[" + p + "][" + p + "]");
+			if (A[p][p] == 0.) {
+				permuteXS(A, B, inverse, p);
+			} else {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
 				B = scale(p, s, B);
 				inverse = scale(p, s, inverse);
-				for (int r = p - 1; r < A.length - 1 && r >= 0; r--) {// Eliminate
+				for (int r = p - 1; r < A.length - 1 && r >= 0; r++) {// Eliminate
 																		// from
 																		// future
 					if (A[r][p] != 0.) {
