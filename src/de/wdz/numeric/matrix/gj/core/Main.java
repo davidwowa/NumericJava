@@ -14,14 +14,11 @@ public class Main {
 		double[][] inverse = core.getIdentityMatrix(A.length);
 
 		core.printMatrix(A);
-		
+
 		core.forwardSubstitution(A, b, inverse);
-		// core.backwardSubstitution(A, b, inverse);
-		//
+
 		System.out.println("..");
 		core.printMatrix(A);
-		// core.printMatrix(b);
-		// core.runGaussSimple(A, b);
 	}
 
 	/**
@@ -37,12 +34,9 @@ public class Main {
 		double[][] inverse = core.getIdentityMatrix(A.length);
 
 		core.forwardSubstitution(A, b, inverse);
-		// core.backwardSubstitution(A, b, inverse);
-		//
+
 		System.out.println("..");
 		core.printMatrix(A);
-		// core.printMatrix(b);
-		// core.runGaussSimple(A, b);
 	}
 
 	/**
@@ -53,22 +47,13 @@ public class Main {
 	public static void testCase2() {
 		GJCore3 core = new GJCore3();
 
-		final double[][] A = core.getTestMatrix9();
-		final double[][] b = core.getTestVector();
+		final double[][] A = core.getTestMatrix777();
+		final double[][] b = core.getTestVectorNotizen();
 		final double[][] inverse = core.getIdentityMatrix(A.length);
 
-		core.printMatrix(A);
-		// Gauss
 		core.forwardSubstitution(A, b, inverse);
-		// core.backwardSubstitution(A, b, inverse);
-		// System.out.println("..");
-		// core.printMatrix(A);
-		// core.printMatrix(b);
-
-		// core.printMatrix(inverse);
-		// core.U(A, b);
-		// core.L();
-		// core.runGaussSimple(A, b);
+		System.out.println("..");
+		core.printMatrix(A);
 	}
 
 	/**

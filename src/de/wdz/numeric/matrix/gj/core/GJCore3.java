@@ -112,20 +112,17 @@ public class GJCore3 implements IMatrixDoubleOperations {
 	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
 		// iterate over current pivot row p
 		for (int p = 0; p < A.length; p++) {
+			permuteXS(A, B, inverse, p);
 
 			// scale row p to make element at (p, p) equal one
 			if (A[p][p] != 0.) {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
-				B = scale(p, s, B);
-				inverse = scale(p, s, inverse);
 				for (int r = p + 1; r < A.length; r++) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
 						A = addRows(p, r, s, A);// scale row p by s and add to
 												// row r
-						B = addRows(p, r, s, B);
-						inverse = addRows(p, r, s, inverse);
 					}
 				}
 			}

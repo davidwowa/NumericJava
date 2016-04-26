@@ -351,6 +351,16 @@ public interface IMatrixDoubleOperations {
 		return doubleMatrix;
 	}
 
+	default double[][] getTestMatrix77() {
+		double[][] doubleMatrix = { { 2, 1, 0, 0 }, { 0, 1, 2, 1 }, { 0, 0, 1, 2 }, { 1, 2, 1, 0 } };
+		return doubleMatrix;
+	}
+
+	default double[][] getTestMatrix777() {
+		double[][] doubleMatrix = { { 1, 2, 1, 0 }, { 2, 1, 0, 0 }, { 0, 1, 2, 1 }, { 0, 0, 1, 2 } };
+		return doubleMatrix;
+	}
+
 	default double[][] getTestMatrix8() {
 		double[][] doubleMatrix = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 1, 2, 3 } };
 		return doubleMatrix;
