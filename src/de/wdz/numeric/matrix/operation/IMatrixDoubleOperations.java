@@ -380,4 +380,30 @@ public interface IMatrixDoubleOperations {
 		double[][] doubleMatrix = { { 4 }, { 8 }, { 2 }, { 1 } };
 		return doubleMatrix;
 	}
+
+	// ---
+	default double[][] getRVector() {
+		double[][] doubleMatrix = { { 46 }, { 79 } };
+		return doubleMatrix;
+	}
+
+	default double[][] getTestRMatrix() {
+		double[][] doubleMatrix = { { 6, 2 }, { 9, 8 } };
+		return doubleMatrix;
+	}
+
+	// ---
+	default double[][] getRVector2() {
+		double[][] doubleMatrix = { { 2149 }, { 4687 }, { 145 }, { 367 } };
+		return doubleMatrix;
+	}
+
+	default double[][] getTestRMatrix2() {
+		double[][] doubleMatrix = { 
+				{ 1, 6, Math.pow(6, 2), Math.pow(6, 3), Math.pow(6, 4) },
+				{ 1, 8, Math.pow(8, 2), Math.pow(8, 3), Math.pow(8, 4) },
+				{ 1, 2, Math.pow(2, 2), Math.pow(2, 3), Math.pow(2, 4) },
+				{ 1, 3, Math.pow(3, 2), Math.pow(3, 3), Math.pow(3, 4) } };
+		return doubleMatrix;
+	}
 }
