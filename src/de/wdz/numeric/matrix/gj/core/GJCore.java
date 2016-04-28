@@ -1,20 +1,14 @@
 package de.wdz.numeric.matrix.gj.core;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.wdz.numeric.matrix.Matrix;
 import de.wdz.numeric.matrix.operation.IMatrixOperations;
 
+/**
+ * 
+ * @author David
+ *
+ */
 public class GJCore implements IMatrixOperations {
-
-	private List<Matrix> matrixList;
-
-	public GJCore() {
-		this.setMatrixList(new ArrayList<>());
-	}
-
-	// TODO implement with BigDecimal
 
 	public void runGaussSimple(Matrix a, Matrix b) {
 		double[][] A = a.getMatrix();
@@ -61,45 +55,5 @@ public class GJCore implements IMatrixOperations {
 
 		Matrix sol = new Matrix(solution);
 		sol.toString();
-	}
-
-	private int[] getSigma(int newIndex, int oldIndex, int size) {
-		int[] sigma = new int[size];
-		for (int i = 0; i < sigma.length; i++) {
-			sigma[i] = i;
-		}
-		sigma[newIndex] = oldIndex;
-		sigma[oldIndex] = newIndex;
-		return sigma;
-	}
-
-	// scalierung(einmal) -> eliminierung(for each row)
-
-	private Matrix build_e_l_Matrix(int size, int index) {
-		Matrix resultMatrix = new Matrix(size, 1);
-		for (int i = 0; i < size; i++) {
-			if (i == index) {
-				resultMatrix.getMatrix()[i][0] = 1;
-			}
-		}
-		return resultMatrix;
-	}
-
-	private Matrix build_e_k_Matrix(int size, int index) {
-		Matrix resultMatrix = new Matrix(1, size);
-		for (int i = 0; i < size; i++) {
-			if (i == index) {
-				resultMatrix.getMatrix()[0][i] = 1;
-			}
-		}
-		return resultMatrix;
-	}
-
-	public List<Matrix> getMatrixList() {
-		return matrixList;
-	}
-
-	public void setMatrixList(List<Matrix> matrixList) {
-		this.matrixList = matrixList;
 	}
 }
