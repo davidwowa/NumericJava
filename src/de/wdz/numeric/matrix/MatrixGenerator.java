@@ -6,7 +6,6 @@ public class MatrixGenerator {
 	 * Get identity matrix with diagonale with 1
 	 */
 	public double[][] getIdentityMatrix(int size) {
-		// TODO validate input
 		double[][] identityMatrix = new double[size][size];
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
@@ -35,7 +34,6 @@ public class MatrixGenerator {
 	}
 
 	public double[][] getRandomMatrix(int x, int y) {
-		// TODO not tested
 		double[][] identityMatrix = new double[x][y];
 		for (int i = 0; i < identityMatrix.length; i++) {
 			for (int j = 0; j < identityMatrix[0].length; j++) {
@@ -47,6 +45,16 @@ public class MatrixGenerator {
 			}
 		}
 		return identityMatrix;
+	}
+
+	public double[][] getTestMatrixBookExample() {
+		double[][] doubleMatrix = { { 1, 1, -2 }, { 0, 1, -1 }, { 3, -1, 1 } };
+		return doubleMatrix;
+	}
+
+	public double[][] getTestVectorBookExample() {
+		double[][] doubleMatrix = { { -3 }, { -1 }, { 4 } };
+		return doubleMatrix;
 	}
 
 	public double[][] getTestMatrix() {

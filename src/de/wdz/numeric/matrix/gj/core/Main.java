@@ -5,16 +5,41 @@ import de.wdz.numeric.matrix.MatrixGenerator;
 public class Main {
 
 	public static void main(String[] args) {
-		// testCaseRandom();// ok
-		// testCase1(); // problem with pivot element
-		// testCase2(); // ok, but other order in result vector
-		// testCase3();// ok, but order of rows in start matrix was reordered
-		// testCase4();// ok
-		// testCase5();// ok, but last row before backward substitution is
+		// testGJCaseRandom();// ok
+		// testGJCase1(); // problem with pivot element
+		// testGJCase2(); // ok, but other order in result vector
+		// testGJCase3();// ok, but order of rows in start matrix was reordered
+		// testGJCase4();// ok
+		// testGJCase5();// ok, but last row before backward substitution is
 		// missing
+		// testGJCase6(); // ok
 	}
 
-	public static void testCaseRandom() {
+	public static void testLUCase1() {
+	}
+
+	public static void testGJCase6() {
+		GJCore3 core = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getTestMatrixBookExample();
+		double[][] b = generator.getTestVectorBookExample();
+		double[][] inverse = generator.getIdentityMatrix(A.length);
+
+		System.out.println("--START--");
+
+		core.printMatrix(A);
+		core.printMatrix(b);
+
+		core.forwardSubstitution(A, b, inverse);
+		core.backwardSubstitution(A, b, inverse);
+
+		System.out.println("--END--");
+		core.printMatrix(A);
+		core.printMatrix(b);
+	}
+
+	public static void testGJCaseRandom() {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
 
@@ -35,7 +60,7 @@ public class Main {
 		core.printMatrix(b);
 	}
 
-	public static void testCase6() {
+	public static void testGJCase5() {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
 
@@ -56,28 +81,7 @@ public class Main {
 		core.printMatrix(b);
 	}
 
-	public static void testCase5() {
-		GJCore3 core = new GJCore3();
-		MatrixGenerator generator = new MatrixGenerator();
-
-		double[][] A = generator.getTestRMatrix2();
-		double[][] b = generator.getRVector2();
-		double[][] inverse = generator.getIdentityMatrix(A.length);
-
-		System.out.println("--START--");
-
-		core.printMatrix(A);
-		core.printMatrix(b);
-
-		core.forwardSubstitution(A, b, inverse);
-		core.backwardSubstitution(A, b, inverse);
-
-		System.out.println("--END--");
-		core.printMatrix(A);
-		core.printMatrix(b);
-	}
-
-	public static void testCase4() {
+	public static void testGJCase4() {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
 
@@ -98,7 +102,7 @@ public class Main {
 		core.printMatrix(b);
 	}
 
-	public static void testCase3() {
+	public static void testGJCase3() {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
 
@@ -119,7 +123,7 @@ public class Main {
 		core.printMatrix(b);
 	}
 
-	public static void testCase2() {
+	public static void testGJCase2() {
 		GJCore2 core = new GJCore2();
 		MatrixGenerator generator = new MatrixGenerator();
 
@@ -140,7 +144,7 @@ public class Main {
 		core.printMatrix(b);
 	}
 
-	public static void testCase1() {
+	public static void testGJCase1() {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
 
@@ -159,8 +163,5 @@ public class Main {
 		System.out.println("--END--");
 		core.printMatrix(A);
 		core.printMatrix(b);
-	}
-
-	public static void testCaseLU() {
 	}
 }
