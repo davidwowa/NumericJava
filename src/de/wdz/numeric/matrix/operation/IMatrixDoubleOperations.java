@@ -2,6 +2,8 @@ package de.wdz.numeric.matrix.operation;
 
 import java.util.Arrays;
 
+import de.wdz.numeric.matrix.MatrixGenerator;
+
 public interface IMatrixDoubleOperations {
 
 	default void printMatrix(double[][] matrixToShow) {
@@ -159,7 +161,9 @@ public interface IMatrixDoubleOperations {
 	default double[][] eliminate(double c, double[][] e_l, double[][] e_k) {
 		// TODO validate input
 		System.out.println("\t\t\t <---eliminate--->");
-		double[][] identityMatrix = getIdentityMatrix(e_l.length);
+
+		MatrixGenerator generator = new MatrixGenerator();
+		double[][] identityMatrix = generator.getIdentityMatrix(e_l.length);
 		// identityMatrix * factor * e_l * e_k
 		System.out.println("\t\t\t identity matrix");
 		printMatrix(identityMatrix);
@@ -262,147 +266,5 @@ public interface IMatrixDoubleOperations {
 			}
 		}
 		return resultMatrix;
-	}
-
-	/**
-	 * Get identity matrix with diagonale with 1
-	 */
-	default double[][] getIdentityMatrix(int size) {
-		// TODO validate input
-		double[][] identityMatrix = new double[size][size];
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if (i == j) {
-					identityMatrix[i][j] = 1.;
-				} else {
-					identityMatrix[i][j] = 0.;
-				}
-			}
-		}
-		return identityMatrix;
-	}
-
-	default double[][] getRandomMatrix(int size) {
-		double[][] identityMatrix = new double[size][size];
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if (i == j) {
-					identityMatrix[i][j] = Math.random();
-				} else {
-					identityMatrix[i][j] = Math.random();
-				}
-			}
-		}
-		return identityMatrix;
-	}
-
-	default double[][] getRandomMatrix(int x, int y) {
-		// TODO not tested
-		double[][] identityMatrix = new double[x][y];
-		for (int i = 0; i < identityMatrix.length; i++) {
-			for (int j = 0; j < identityMatrix[0].length; j++) {
-				if (i == j) {
-					identityMatrix[i][j] = Math.random();
-				} else {
-					identityMatrix[i][j] = Math.random();
-				}
-			}
-		}
-		return identityMatrix;
-	}
-
-	default double[][] getTestMatrix() {
-		double[][] doubleMatrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix2() {
-		double[][] doubleMatrix = { { 9, 8, 7 }, { 6, 5, 4 }, { 3, 2, 1 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix3() {
-		double[][] doubleMatrix = { { 3, 2, 1 }, { 1, 0, 2 } };
-		return doubleMatrix;
-	}
-
-	/**
-	 * Not for Gauss Jordan
-	 * 
-	 * @return
-	 */
-	default double[][] getTestMatrix4() {
-		double[][] doubleMatrix = { { 1, 2 }, { 0, 1 }, { 4, 0 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix5() {
-		double[][] doubleMatrix = { { 0, 0, 3 }, { 0, 5, 6 }, { 7, 8, 9 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix6() {
-		double[][] doubleMatrix = { { 0, 0, 3 }, { 0, 0, 6 }, { 7, 8, 9 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix7() {
-		double[][] doubleMatrix = { { 0, 1, 2, 1 }, { 0, 0, 1, 2 }, { 2, 1, 0, 0 }, { 1, 2, 1, 0 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix77() {
-		double[][] doubleMatrix = { { 2, 1, 0, 0 }, { 0, 1, 2, 1 }, { 0, 0, 1, 2 }, { 1, 2, 1, 0 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix777() {
-		double[][] doubleMatrix = { { 1, 2, 1, 0 }, { 2, 1, 0, 0 }, { 0, 1, 2, 1 }, { 0, 0, 1, 2 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix8() {
-		double[][] doubleMatrix = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 1, 2, 3 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestMatrix9() {
-		double[][] doubleMatrix = { { 1, 1, -2 }, { 0, 1, -1 }, { 3, -1, 1 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestVector() {
-		double[][] doubleMatrix = { { -3 }, { -1 }, { 4 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestVectorNotizen() {
-		double[][] doubleMatrix = { { 1 }, { 2 }, { 4 }, { 8 } };
-		return doubleMatrix;
-	}
-
-	// ---
-	default double[][] getRVector() {
-		double[][] doubleMatrix = { { 46 }, { 79 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestRMatrix() {
-		double[][] doubleMatrix = { { 6, 2 }, { 9, 8 } };
-		return doubleMatrix;
-	}
-
-	// ---
-	default double[][] getRVector2() {
-		double[][] doubleMatrix = { { 2149 }, { 4687 }, { 145 }, { 367 } };
-		return doubleMatrix;
-	}
-
-	default double[][] getTestRMatrix2() {
-		double[][] doubleMatrix = { { 1, 6, Math.pow(6, 2), Math.pow(6, 3), Math.pow(6, 4) },
-				{ 1, 8, Math.pow(8, 2), Math.pow(8, 3), Math.pow(8, 4) },
-				{ 1, 2, Math.pow(2, 2), Math.pow(2, 3), Math.pow(2, 4) },
-				{ 1, 3, Math.pow(3, 2), Math.pow(3, 3), Math.pow(3, 4) } };
-		return doubleMatrix;
 	}
 }

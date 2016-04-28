@@ -3,10 +3,12 @@ package de.wdz.numeric.matrix.gj.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
 public class GJCore3 implements IMatrixDoubleOperations {
 	private List<double[][]> matrixList;
+	private MatrixGenerator generator = new MatrixGenerator();
 
 	public GJCore3() {
 		this.matrixList = new ArrayList<>();
@@ -57,7 +59,7 @@ public class GJCore3 implements IMatrixDoubleOperations {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
 
-				double[][] sMatrix = getIdentityMatrix(A.length);
+				double[][] sMatrix = generator.getIdentityMatrix(A.length);
 				sMatrix = scale(p, s, sMatrix);
 				getMatrixList().add(sMatrix);
 
@@ -81,7 +83,7 @@ public class GJCore3 implements IMatrixDoubleOperations {
 		List<double[][]> matrixListWithInverses = new ArrayList<>();
 		if (getMatrixList() != null && !getMatrixList().isEmpty()) {
 			for (double[][] currentMatrix : matrixList) {
-				double[][] inverse = getIdentityMatrix(currentMatrix.length);
+				double[][] inverse = generator.getIdentityMatrix(currentMatrix.length);
 				forwardSubstitution(currentMatrix, currentMatrix, inverse);
 				backwardSubstitution(currentMatrix, currentMatrix, inverse);
 				matrixListWithInverses.add(inverse);
@@ -112,22 +114,40 @@ public class GJCore3 implements IMatrixDoubleOperations {
 	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
 		// iterate over current pivot row p
 		for (int currentRow = 0; currentRow < A.length; currentRow++) {
-			permuteXS(A, B, inverse, currentRow);
+			// pivot code here
+			int max = currentRow;
+			for (int i = 0; i < B.length; i++) {
+				if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
+					max = i;
+				}
+			}
+
+			if (A[currentRow][currentRow] == 0.) {
+
+				// permutate rows
+				int[] sigma = getSigma(max, currentRow, B.length);
+				A = permute(sigma, A);
+				B = permute(sigma, B);
+				inverse = permute(sigma, inverse);
+			}
 
 			// scale row p to make element at (p, p) equal one
 			if (A[currentRow][currentRow] != 0.) {
 				double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
-				A=scale(currentRow, s, A); // Yp <- s * Yp
-				B=scale(currentRow, s, B);
+				A = scale(currentRow, s, A); // Yp <- s * Yp
+				B = scale(currentRow, s, B);
 				for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
 																										// from
 																										// future
 					if (A[currentColumn][currentRow] != 0.) {
 						s = (-1.) * A[currentColumn][currentRow];
-						A=addRows(currentRow, currentColumn, s, A);// scale row p
-																	// by s and
-																	// add to
-						B=addRows(currentRow, currentColumn, s, B); // row r
+						A = addRows(currentRow, currentColumn, s, A);// scale
+																		// row p
+																		// by s
+																		// and
+																		// add
+																		// to
+						B = addRows(currentRow, currentColumn, s, B); // row r
 					}
 				}
 			}
@@ -158,13 +178,13 @@ public class GJCore3 implements IMatrixDoubleOperations {
 			// scale row p to make element at (p, p) equal one
 			if (A[p][p] != 0.) {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
-				A=scale(p, s, A); // Yp <- s * Yp
-				B=scale(p, s, B);
+				A = scale(p, s, A); // Yp <- s * Yp
+				B = scale(p, s, B);
 				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
-						A=addRows(p, r, s, A);// scale row p by s and add to
-						B=addRows(p, r, s, B); // row r
+						A = addRows(p, r, s, A);// scale row p by s and add to
+						B = addRows(p, r, s, B); // row r
 					}
 				}
 			}

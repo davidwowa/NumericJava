@@ -3,11 +3,13 @@ package de.wdz.numeric.matrix.gj.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
 public class GJCore2 implements IMatrixDoubleOperations {
 
 	private List<double[][]> matrixList;
+	private MatrixGenerator generator = new MatrixGenerator();
 
 	public GJCore2() {
 		this.matrixList = new ArrayList<>();
@@ -58,7 +60,7 @@ public class GJCore2 implements IMatrixDoubleOperations {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
 
-				double[][] sMatrix = getIdentityMatrix(A.length);
+				double[][] sMatrix = generator.getIdentityMatrix(A.length);
 				sMatrix = scale(p, s, sMatrix);
 				getMatrixList().add(sMatrix);
 
@@ -82,7 +84,7 @@ public class GJCore2 implements IMatrixDoubleOperations {
 		List<double[][]> matrixListWithInverses = new ArrayList<>();
 		if (getMatrixList() != null && !getMatrixList().isEmpty()) {
 			for (double[][] currentMatrix : matrixList) {
-				double[][] inverse = getIdentityMatrix(currentMatrix.length);
+				double[][] inverse = generator.getIdentityMatrix(currentMatrix.length);
 				forwardSubstitution(currentMatrix, currentMatrix, inverse);
 				backwardSubstitution(currentMatrix, currentMatrix, inverse);
 				matrixListWithInverses.add(inverse);
