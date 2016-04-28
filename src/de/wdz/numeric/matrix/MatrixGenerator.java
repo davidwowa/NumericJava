@@ -47,6 +47,11 @@ public class MatrixGenerator {
 		return identityMatrix;
 	}
 
+	public double[][] getTestMatrixCLUExample() {
+		double[][] doubleMatrix = { { 2, 3 }, { 5, 4 } };
+		return doubleMatrix;
+	}
+
 	public double[][] getTestMatrixBookExample() {
 		double[][] doubleMatrix = { { 1, 1, -2 }, { 0, 1, -1 }, { 3, -1, 1 } };
 		return doubleMatrix;

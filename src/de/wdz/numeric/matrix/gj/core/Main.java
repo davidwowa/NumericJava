@@ -13,9 +13,25 @@ public class Main {
 		// testGJCase5();// ok, but last row before backward substitution is
 		// missing
 		// testGJCase6(); // ok
+		testLUCase1();
 	}
 
 	public static void testLUCase1() {
+		LU core = new LU();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getTestMatrixCLUExample();
+
+		System.out.println("--START--");
+
+		core.printMatrix(A);
+
+		core.U(A);
+		core.L();
+
+		System.out.println("--END--");
+		core.printMatrix(A);
+
 	}
 
 	public static void testGJCase6() {

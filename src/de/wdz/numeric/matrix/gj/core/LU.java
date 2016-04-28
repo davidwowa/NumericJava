@@ -16,22 +16,32 @@ public class LU implements IMatrixDoubleOperations {
 	}
 
 	public void U(double[][] A) {
+		forwardSubstitution(A);
+		System.out.println("---start U---");
+		double[][] resultMatrix = getMatrixList().get(getMatrixList().size() - 1);
+		for (int i = getMatrixList().size() - 2; i >= 0; i--) {
+			printMatrix(getMatrixList().get(i));
+			System.out.println("--");
+			double[][] tmpMatrix = getMatrixList().get(i);
+			resultMatrix = mult(tmpMatrix, resultMatrix);
+		}
+		System.out.println("---U---");
+		printMatrix(resultMatrix);
 	}
 
 	public void L() {
 		List<double[][]> matrixListWithInverses = new ArrayList<>();
 		if (getMatrixList() != null && !getMatrixList().isEmpty()) {
-			for (double[][] currentMatrix : matrixList) {
-				double[][] inverse = generator.getIdentityMatrix(currentMatrix.length);
-				forwardSubstitution(currentMatrix, currentMatrix, inverse);
-				backwardSubstitution(currentMatrix, currentMatrix, inverse);
+			// loop :(
+			for (int i = 0; i < getMatrixList().size(); i++) {
+				double[][] inverse = generator.getIdentityMatrix(getMatrixList().get(i).length);
+				forwardSubstitution(getMatrixList().get(i));
+				backwardSubstitution(getMatrixList().get(i));
 				matrixListWithInverses.add(inverse);
 			}
 		} else {
 			System.out.println("ERROR: \t\t\t matrix list is emtpy or null");
 		}
-		// TODO WDZ Hier passieren noch Fehler, forward oder back substitution
-		// kommt eine 0-Matrix drin, diese verursacht die Fehler
 		if (!matrixListWithInverses.isEmpty()) {
 			double[][] currentResult = matrixListWithInverses.get(matrixListWithInverses.size() - 1);
 			for (int i = matrixListWithInverses.size() - 1; i > 1; i--) {
@@ -43,14 +53,14 @@ public class LU implements IMatrixDoubleOperations {
 				System.out.println("\t\t\t result");
 				printMatrix(currentResult);
 			}
-			System.out.println("L");
+			System.out.println("---L---");
 			printMatrix(currentResult);
 		} else {
 			System.out.println("ERROR: \t\t\t list with inverses is emtpy");
 		}
 	}
 
-	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
+	private void forwardSubstitution(double[][] A) {
 		// iterate over current pivot row p
 		for (int currentRow = 0; currentRow < A.length; currentRow++) {
 			// pivot code here
@@ -59,11 +69,11 @@ public class LU implements IMatrixDoubleOperations {
 			if (A[currentRow][currentRow] != 0.) {
 				double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
 				A = scale(currentRow, s, A); // Yp <- s * Yp
-				B = scale(currentRow, s, B);
-				inverse = scale(currentRow, s, B);
-				
-				getMatrixList().add(inverse);
-				
+
+				double[][] scaledInverse = scale(currentRow, s, generator.getIdentityMatrix(A.length));
+
+				getMatrixList().add(scaledInverse);
+
 				for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
 																										// from
 																										// future
@@ -75,30 +85,19 @@ public class LU implements IMatrixDoubleOperations {
 																		// and
 																		// add
 																		// to
-						B = addRows(currentRow, currentColumn, s, B); // row r
+
+						double[][] e_k = build_e_k_Matrix(A.length, currentRow);
+						double[][] e_l = build_e_l_Matrix(A.length, currentColumn);
+
+						double[][] elMatrix = eliminate(s, e_l, e_k);
+						getMatrixList().add(elMatrix);
 					}
 				}
 			}
 		}
 	}
 
-	public void permuteXS(double[][] A, double[][] B, double[][] inverse, int currentRow) {
-		// pivot code here
-		int max = currentRow;
-		for (int i = 0; i < B.length; i++) {
-			if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
-				max = i;
-			}
-		}
-
-		// permutate rows
-		int[] sigma = getSigma(max, currentRow, B.length);
-		permute(sigma, A);
-		permute(sigma, B);
-		permute(sigma, inverse);
-	}
-
-	public void backwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
+	private void backwardSubstitution(double[][] A) {
 		// iterate over current pivot row p
 		for (int p = A.length - 1; p >= 0; p--) {
 			// permuteXS(A, B, inverse, p);
@@ -107,29 +106,15 @@ public class LU implements IMatrixDoubleOperations {
 			if (A[p][p] != 0.) {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
-				B = scale(p, s, B);
 				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
 						A = addRows(p, r, s, A);// scale row p by s and add to
-						B = addRows(p, r, s, B); // row r
 					}
 				}
 			}
 		}
 	}
-
-	private int[] getSigma(int newIndex, int oldIndex, int size) {
-		int[] sigma = new int[size];
-		for (int i = 0; i < sigma.length; i++) {
-			sigma[i] = i;
-		}
-		sigma[newIndex] = oldIndex;
-		sigma[oldIndex] = newIndex;
-		return sigma;
-	}
-
-	// scalierung(einmal) -> eliminierung(for each row)
 
 	private double[][] build_e_l_Matrix(int size, int index) {
 		double[][] resultMatrix = new double[size][1];
