@@ -1,4 +1,4 @@
-package de.wdz.numeric.matrix.gj.core;
+package de.wdz.numeric.matrix.lu.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,11 @@ import java.util.List;
 import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
-public class LU implements IMatrixDoubleOperations {
+public class LUCore implements IMatrixDoubleOperations {
 	private List<double[][]> matrixList;
 	private MatrixGenerator generator;
 
-	public LU() {
+	public LUCore() {
 		this.matrixList = new ArrayList<>();
 		generator = new MatrixGenerator();
 	}

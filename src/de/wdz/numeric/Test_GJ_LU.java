@@ -1,8 +1,11 @@
-package de.wdz.numeric.matrix.gj.core;
+package de.wdz.numeric;
 
 import de.wdz.numeric.matrix.MatrixGenerator;
+import de.wdz.numeric.matrix.gj.core.GJCore2;
+import de.wdz.numeric.matrix.gj.core.GJCore3;
+import de.wdz.numeric.matrix.lu.core.LUCore;
 
-public class Main {
+public class Test_GJ_LU {
 
 	public static void main(String[] args) {
 		// testGJCaseRandom();// ok
@@ -17,7 +20,7 @@ public class Main {
 	}
 
 	public static void testLUCase1() {
-		LU core = new LU();
+		LUCore core = new LUCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getTestMatrixCLUExample();
