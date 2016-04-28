@@ -111,19 +111,23 @@ public class GJCore3 implements IMatrixDoubleOperations {
 
 	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
 		// iterate over current pivot row p
-		for (int p = 0; p < A.length; p++) {
-			permuteXS(A, B, inverse, p);
+		for (int currentRow = 0; currentRow < A.length; currentRow++) {
+			permuteXS(A, B, inverse, currentRow);
 
 			// scale row p to make element at (p, p) equal one
-			if (A[p][p] != 0.) {
-				double s = 1. / A[p][p]; // s <- 1/u_pp
-				A = scale(p, s, A); // Yp <- s * Yp
-				B = scale(p, s, B);
-				for (int r = p + 1; r < A.length; r++) {// Eliminate from future
-					if (A[r][p] != 0.) {
-						s = (-1.) * A[r][p];
-						A = addRows(p, r, s, A);// scale row p by s and add to
-						B = addRows(p, r, s, B); // row r
+			if (A[currentRow][currentRow] != 0.) {
+				double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
+				A=scale(currentRow, s, A); // Yp <- s * Yp
+				B=scale(currentRow, s, B);
+				for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
+																										// from
+																										// future
+					if (A[currentColumn][currentRow] != 0.) {
+						s = (-1.) * A[currentColumn][currentRow];
+						A=addRows(currentRow, currentColumn, s, A);// scale row p
+																	// by s and
+																	// add to
+						B=addRows(currentRow, currentColumn, s, B); // row r
 					}
 				}
 			}
@@ -141,9 +145,9 @@ public class GJCore3 implements IMatrixDoubleOperations {
 
 		// permutate rows
 		int[] sigma = getSigma(max, currentRow, B.length);
-		A = permute(sigma, A);
-		B = permute(sigma, B);
-		inverse = permute(sigma, inverse);
+		permute(sigma, A);
+		permute(sigma, B);
+		permute(sigma, inverse);
 	}
 
 	public void backwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
@@ -154,60 +158,17 @@ public class GJCore3 implements IMatrixDoubleOperations {
 			// scale row p to make element at (p, p) equal one
 			if (A[p][p] != 0.) {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
-				A = scale(p, s, A); // Yp <- s * Yp
-				B = scale(p, s, B);
+				A=scale(p, s, A); // Yp <- s * Yp
+				B=scale(p, s, B);
 				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
-						A = addRows(p, r, s, A);// scale row p by s and add to
-						B = addRows(p, r, s, B); // row r
+						A=addRows(p, r, s, A);// scale row p by s and add to
+						B=addRows(p, r, s, B); // row r
 					}
 				}
 			}
 		}
-	}
-
-	public void runGaussSimple(double[][] A, double[][] B) {
-		int N = B.length;
-		for (int k = 0; k < N; k++) {
-			// find pivot row
-			int max = k;
-			for (int i = k + 1; i < N; i++)
-				if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
-					max = i;
-
-			// swap row in A matrix
-			double[] temp = A[k];
-			A[k] = A[max];
-			A[max] = temp;
-
-			// swap corresponding values in constants matrix
-			double t = B[k][0];
-			B[k][0] = B[max][0];
-			B[max][0] = t;
-
-			// pivot within A and B
-			for (int i = k + 1; i < N; i++) {
-				double factor = A[i][k] / A[k][k];
-				B[i][0] -= factor * B[k][0];
-				for (int j = k; j < N; j++)
-					A[i][j] -= factor * A[k][j];
-			}
-		}
-
-		System.out.println("--");
-		printMatrix(A);
-		System.out.println("--");
-		// back substitution
-		double[] solution = new double[N];
-		for (int i = N - 1; i >= 0; i--) {
-			double sum = 0.0;
-			for (int j = i + 1; j < N; j++)
-				sum += A[i][j] * solution[j];
-			solution[i] = (B[i][0] - sum) / A[i][i];
-		}
-		System.out.println("solution");
-		printMatrix(solution);
 	}
 
 	private int[] getSigma(int newIndex, int oldIndex, int size) {

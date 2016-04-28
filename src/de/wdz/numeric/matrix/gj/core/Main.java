@@ -6,6 +6,26 @@ public class Main {
 		testCase1();
 	}
 
+	public static void testCaseRandom() {
+		GJCore3 core = new GJCore3();
+
+		double[][] A = core.getRandomMatrix(3);
+		double[][] b = core.getRandomMatrix(3, 1);
+		double[][] inverse = core.getIdentityMatrix(A.length);
+
+		System.out.println("--START--");
+
+		core.printMatrix(A);
+		core.printMatrix(b);
+
+		core.forwardSubstitution(A, b, inverse);
+		core.backwardSubstitution(A, b, inverse);
+
+		System.out.println("--END--");
+		core.printMatrix(A);
+		core.printMatrix(b);
+	}
+
 	public static void testCase5() {
 		GJCore3 core = new GJCore3();
 
@@ -73,19 +93,19 @@ public class Main {
 	 */
 	public static void testCase2() {
 		GJCore2 core = new GJCore2();
-	
+
 		final double[][] A = core.getTestMatrix777();
 		final double[][] b = core.getTestVectorNotizen();
 		final double[][] inverse = core.getIdentityMatrix(A.length);
-	
+
 		System.out.println("--START--");
-	
+
 		core.printMatrix(A);
 		core.printMatrix(b);
-	
+
 		core.forwardSubstitution(A, b, inverse);
 		core.backwardSubstitution(A, b, inverse);
-	
+
 		System.out.println("--END--");
 		core.printMatrix(A);
 		core.printMatrix(b);
