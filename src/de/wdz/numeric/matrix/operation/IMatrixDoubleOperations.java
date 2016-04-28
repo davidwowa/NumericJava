@@ -377,7 +377,7 @@ public interface IMatrixDoubleOperations {
 	}
 
 	default double[][] getTestVectorNotizen() {
-		double[][] doubleMatrix = { { 4 }, { 8 }, { 2 }, { 1 } };
+		double[][] doubleMatrix = { { 1 }, { 2 }, { 4 }, { 8 } };
 		return doubleMatrix;
 	}
 
@@ -399,8 +399,7 @@ public interface IMatrixDoubleOperations {
 	}
 
 	default double[][] getTestRMatrix2() {
-		double[][] doubleMatrix = { 
-				{ 1, 6, Math.pow(6, 2), Math.pow(6, 3), Math.pow(6, 4) },
+		double[][] doubleMatrix = { { 1, 6, Math.pow(6, 2), Math.pow(6, 3), Math.pow(6, 4) },
 				{ 1, 8, Math.pow(8, 2), Math.pow(8, 3), Math.pow(8, 4) },
 				{ 1, 2, Math.pow(2, 2), Math.pow(2, 3), Math.pow(2, 4) },
 				{ 1, 3, Math.pow(3, 2), Math.pow(3, 3), Math.pow(3, 4) } };

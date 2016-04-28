@@ -118,11 +118,12 @@ public class GJCore3 implements IMatrixDoubleOperations {
 			if (A[p][p] != 0.) {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
+				B = scale(p, s, B);
 				for (int r = p + 1; r < A.length; r++) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
 						A = addRows(p, r, s, A);// scale row p by s and add to
-												// row r
+						B = addRows(p, r, s, B); // row r
 					}
 				}
 			}
@@ -146,25 +147,20 @@ public class GJCore3 implements IMatrixDoubleOperations {
 	}
 
 	public void backwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
-		permuteXS(A, B, inverse, A.length - 1);
-		for (int p = 0; p < A.length; p++) {
-			System.out.println("A[" + p + "][" + p + "]");
-			if (A[p][p] == 0.) {
-				permuteXS(A, B, inverse, p);
-			} else {
+		// iterate over current pivot row p
+		for (int p = A.length - 1; p >= 0; p--) {
+			// permuteXS(A, B, inverse, p);
+
+			// scale row p to make element at (p, p) equal one
+			if (A[p][p] != 0.) {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
 				B = scale(p, s, B);
-				inverse = scale(p, s, inverse);
-				for (int r = p - 1; r < A.length - 1 && r >= 0; r++) {// Eliminate
-																		// from
-																		// future
+				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
 						A = addRows(p, r, s, A);// scale row p by s and add to
-												// row r
-						B = addRows(p, r, s, B);
-						inverse = addRows(p, r, s, inverse);
+						B = addRows(p, r, s, B); // row r
 					}
 				}
 			}
