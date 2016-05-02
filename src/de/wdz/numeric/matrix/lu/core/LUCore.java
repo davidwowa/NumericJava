@@ -17,16 +17,6 @@ public class LUCore implements IMatrixDoubleOperations {
 
 	public void U(double[][] A) {
 		forwardSubstitution(A);
-		System.out.println("---start U---");
-		double[][] resultMatrix = getMatrixList().get(getMatrixList().size() - 1);
-		for (int i = getMatrixList().size() - 2; i >= 0; i--) {
-			printMatrix(getMatrixList().get(i));
-			System.out.println("--");
-			double[][] tmpMatrix = getMatrixList().get(i);
-			resultMatrix = mult(tmpMatrix, resultMatrix);
-		}
-		System.out.println("---U---");
-		printMatrix(resultMatrix);
 	}
 
 	public void L() {
