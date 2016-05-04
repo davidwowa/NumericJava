@@ -1,5 +1,6 @@
 package de.wdz.numeric.matrix.gj.core;
 
+import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
 public class GJCore3 implements IMatrixDoubleOperations {
@@ -48,18 +49,18 @@ public class GJCore3 implements IMatrixDoubleOperations {
 	}
 
 	public void forwardSubstitution(double[][] A) {
+		System.out.println("FORWARD SUBSTITUTION");
 		// iterate over current pivot row p
 		for (int currentRow = 0; currentRow < A.length; currentRow++) {
 			// pivot code here
 			int max = currentRow;
-			int limit = A.length;
-			System.out.println("LIMIT ----------------------------------" + limit);
-			if (currentRow < A[0].length) {
+			int limit = A[0].length;
+
+			if (currentRow < A[0].length && max < A.length) {
 
 				for (int i = 0; i < limit; i++) {
-					System.out.println("I----------------------------------------" + i);
-					System.out.println("CURRENT ROW--------------------------------------" + currentRow);
-					System.out.println("MAX---------------------------" + max);
+					System.out
+							.println("A[" + i + "][" + currentRow + "]) > Math.abs(A[" + max + "][" + currentRow + "]");
 					if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
 						max = i;
 					}
@@ -78,7 +79,6 @@ public class GJCore3 implements IMatrixDoubleOperations {
 					A = scale(currentRow, s, A); // Yp <- s * Yp
 					for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
 																											// from
-																											// future
 						if (A[currentColumn][currentRow] != 0.) {
 							s = (-1.) * A[currentColumn][currentRow];
 							A = addRows(currentRow, currentColumn, s, A);// scale
@@ -134,6 +134,7 @@ public class GJCore3 implements IMatrixDoubleOperations {
 	}
 
 	public void backwardSubstitution(double[][] A) {
+		System.out.println("BACKWARD SUBSTITUTION");
 		// iterate over current pivot row p
 		for (int p = A.length - 1; p >= 0; p--) {
 			// permuteXS(A, B, inverse, p);
@@ -145,11 +146,27 @@ public class GJCore3 implements IMatrixDoubleOperations {
 				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
-						A = addRows(p, r, s, A);// scale row p by s and add to
+						A = addRows(p, r, s, A);// scale row p by s and add
+												// to
 					}
 				}
 			}
 		}
+	}
+
+	public double[][] adjustMatrix(double[][] A) {
+		if (A.length != A[0].length) {
+			MatrixGenerator generator = new MatrixGenerator();
+			double[][] B = generator.getIdentityNegativeMatrix(A.length);
+			for (int i = 0; i < A.length; i++) {
+				for (int j = 0; j < A[0].length; j++) {
+					System.out.println("B[" + i + "][" + j + "] = A[" + i + "][" + j + "] = " + A[i][j]);
+					B[i][j] = A[i][j];
+				}
+			}
+			return B;
+		}
+		return null;
 	}
 
 	private int[] getSigma(int newIndex, int oldIndex, int size) {
