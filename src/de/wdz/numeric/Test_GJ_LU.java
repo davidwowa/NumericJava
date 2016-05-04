@@ -16,7 +16,8 @@ public class Test_GJ_LU {
 		// testGJCase5();// ok, but last row before backward substitution is
 		// missing
 		// testGJCase6(); // ok
-		testLUCase1();
+		testGJCase7();
+		// testLUCase1();
 	}
 
 	public static void testLUCase1() {
@@ -35,6 +36,23 @@ public class Test_GJ_LU {
 		System.out.println("--END--");
 		core.printMatrix(A);
 
+	}
+
+	public static void testGJCase7() {
+		GJCore3 core = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getMatrixLong();
+
+		System.out.println("--START--");
+
+		core.printMatrix(A);
+
+		core.forwardSubstitution(A);
+		core.backwardSubstitution(A);
+
+		System.out.println("--END--");
+		core.printMatrix(A);
 	}
 
 	public static void testGJCase6() {
