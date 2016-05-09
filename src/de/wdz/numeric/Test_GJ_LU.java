@@ -20,8 +20,35 @@ public class Test_GJ_LU {
 		// testGJCase8();
 		// testGJCase9();
 		// testGJCase10();
-		testGJCase11();
+		// testGJCase11();
 		// testLUCase1();
+		testTMatrix();
+	}
+
+	public static void testTMatrix() {
+		GJCore3 core3 = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] matrix = generator.getRandomMatrix(3, 2);
+		core3.printMatrix(matrix);
+		System.out.println("---");
+		double[][] t_matrix = core3.T(matrix);
+		core3.printMatrix(t_matrix);
+	}
+
+	public static void testMultMatrix() {
+		GJCore3 core3 = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getRandomMatrix(3, 21);
+		System.out.println("--");
+		core3.printMatrix(A);
+		double[][] B = generator.getRandomMatrix(21, 3);
+		System.out.println("--");
+		core3.printMatrix(B);
+		System.out.println("--");
+		double[][] result = core3.mult(A, B);
+		core3.printMatrix(result);
 	}
 
 	public static void testGJCase11() {

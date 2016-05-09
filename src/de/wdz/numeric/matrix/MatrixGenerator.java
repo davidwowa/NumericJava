@@ -2,6 +2,17 @@ package de.wdz.numeric.matrix;
 
 public class MatrixGenerator {
 
+	public double[][] rebuildMatrixToFormForLeastSquares(double[][] matrix, int polynomGrad) {
+		if (matrix != null) {
+			double[][] newMatrix = new double[polynomGrad][matrix[0].length];
+			// make fist column with 1
+			for (int i = 0; i < matrix.length; i++) {
+				newMatrix[i][0] = 1.;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Get identity matrix with diagonale with 1
 	 */
@@ -207,12 +218,12 @@ public class MatrixGenerator {
 	}
 
 	public double[][] getMatrixLittle() {
-		double[][] doubleMatrix = { { 0, 1 }, { 2, 2 }, { 1, 3 }, };
+		double[][] doubleMatrix = { { 0, 1 }, { 2, 2 }, { 1, 3 } };
 		return doubleMatrix;
 	}
 
 	public double[][] getMatrixLittleVector() {
-		double[][] doubleMatrix = { { 1 }, { 3 }, };
+		double[][] doubleMatrix = { { 1 }, { 3 } };
 		return doubleMatrix;
 	}
 }

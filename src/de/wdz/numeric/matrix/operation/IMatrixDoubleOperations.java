@@ -51,6 +51,19 @@ public interface IMatrixDoubleOperations {
 		return false;
 	}
 
+	default double[][] T(double[][] matrix) {
+		if (matrix != null) {
+			double[][] newTMatrix = new double[matrix[0].length][matrix.length];
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix[0].length; j++) {
+					newTMatrix[j][i] = matrix[i][j];
+				}
+			}
+			return newTMatrix;
+		}
+		return null;
+	}
+
 	/**
 	 * Matrix multiplication
 	 * 

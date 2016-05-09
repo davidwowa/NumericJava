@@ -1,5 +1,6 @@
-package de.wdz.numeric.matrix;
+package de.wdz.numeric;
 
+import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
 public class MatrixTest implements IMatrixDoubleOperations {
