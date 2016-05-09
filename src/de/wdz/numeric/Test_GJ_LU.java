@@ -23,8 +23,32 @@ public class Test_GJ_LU {
 		// testGJCase11();
 		// testLUCase1();
 		// testTMatrix();
-//		testMultMatrix();
+		// testMultMatrix();
 		testLeastSquareMatrix();
+		// testLeastSquareMatrix2();
+	}
+
+	public static void testLeastSquareMatrix2() {
+		GJCore3 core3 = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+		System.out.println("LEAST SQUARE EXERCISE");
+		System.out.println("MATRIX A");
+		double[][] A = generator.getMatrixSquaresA();
+		core3.printMatrix(A);
+		System.out.println("MATRIX b");
+		double[][] b = generator.getMatrixSquaresb();
+		core3.printMatrix(b);
+		double[][] At = core3.T(A);
+		System.out.println("MATRIX At");
+		core3.printMatrix(At);
+
+		System.out.println("At * b");
+		double[][] forGJ = core3.mult(At, b);
+		core3.printMatrix(forGJ);
+
+		core3.forwardSubstitution(forGJ);
+
+		// 1.0
 	}
 
 	public static void testLeastSquareMatrix() {
@@ -44,19 +68,20 @@ public class Test_GJ_LU {
 		System.out.println("BUILD NEW A MATRIX");
 		double[][] rMatrix = core3.rebuildMatrixToFormForLeastSquares(A, 3);
 		core3.printMatrix(rMatrix);
-	
+
 		System.out.println("BUILD NEW At MATRIX");
 		double[][] rAtMatrix = core3.T(rMatrix);
 		core3.printMatrix(rAtMatrix);
-		
+
 		System.out.println("At * A");
 		double[][] forGJ = core3.mult(rAtMatrix, rMatrix);
 		core3.printMatrix(forGJ);
-		
-		double[][] inverse = generator.getIdentityMatrix(forGJ.length);
-		
+
 		core3.forwardSubstitution(forGJ);
-//		core3.backwardSubstitution(forGJ);
+
+		// 1.0 5.0 34.166666666666664 ;
+		// 0.0 1.0 10.000000000000002 ;
+		// 0.0 0.0 0.9999999999999999 ;
 	}
 
 	public static void testTMatrix() {
