@@ -22,7 +22,41 @@ public class Test_GJ_LU {
 		// testGJCase10();
 		// testGJCase11();
 		// testLUCase1();
-		testTMatrix();
+		// testTMatrix();
+//		testMultMatrix();
+		testLeastSquareMatrix();
+	}
+
+	public static void testLeastSquareMatrix() {
+		GJCore3 core3 = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+		System.out.println("LEAST SQUARE EXERCISE");
+		System.out.println("MATRIX A");
+		double[][] A = generator.getMatrixSquaresA();
+		core3.printMatrix(A);
+		System.out.println("MATRIX b");
+		double[][] b = generator.getMatrixSquaresb();
+		core3.printMatrix(b);
+		double[][] At = core3.T(A);
+		System.out.println("MATRIX At");
+		core3.printMatrix(At);
+
+		System.out.println("BUILD NEW A MATRIX");
+		double[][] rMatrix = core3.rebuildMatrixToFormForLeastSquares(A, 3);
+		core3.printMatrix(rMatrix);
+	
+		System.out.println("BUILD NEW At MATRIX");
+		double[][] rAtMatrix = core3.T(rMatrix);
+		core3.printMatrix(rAtMatrix);
+		
+		System.out.println("At * A");
+		double[][] forGJ = core3.mult(rAtMatrix, rMatrix);
+		core3.printMatrix(forGJ);
+		
+		double[][] inverse = generator.getIdentityMatrix(forGJ.length);
+		
+		core3.forwardSubstitution(forGJ);
+//		core3.backwardSubstitution(forGJ);
 	}
 
 	public static void testTMatrix() {
@@ -34,6 +68,9 @@ public class Test_GJ_LU {
 		System.out.println("---");
 		double[][] t_matrix = core3.T(matrix);
 		core3.printMatrix(t_matrix);
+		System.out.println("mutl matrix");
+		double[][] result = core3.mult(matrix, t_matrix);
+		core3.printMatrix(result);
 	}
 
 	public static void testMultMatrix() {

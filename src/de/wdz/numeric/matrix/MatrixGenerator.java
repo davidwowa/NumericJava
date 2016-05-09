@@ -2,17 +2,6 @@ package de.wdz.numeric.matrix;
 
 public class MatrixGenerator {
 
-	public double[][] rebuildMatrixToFormForLeastSquares(double[][] matrix, int polynomGrad) {
-		if (matrix != null) {
-			double[][] newMatrix = new double[polynomGrad][matrix[0].length];
-			// make fist column with 1
-			for (int i = 0; i < matrix.length; i++) {
-				newMatrix[i][0] = 1.;
-			}
-		}
-		return null;
-	}
-
 	/**
 	 * Get identity matrix with diagonale with 1
 	 */
@@ -206,6 +195,58 @@ public class MatrixGenerator {
 		return doubleMatrix;
 	}
 
+	public double[][] getMatrixSquaresA() {
+		double[][] doubleMatrix = { 
+				{ 0.}, 
+				{ 0.5 }, 
+				{ 1.}, 
+				{ 1.5 }, 
+				{ 2. }, 
+				{ 2.5 },
+				{ 3. }, 
+				{ 3.5 }, 
+				{ 4. }, 
+				{ 4.5 }, 
+				{ 5. }, 
+				{ 5.5 }, 
+				{ 6. },
+				{ 6.5 }, 
+				{ 7. }, 
+				{ 7.5 }, 
+				{ 8. }, 
+				{ 8.5 }, 
+				{ 9. }, 
+				{ 9.5 },
+				{ 10. } };
+		return doubleMatrix;
+	}
+	
+	public double[][] getMatrixSquaresb() {
+		double[][] doubleMatrix = { 
+				{ 1.7 }, 
+				{ 2.8 }, 
+				{ 4.8 }, 
+				{ 6.5 }, 
+				{ 7.1 }, 
+				{ 8.3 },
+				{ 7.7 }, 
+				{ 9.1 }, 
+				{ 9. }, 
+				{ 8.3 }, 
+				{ 9.8 }, 
+				{ 9.1 }, 
+				{ 8.8 },
+				{ 8.9 }, 
+				{ 8.7 }, 
+				{ 7.7 }, 
+				{ 6.3 }, 
+				{ 5.1 }, 
+				{ 5. }, 
+				{ 4.1 },
+				{ 3.1 } };
+		return doubleMatrix;
+	}
+	
 	public double[][] getMatrixLong() {
 		double[][] doubleMatrix = { { 0, 1 }, { 1, 3 }, { 2, 4 }, { 3, 5 }, { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 8 },
 				{ 8, 9 } };

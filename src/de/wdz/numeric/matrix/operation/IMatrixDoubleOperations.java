@@ -30,6 +30,25 @@ public interface IMatrixDoubleOperations {
 		}
 	}
 
+	default double[][] rebuildMatrixToFormForLeastSquares(double[][] matrix, int polynomGrad) {
+		if (matrix != null) {
+			double[][] newMatrix = new double[matrix.length][polynomGrad];
+			// STEP 1: make fist column with 1
+			for (int i = 0; i < newMatrix.length; i++) {
+				newMatrix[i][0] = 1.;
+			}
+
+			// STEP 2: make other columns
+			for (int i = 1; i < newMatrix[0].length; i++) {
+				for (int j = 0; j < newMatrix.length; j++) {
+					newMatrix[j][i] = Math.pow(matrix[j][0], i);
+				}
+			}
+			return newMatrix;
+		}
+		return null;
+	}
+
 	default boolean checkSizeMatrix(double[][] a, double[][] b) {
 		if (a != null && b != null) {
 			int a_columns = a[0].length;
