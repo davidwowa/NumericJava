@@ -24,8 +24,22 @@ public class Test_GJ_LU {
 		// testLUCase1();
 		// testTMatrix();
 		// testMultMatrix();
-		testLeastSquareMatrix();
-		// testLeastSquareMatrix2();
+		 testLeastSquareMatrix();
+//		testLeastSquareMatrix2();
+		// polynomialRegressionBookExample();
+	}
+
+	public static void polynomialRegressionBookExample() {
+		GJCore3 core3 = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getMatrixPolynomialRegressionBookExample();
+		double[][] b = generator.getVectorPolynomialRegressionBookExample();
+		double[][] inverse = generator.getIdentityMatrix(A.length);
+
+		core3.forwardSubstitution(A, b, inverse);
+		core3.backwardSubstitution(A, b, inverse);
+
 	}
 
 	public static void testLeastSquareMatrix2() {
@@ -77,8 +91,13 @@ public class Test_GJ_LU {
 		double[][] forGJ = core3.mult(rAtMatrix, rMatrix);
 		core3.printMatrix(forGJ);
 
-		core3.forwardSubstitution(forGJ);
-
+//		double[][] bb = generator.getMatrixSquaresbb();
+		double[][] bb = {{1.},{1.},{1.}};
+		double[][] inverse = generator.getIdentityMatrix(forGJ.length);
+		
+		core3.forwardSubstitution(forGJ, bb, inverse);
+//		core3.backwardSubstitution(forGJ, bb, inverse);
+		
 		// 1.0 5.0 34.166666666666664 ;
 		// 0.0 1.0 10.000000000000002 ;
 		// 0.0 0.0 0.9999999999999999 ;

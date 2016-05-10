@@ -247,6 +247,33 @@ public class MatrixGenerator {
 		return doubleMatrix;
 	}
 	
+	public double[][] getMatrixSquaresbb() {
+		double[][] doubleMatrix = { 
+				{ 716.2500000000001 }, 
+				{ 716.2500000000001 }, 
+				{ 716.2500000000001 }
+				 };
+		return doubleMatrix;
+	}
+	
+	public double[][] getMatrixPolynomialRegressionBookExample() {
+		double[][] doubleMatrix = { 
+				{ 1, -1, 1 }, 
+				{ 1, 0, 0 }, 
+				{ 1, 2, 4 } 
+				};
+		return doubleMatrix;
+	}
+	
+	public double[][] getVectorPolynomialRegressionBookExample() {
+		double[][] doubleMatrix = { 
+				{ 1 }, 
+				{ -1 }, 
+				{ 7 } 
+				};
+		return doubleMatrix;
+	}
+	
 	public double[][] getMatrixLong() {
 		double[][] doubleMatrix = { { 0, 1 }, { 1, 3 }, { 2, 4 }, { 3, 5 }, { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 8 },
 				{ 8, 9 } };

@@ -59,8 +59,9 @@ public class GJCore3 implements IMatrixDoubleOperations {
 			if (currentRow < A[0].length && max < A.length) {
 
 				for (int i = 0; i < limit; i++) {
-					System.out
-							.println("A[" + i + "][" + currentRow + "]) > Math.abs(A[" + max + "][" + currentRow + "]");
+					// System.out
+					// .println("A[" + i + "][" + currentRow + "]) >
+					// Math.abs(A[" + max + "][" + currentRow + "]");
 					if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
 						max = i;
 					}
