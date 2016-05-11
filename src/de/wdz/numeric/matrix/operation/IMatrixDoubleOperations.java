@@ -30,6 +30,18 @@ public interface IMatrixDoubleOperations {
 		}
 	}
 
+	default double[][] multWithNumber(double[][] matrix, double number) {
+		if (matrix != null) {
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix.length; j++) {
+					matrix[i][j] = matrix[i][j] * number;
+				}
+			}
+			return matrix;
+		}
+		return null;
+	}
+
 	default double[][] rebuildMatrixToFormForLeastSquares(double[][] matrix, int polynomGrad) {
 		if (matrix != null) {
 			double[][] newMatrix = new double[matrix.length][polynomGrad];
