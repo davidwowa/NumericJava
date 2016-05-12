@@ -131,12 +131,19 @@ public class Test_GJ_LU {
 		double[][] AtTimesA = core3.mult(rAtMatrix, rMatrix);
 		core3.printMatrix(AtTimesA);
 
+		// core3.forwardSubstitution(AtTimesA, newb, inverse);
+
 		System.out.println("At * b");
 		double[][] value = core3.mult(At, b);
+		//
+//		double[][] forGJ = core3.divideWithFactor(value[0][0], AtTimesA);
 		
-		double[][] forGJ  = core3.divideWithFactor(value[0][0], AtTimesA);
-		 core3.forwardSubstitution(forGJ);
-//		 core3.backwardSubstitution(forGJ);
+		double[][] newb = { { -716.25 }, { -716.25 }, { -716.25 } };
+		double[][] inverse = generator.getIdentityMatrix(AtTimesA.length);
+		
+		core3.forwardSubstitution(AtTimesA, newb, inverse);
+		core3.backwardSubstitution(AtTimesA, newb, inverse);
+
 	}
 
 	public static void testTMatrix() {
