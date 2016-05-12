@@ -22,7 +22,9 @@ public class GJCore3 implements IMatrixDoubleOperations {
 				int[] sigma = getSigma(max, currentRow, B.length);
 				A = permute(sigma, A);
 				B = permute(sigma, B);
+				System.out.println("INVERSE-START");
 				inverse = permute(sigma, inverse);
+				System.out.println("INVERSE-END");
 			}
 
 			// scale row p to make element at (p, p) equal one
@@ -30,6 +32,9 @@ public class GJCore3 implements IMatrixDoubleOperations {
 				double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
 				A = scale(currentRow, s, A); // Yp <- s * Yp
 				B = scale(currentRow, s, B);
+				System.out.println("INVERSE-START");
+				inverse = scale(currentRow, s, inverse);
+				System.out.println("INVERSE_END");
 				for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
 																										// from
 																										// future
@@ -42,6 +47,9 @@ public class GJCore3 implements IMatrixDoubleOperations {
 																		// add
 																		// to
 						B = addRows(currentRow, currentColumn, s, B); // row r
+						System.out.println("INVERSE_START");
+						inverse = addRows(currentRow, currentColumn, s, inverse);
+						System.out.println("INVERSE_END");
 					}
 				}
 			}
@@ -123,11 +131,17 @@ public class GJCore3 implements IMatrixDoubleOperations {
 				double s = 1. / A[p][p]; // s <- 1/u_pp
 				A = scale(p, s, A); // Yp <- s * Yp
 				B = scale(p, s, B);
+				System.out.println("START_INVERSE");
+				inverse = scale(p, s, inverse);
+				System.out.println("END_INVERSE");
 				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
 					if (A[r][p] != 0.) {
 						s = (-1.) * A[r][p];
 						A = addRows(p, r, s, A);// scale row p by s and add to
 						B = addRows(p, r, s, B); // row r
+						System.out.println("START_INVERSE");
+						inverse = addRows(p, r, s, inverse);
+						System.out.println("END_INVERSE");
 					}
 				}
 			}

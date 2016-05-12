@@ -51,7 +51,7 @@ public class Test_GJ_LU {
 		System.out.println("MATRIX b");
 		double[][] b = generator.getMatrixSquaresb();
 		core3.printMatrix(b);
-		double[][] At = core3.T(A);
+		double[][] At = core3.transpose(A);
 		System.out.println("MATRIX At");
 		core3.printMatrix(At);
 
@@ -115,7 +115,7 @@ public class Test_GJ_LU {
 		double[][] b = generator.getMatrixSquaresb();
 		core3.printMatrix(b);
 
-		double[][] At = core3.T(A);
+		double[][] At = core3.transpose(A);
 		System.out.println("MATRIX At");
 		core3.printMatrix(At);
 
@@ -124,23 +124,19 @@ public class Test_GJ_LU {
 		core3.printMatrix(rMatrix);
 
 		System.out.println("BUILD NEW At MATRIX");
-		double[][] rAtMatrix = core3.T(rMatrix);
+		double[][] rAtMatrix = core3.transpose(rMatrix);
 		core3.printMatrix(rAtMatrix);
 
 		System.out.println("At * A");
-		double[][] forGJ = core3.mult(rAtMatrix, rMatrix);
-		core3.printMatrix(forGJ);
+		double[][] AtTimesA = core3.mult(rAtMatrix, rMatrix);
+		core3.printMatrix(AtTimesA);
 
-		// core3.forwardSubstitution(forGJ);
-		// core3.backwardSubstitution(forGJ);
-
-		// 1.0 5.0 34.166666666666664 ;
-		// 0.0 1.0 10.000000000000002 ;
-		// 0.0 0.0 0.9999999999999999 ;
-
-		// 1.0 5.0 34.166666666666664 ;
-		// 0.0 1.0 10.000000000000002 ;
-		// 0.0 0.0 1402.0416666666642 ;
+		System.out.println("At * b");
+		double[][] value = core3.mult(At, b);
+		
+		double[][] forGJ  = core3.divideWithFactor(value[0][0], AtTimesA);
+		 core3.forwardSubstitution(forGJ);
+//		 core3.backwardSubstitution(forGJ);
 	}
 
 	public static void testTMatrix() {
@@ -150,7 +146,7 @@ public class Test_GJ_LU {
 		double[][] matrix = generator.getRandomMatrix(3, 2);
 		core3.printMatrix(matrix);
 		System.out.println("---");
-		double[][] t_matrix = core3.T(matrix);
+		double[][] t_matrix = core3.transpose(matrix);
 		core3.printMatrix(t_matrix);
 		System.out.println("mutl matrix");
 		double[][] result = core3.mult(matrix, t_matrix);

@@ -30,18 +30,6 @@ public interface IMatrixDoubleOperations {
 		}
 	}
 
-	default double[][] multWithNumber(double[][] matrix, double number) {
-		if (matrix != null) {
-			for (int i = 0; i < matrix.length; i++) {
-				for (int j = 0; j < matrix.length; j++) {
-					matrix[i][j] = matrix[i][j] * number;
-				}
-			}
-			return matrix;
-		}
-		return null;
-	}
-
 	default double[][] rebuildMatrixToFormForLeastSquares(double[][] matrix, int polynomGrad) {
 		if (matrix != null) {
 			double[][] newMatrix = new double[matrix.length][polynomGrad];
@@ -82,7 +70,7 @@ public interface IMatrixDoubleOperations {
 		return false;
 	}
 
-	default double[][] T(double[][] matrix) {
+	default double[][] transpose(double[][] matrix) {
 		if (matrix != null) {
 			double[][] newTMatrix = new double[matrix[0].length][matrix.length];
 			for (int i = 0; i < matrix.length; i++) {
@@ -310,5 +298,30 @@ public interface IMatrixDoubleOperations {
 			}
 		}
 		return resultMatrix;
+	}
+
+	/**
+	 * Divide with Factor
+	 * 
+	 * @param factor
+	 * @param matrix
+	 * @return
+	 */
+	default double[][] divideWithFactor(double factor, double[][] matrix) {
+		// TODO validate input
+
+		if (factor != 0.) {
+			double[][] resultMatrix = new double[matrix.length][matrix.length];
+			for (int i = 0; i < matrix.length; i++) {
+				for (int j = 0; j < matrix.length; j++) {
+					double tmp = matrix[i][j] / factor;
+					resultMatrix[i][j] = tmp;
+				}
+			}
+			return resultMatrix;
+		} else {
+			System.out.println("ERROR: divide with 0.");
+		}
+		return null;
 	}
 }
