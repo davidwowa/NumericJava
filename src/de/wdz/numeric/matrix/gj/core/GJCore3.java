@@ -124,7 +124,7 @@ public class GJCore3 implements IMatrixDoubleOperations {
 	public void backwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
 		// iterate over current pivot row p
 		for (int p = A.length - 1; p >= 0; p--) {
-			// permuteXS(A, B, inverse, p);
+//			 permuteXS(A, B, inverse, p);
 
 			// scale row p to make element at (p, p) equal one
 			if (A[p][p] != 0.) {

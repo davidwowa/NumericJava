@@ -1,6 +1,5 @@
 package de.wdz.numeric;
 
-import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
@@ -14,17 +13,22 @@ public class MatrixTest implements IMatrixDoubleOperations {
 	public static void main(String[] args) {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
-		double[][] matrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
-		double[][] inverse = generator.getIdentityMatrix(matrix.length);
+		double[][] matrix = { { 1, 1, 3 }, { 1, 2, 3 }, { 1, 3, 4 } };
+		
+		double[][] matrix2 = {{21.0, 105.0, 717.5},
+		{105.0, 717.5, 5512.5},
+		{717.5, 5512.5, 45166.625} };
+		
+		double[][] inverse = generator.getIdentityMatrix(matrix2.length);
 
-		RealMatrix realMatrix = new BlockRealMatrix(matrix);
+		RealMatrix realMatrix = new BlockRealMatrix(matrix2);
 		SingularValueDecomposition decomposition = new SingularValueDecomposition(realMatrix);
 		System.out.println("condNumber " + decomposition.getConditionNumber());
 
 		double[][] b = { { 0 }, { 0 }, { 0 } };
 
-		core.forwardSubstitution(matrix, b, inverse);
-		core.backwardSubstitution(matrix, b, inverse);
+		core.forwardSubstitution(matrix2, b, inverse);
+		core.backwardSubstitution(matrix2, b, inverse);
 	}
 
 	public static void test() {

@@ -103,46 +103,49 @@ public class Test_GJ_LU {
 	}
 
 	public static void testLeastSquareMatrix() {
-		GJCore3 core3 = new GJCore3();
+		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
 		System.out.println("LEAST SQUARE EXERCISE");
 
 		System.out.println("MATRIX A");
 		double[][] A = generator.getMatrixSquaresA();
-		core3.printMatrix(A);
+		core.printMatrix(A);
 
 		System.out.println("MATRIX b");
 		double[][] b = generator.getMatrixSquaresb();
-		core3.printMatrix(b);
+		core.printMatrix(b);
 
-		double[][] At = core3.transpose(A);
+		double[][] At = core.transpose(A);
 		System.out.println("MATRIX At");
-		core3.printMatrix(At);
+		core.printMatrix(At);
 
 		System.out.println("BUILD NEW A MATRIX");
-		double[][] rMatrix = core3.rebuildMatrixToFormForLeastSquares(A, 3);
-		core3.printMatrix(rMatrix);
+		double[][] rMatrix = core.rebuildMatrixToFormForLeastSquares(A, 3);
+		core.printMatrix(rMatrix);
 
 		System.out.println("BUILD NEW At MATRIX");
-		double[][] rAtMatrix = core3.transpose(rMatrix);
-		core3.printMatrix(rAtMatrix);
+		double[][] rAtMatrix = core.transpose(rMatrix);
+		core.printMatrix(rAtMatrix);
 
 		System.out.println("At * A");
-		double[][] AtTimesA = core3.mult(rAtMatrix, rMatrix);
-		core3.printMatrix(AtTimesA);
-
-		// core3.forwardSubstitution(AtTimesA, newb, inverse);
+		double[][] AtTimesA = core.mult(rAtMatrix, rMatrix);
+		core.printMatrix(AtTimesA);
 
 		System.out.println("At * b");
-		double[][] value = core3.mult(At, b);
-		//
-//		double[][] forGJ = core3.divideWithFactor(value[0][0], AtTimesA);
+		double[][] value = core.mult(At, b);
 		
-		double[][] newb = { { -716.25 }, { -716.25 }, { -716.25 } };
+		double[][] forGJ = core.multWithFactor(value[0][0], AtTimesA);
+		
+		double[][] newb = { { 1 }, { value[0][0] }, { Math.pow(value[0][0], 2) } };
+//		double[][] newb = { { Math.pow(value[0][0], 2) }, { value[0][0] }, { 1 } };
+//		double[][] newb = { { Math.pow(value[0][0], 2) }, { Math.pow(value[0][0], 2) }, { Math.pow(value[0][0], 2) } };
+//		double[][] newb = { { Math.sqrt(value[0][0]) }, { Math.sqrt(value[0][0]) }, { Math.sqrt(value[0][0]) } };
+
+		
 		double[][] inverse = generator.getIdentityMatrix(AtTimesA.length);
 		
-		core3.forwardSubstitution(AtTimesA, newb, inverse);
-		core3.backwardSubstitution(AtTimesA, newb, inverse);
+		core.forwardSubstitution(forGJ, newb, inverse);
+		core.backwardSubstitution(forGJ, newb, inverse);
 
 	}
 
