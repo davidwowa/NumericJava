@@ -30,6 +30,32 @@ public interface IMatrixDoubleOperations {
 		}
 	}
 
+	default double[][] rebuildMatrixToFormForLeastSquaresInv(double[][] matrix, int polynomGrad) {
+		if (matrix != null) {
+			double[][] newMatrix = new double[matrix.length][polynomGrad];
+
+			// STEP 2: make other columns
+			int count = 0;
+			for (int i = polynomGrad - 1; i >= 1; i--) {
+				for (int j = 0; j < newMatrix.length; j++) {
+					newMatrix[j][count] = Math.pow(matrix[j][0], i);
+					// System.out.println("newMatrix[" + j + "][" + count + "] =
+					// Math.pow(matrix[" + j + "][0], " + i + ")= "
+					// + Math.pow(matrix[j][0], i));
+				}
+				count++;
+			}
+
+			// STEP 1: make last column with 1
+			for (int i = 0; i < newMatrix.length; i++) {
+				newMatrix[i][newMatrix[0].length - 1] = 1.;
+			}
+
+			return newMatrix;
+		}
+		return null;
+	}
+
 	default double[][] rebuildMatrixToFormForLeastSquares(double[][] matrix, int polynomGrad) {
 		if (matrix != null) {
 			double[][] newMatrix = new double[matrix.length][polynomGrad];

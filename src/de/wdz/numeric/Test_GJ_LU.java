@@ -1,5 +1,8 @@
 package de.wdz.numeric;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.gj.core.GJCore2;
 import de.wdz.numeric.matrix.gj.core.GJCore3;
@@ -24,9 +27,10 @@ public class Test_GJ_LU {
 		// testLUCase1();
 		// testTMatrix();
 		// testMultMatrix();
-		testLeastSquareMatrix();
+		testLeastSquareMatrixFinal();
 		// testLeastSquareMatrix2();
 		// polynomialRegressionBookExample();
+		// testWithAllKnownVectors();
 	}
 
 	public static void polynomialRegressionBookExample() {
@@ -102,7 +106,7 @@ public class Test_GJ_LU {
 		// 0.0 0.0 0.9999999999999999 ;
 	}
 
-	public static void testLeastSquareMatrix() {
+	public static void testLeastSquareMatrixFinal() {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
 		System.out.println("LEAST SQUARE EXERCISE");
@@ -132,21 +136,110 @@ public class Test_GJ_LU {
 		core.printMatrix(AtTimesA);
 
 		System.out.println("At * b");
-		double[][] value = core.mult(At, b);
-		
-		double[][] forGJ = core.multWithFactor(value[0][0], AtTimesA);
-		
-		double[][] newb = { { 1 }, { value[0][0] }, { Math.pow(value[0][0], 2) } };
-//		double[][] newb = { { Math.pow(value[0][0], 2) }, { value[0][0] }, { 1 } };
-//		double[][] newb = { { Math.pow(value[0][0], 2) }, { Math.pow(value[0][0], 2) }, { Math.pow(value[0][0], 2) } };
-//		double[][] newb = { { Math.sqrt(value[0][0]) }, { Math.sqrt(value[0][0]) }, { Math.sqrt(value[0][0]) } };
+		double[][] newb = core.mult(rAtMatrix, b);
 
-		
 		double[][] inverse = generator.getIdentityMatrix(AtTimesA.length);
-		
-		core.forwardSubstitution(forGJ, newb, inverse);
-		core.backwardSubstitution(forGJ, newb, inverse);
 
+		core.forwardSubstitution(AtTimesA, newb, inverse);
+		core.backwardSubstitution(AtTimesA, newb, inverse);
+
+		System.out.println("DD");
+	}
+
+	public static void testWithAllKnownVectors() {
+		double value = 716.2500000000001;
+
+		List<double[][]> list = new ArrayList<>();
+
+		double[][] newb0 = { { 1 }, { 1 }, { 1 } };
+		double[][] newb1 = { { value }, { value }, { value } };
+		double[][] newb2 = { { (value * -1.) }, { (value * -1.) }, { (value * -1.) } };
+		double[][] newb3 = { { 1 }, { value }, { Math.pow(value, 2) } };
+		double[][] newb4 = { { Math.pow(value, 2) }, { value }, { 1 } };
+		double[][] newb5 = { { Math.pow(value, 2) }, { Math.pow(value, 2) }, { Math.pow(value, 2) } };
+		double[][] newb6 = { { Math.sqrt(value) }, { Math.sqrt(value) }, { Math.sqrt(value) } };
+		double[][] newb7 = { { 1 }, { 0 }, { 0 } };
+
+		list.add(newb0);
+		list.add(newb1);
+		list.add(newb2);
+		list.add(newb3);
+		list.add(newb4);
+		list.add(newb5);
+		list.add(newb6);
+		list.add(newb7);
+
+		List<double[][]> results = getAllVectors(list);
+
+		int count = 0;
+		for (double[][] ds : results) {
+
+			String string = "fx_v" + count + " = @(x) " + ds[2][0] + "*x^2 ";
+
+			if (ds[1][0] > 0.) {
+				string = string.concat("+ " + ds[1][0] + "*x ");
+			}
+			if (ds[1][0] < 0.) {
+				string = string.concat(ds[1][0] + "*x ");
+			}
+
+			if (ds[0][0] > 0.) {
+				string = string.concat("+ " + ds[0][0]);
+			}
+			if (ds[0][0] < 0.) {
+				string = string.concat(ds[0][0] + "");
+			}
+
+			System.out.println(string);
+			count++;
+		}
+	}
+
+	public static List<double[][]> getAllVectors(List<double[][]> bs) {
+		List<double[][]> result = new ArrayList<>();
+		for (double[][] ds : bs) {
+			GJCore3 core = new GJCore3();
+			MatrixGenerator generator = new MatrixGenerator();
+			System.out.println("LEAST SQUARE EXERCISE");
+
+			System.out.println("MATRIX A");
+			double[][] A = generator.getMatrixSquaresA();
+			core.printMatrix(A);
+
+			System.out.println("MATRIX b");
+			double[][] b = generator.getMatrixSquaresb();
+			core.printMatrix(b);
+
+			double[][] At = core.transpose(A);
+			System.out.println("MATRIX At");
+			core.printMatrix(At);
+
+			System.out.println("BUILD NEW A MATRIX");
+			double[][] rMatrix = core.rebuildMatrixToFormForLeastSquares(A, 3);
+			core.printMatrix(rMatrix);
+
+			System.out.println("BUILD NEW At MATRIX");
+			double[][] rAtMatrix = core.transpose(rMatrix);
+			core.printMatrix(rAtMatrix);
+
+			System.out.println("At * A");
+			double[][] AtTimesA = core.mult(rAtMatrix, rMatrix);
+			core.printMatrix(AtTimesA);
+
+			System.out.println("At * b");
+			double[][] value = core.mult(rAtMatrix, b);
+
+			// System.out.println("PREPARE MATRIX WITH " + value[0][0]);
+			// double[][] forGJ = core.multWithFactor(value[0][0], AtTimesA);
+
+			double[][] inverse = generator.getIdentityMatrix(AtTimesA.length);
+
+			core.forwardSubstitution(AtTimesA, value, inverse);
+			core.backwardSubstitution(AtTimesA, value, inverse);
+
+			result.add(ds);
+		}
+		return result;
 	}
 
 	public static void testTMatrix() {
