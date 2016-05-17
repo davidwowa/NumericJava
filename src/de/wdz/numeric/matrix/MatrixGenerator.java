@@ -195,85 +195,64 @@ public class MatrixGenerator {
 		return doubleMatrix;
 	}
 
-	public double[][] getMatrixSquaresA() {
-		double[][] doubleMatrix = { 
-				{ 0.}, 
-				{ 0.5 }, 
-				{ 1.}, 
-				{ 1.5 }, 
-				{ 2. }, 
-				{ 2.5 },
-				{ 3. }, 
-				{ 3.5 }, 
-				{ 4. }, 
-				{ 4.5 }, 
-				{ 5. }, 
-				{ 5.5 }, 
-				{ 6. },
-				{ 6.5 }, 
-				{ 7. }, 
-				{ 7.5 }, 
-				{ 8. }, 
-				{ 8.5 }, 
-				{ 9. }, 
-				{ 9.5 },
-				{ 10. } };
+	public double[][] getMatrixSquaresAA() {
+		double[][] doubleMatrix = { { 2.5 }, { 8.5 }, };
 		return doubleMatrix;
 	}
-	
+
+	public double[][] getMatrixSquaresAAA() {
+		double[][] doubleMatrix = { { 0.5 }, { 9.5 }, };
+		return doubleMatrix;
+	}
+
+	public double[][] getMatrixSquaresAAAA() {
+		double[][] doubleMatrix = { { 0. }, { 5. }, { 10. } };
+		return doubleMatrix;
+	}
+
+	public double[][] getMatrixSquaresA() {
+		double[][] doubleMatrix = { { 0. }, { 0.5 }, { 1. }, { 1.5 }, { 2. }, { 2.5 }, { 3. }, { 3.5 }, { 4. }, { 4.5 },
+				{ 5. }, { 5.5 }, { 6. }, { 6.5 }, { 7. }, { 7.5 }, { 8. }, { 8.5 }, { 9. }, { 9.5 }, { 10. } };
+		return doubleMatrix;
+	}
+
+	public double[][] getMatrixSquaresbbb() {
+		double[][] doubleMatrix = { { 8.3 }, { 5.1 }, };
+		return doubleMatrix;
+	}
+
+	public double[][] getMatrixSquaresbbbb() {
+		double[][] doubleMatrix = { { 2.8 }, { 4.1 }, };
+		return doubleMatrix;
+	}
+
+	public double[][] getMatrixSquaresbbbbb() {
+		double[][] doubleMatrix = { { 1.7 }, { 9.8 }, { 3.1 } };
+		return doubleMatrix;
+	}
+
 	public double[][] getMatrixSquaresb() {
-		double[][] doubleMatrix = { 
-				{ 1.7 }, 
-				{ 2.8 }, 
-				{ 4.8 }, 
-				{ 6.5 }, 
-				{ 7.1 }, 
-				{ 8.3 },
-				{ 7.7 }, 
-				{ 9.1 }, 
-				{ 9. }, 
-				{ 8.3 }, 
-				{ 9.8 }, 
-				{ 9.1 }, 
-				{ 8.8 },
-				{ 8.9 }, 
-				{ 8.7 }, 
-				{ 7.7 }, 
-				{ 6.3 }, 
-				{ 5.1 }, 
-				{ 5. }, 
-				{ 4.1 },
+		double[][] doubleMatrix = { { 1.7 }, { 2.8 }, { 4.8 }, { 6.5 }, { 7.1 }, { 8.3 }, { 7.7 }, { 9.1 }, { 9. },
+				{ 8.3 }, { 9.8 }, { 9.1 }, { 8.8 }, { 8.9 }, { 8.7 }, { 7.7 }, { 6.3 }, { 5.1 }, { 5. }, { 4.1 },
 				{ 3.1 } };
 		return doubleMatrix;
 	}
-	
+
 	public double[][] getMatrixSquaresbb() {
-		double[][] doubleMatrix = { 
-				{ 716.2500000000001 }, 
-				{ 716.2500000000001 }, 
-				{ 716.2500000000001 }
-				 };
+		double[][] doubleMatrix = { { 716.2500000000001 }, { 716.2500000000001 }, { 716.2500000000001 } };
 		return doubleMatrix;
 	}
-	
+
 	public double[][] getMatrixPolynomialRegressionBookExample() {
-		double[][] doubleMatrix = { 
-				{ 1, -1, 1 }, 
-				{ 1, 0, 0 }, 
-				{ 1, 2, 4 } 
-				};
+		double[][] doubleMatrix = { { 1, -1, 1 }, { 1, 0, 0 }, { 1, 2, 4 } };
 		return doubleMatrix;
 	}
-	
+
 	public double[][] getVectorPolynomialRegressionBookExample() {
-		double[][] doubleMatrix = { 
-				{ 1 }, 
-				{ -1 }, 
-				{ 7 } 
-				};
+		double[][] doubleMatrix = { { 1 }, { -1 }, { 7 } };
 		return doubleMatrix;
 	}
-	
+
 	public double[][] getMatrixLong() {
 		double[][] doubleMatrix = { { 0, 1 }, { 1, 3 }, { 2, 4 }, { 3, 5 }, { 4, 5 }, { 5, 6 }, { 6, 7 }, { 7, 8 },
 				{ 8, 9 } };
