@@ -27,10 +27,12 @@ public class Test_GJ_LU {
 		// testLUCase1();
 		// testTMatrix();
 		// testMultMatrix();
-		testLeastSquareMatrixFinal();
+		// testLeastSquareMatrixFinal();
 		// testLeastSquareMatrix2();
 		// polynomialRegressionBookExample();
 		// testWithAllKnownVectors();
+		// testAddMatrix();
+		regularisationTest();
 	}
 
 	public static void polynomialRegressionBookExample() {
@@ -106,6 +108,63 @@ public class Test_GJ_LU {
 		// 0.0 0.0 0.9999999999999999 ;
 	}
 
+	public static void testAddMatrix() {
+		GJCore3 core3 = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getMatrixPolynomialRegressionBookExample();
+
+		core3.printMatrix(A);
+
+		System.out.println("--");
+		double[][] newMatrix = core3.add(A, A);
+
+		core3.printMatrix(newMatrix);
+	}
+
+	public static void regularisationTest() {
+		GJCore3 core = new GJCore3();
+		MatrixGenerator generator = new MatrixGenerator();
+		System.out.println("LEAST SQUARE EXERCISE");
+
+		System.out.println("MATRIX A");
+		double[][] A = generator.getMatrixSquaresA();
+		core.printMatrix(A);
+
+		System.out.println("MATRIX b");
+		double[][] b = generator.getMatrixSquaresb();
+		core.printMatrix(b);
+
+		double[][] At = core.transpose(A);
+		System.out.println("MATRIX At");
+		core.printMatrix(At);
+
+		System.out.println("BUILD NEW A MATRIX");
+		double[][] rMatrix = core.rebuildMatrixToFormForLeastSquares(A, 3);
+		core.printMatrix(rMatrix);
+
+		System.out.println("BUILD NEW At MATRIX");
+		double[][] rAtMatrix = core.transpose(rMatrix);
+		core.printMatrix(rAtMatrix);
+
+		System.out.println("At * A");
+		double[][] AtTimesA = core.mult(rAtMatrix, rMatrix);
+		core.printMatrix(AtTimesA);
+
+		System.out.println("(At * A + c*I)");
+		double[][] I = generator.getIdentityMatrix(AtTimesA.length);
+		double[][] cI = core.multWithFactor(Math.pow(0.5, 2), I);
+		double[][] toSolve = core.add(AtTimesA, cI);
+
+		System.out.println("At * b");
+		double[][] newb = core.mult(rAtMatrix, b);
+
+		double[][] inverse = generator.getIdentityMatrix(toSolve.length);
+
+		core.forwardSubstitution(toSolve, newb, inverse);
+		core.backwardSubstitution(toSolve, newb, inverse);
+	}
+
 	public static void testLeastSquareMatrixFinal() {
 		GJCore3 core = new GJCore3();
 		MatrixGenerator generator = new MatrixGenerator();
@@ -142,8 +201,6 @@ public class Test_GJ_LU {
 
 		core.forwardSubstitution(AtTimesA, newb, inverse);
 		core.backwardSubstitution(AtTimesA, newb, inverse);
-
-		System.out.println("DD");
 	}
 
 	public static void testWithAllKnownVectors() {

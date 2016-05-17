@@ -96,6 +96,16 @@ public interface IMatrixDoubleOperations {
 		return false;
 	}
 
+	default double[][] add(double[][] a, double[][] b) {
+		double[][] newMatrix = new double[a.length][a[0].length];
+		for (int i = 0; i < a.length; i++) {
+			for (int j = 0; j < a.length; j++) {
+				newMatrix[i][j] = a[i][j] + b[i][j];
+			}
+		}
+		return newMatrix;
+	}
+
 	default double[][] transpose(double[][] matrix) {
 		if (matrix != null) {
 			double[][] newTMatrix = new double[matrix[0].length][matrix.length];
