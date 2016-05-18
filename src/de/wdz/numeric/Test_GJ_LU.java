@@ -23,7 +23,7 @@ public class Test_GJ_LU {
 		// testGJCase9();
 		// testGJCase10();
 		// testGJCase11();
-		// testLUCase1();
+		testLUCase1();
 		// testTMatrix();
 		// testMultMatrix();
 		// testLeastSquareMatrixFinal();
@@ -31,7 +31,7 @@ public class Test_GJ_LU {
 		// polynomialRegressionBookExample();
 		// testWithAllKnownVectors();
 		// testAddMatrix();
-		regularisationTest();
+		// regularisationTest();
 	}
 
 	public static void polynomialRegressionBookExample() {
@@ -347,17 +347,13 @@ public class Test_GJ_LU {
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getTestMatrixCLUExample();
-
-		System.out.println("--START--");
-
-		core.printMatrix(A);
-
+		// getTestMatrixCLUExample
+		// getTestMatrixLUExampleMatlab
 		core.U(A);
+		System.out.println("U-MATRIX");
+		core.printMatrix(core.getU());
+		
 		core.L();
-
-		System.out.println("--END--");
-		core.printMatrix(A);
-
 	}
 
 	public static void testGJCase10() {
