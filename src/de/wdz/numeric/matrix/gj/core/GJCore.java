@@ -1,59 +1,196 @@
 package de.wdz.numeric.matrix.gj.core;
 
-import de.wdz.numeric.matrix.Matrix;
-import de.wdz.numeric.matrix.operation.IMatrixOperations;
+import de.wdz.numeric.matrix.MatrixGenerator;
+import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
-/**
- * 
- * @author David
- *
- */
-public class GJCore implements IMatrixOperations {
+public class GJCore implements IMatrixDoubleOperations {
 
-	public void runGaussSimple(Matrix a, Matrix b) {
-		double[][] A = a.getMatrix();
-		double[][] B = b.getMatrix();
-
-		int N = B.length;
-		for (int k = 0; k < N; k++) {
-			// find pivot row
-			int max = k;
-			for (int i = k + 1; i < N; i++)
-				if (Math.abs(A[i][k]) > Math.abs(A[max][k]))
+	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
+		// iterate over current pivot row p
+		for (int currentRow = 0; currentRow < A.length; currentRow++) {
+			// pivot code here
+			int max = currentRow;
+			for (int i = 0; i < B.length; i++) {
+				if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
 					max = i;
+				}
+			}
 
-			// swap row in A matrix
-			double[] temp = A[k];
-			A[k] = A[max];
-			A[max] = temp;
+			if (A[currentRow][currentRow] == 0.) {
 
-			// swap corresponding values in constants matrix
-			double t = B[k][0];
-			B[k][0] = B[max][0];
-			B[max][0] = t;
+				// permutate rows
+				int[] sigma = getSigma(max, currentRow, B.length);
+				A = permute(sigma, A);
+				B = permute(sigma, B);
+				System.out.println("INVERSE-START");
+				inverse = permute(sigma, inverse);
+				System.out.println("INVERSE-END");
+			}
 
-			// pivot within A and B
-			for (int i = k + 1; i < N; i++) {
-				double factor = A[i][k] / A[k][k];
-				B[i][0] -= factor * B[k][0];
-				for (int j = k; j < N; j++)
-					A[i][j] -= factor * A[k][j];
+			// scale row p to make element at (p, p) equal one
+			if (A[currentRow][currentRow] != 0.) {
+				double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
+				A = scale(currentRow, s, A); // Yp <- s * Yp
+				B = scale(currentRow, s, B);
+				System.out.println("INVERSE-START");
+				inverse = scale(currentRow, s, inverse);
+				System.out.println("INVERSE_END");
+				for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
+																										// from
+																										// future
+					if (A[currentColumn][currentRow] != 0.) {
+						s = (-1.) * A[currentColumn][currentRow];
+						A = addRows(currentRow, currentColumn, s, A);// scale
+																		// row p
+																		// by s
+																		// and
+																		// add
+																		// to
+						B = addRows(currentRow, currentColumn, s, B); // row r
+						System.out.println("INVERSE_START");
+						inverse = addRows(currentRow, currentColumn, s, inverse);
+						System.out.println("INVERSE_END");
+					}
+				}
+			}
+		}
+	}
+
+	public void forwardSubstitution(double[][] A) {
+		System.out.println("FORWARD SUBSTITUTION");
+		// iterate over current pivot row p
+		for (int currentRow = 0; currentRow < A.length; currentRow++) {
+			// pivot code here
+			int max = currentRow;
+			int limit = A[0].length;
+
+			if (currentRow < A[0].length && max < A.length) {
+
+				for (int i = 0; i < limit; i++) {
+					// System.out
+					// .println("A[" + i + "][" + currentRow + "]) >
+					// Math.abs(A[" + max + "][" + currentRow + "]");
+					if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
+						max = i;
+					}
+				}
+
+				if (A[currentRow][currentRow] == 0.) {
+
+					// permutate rows
+					int[] sigma = getSigma(max, currentRow, A.length);
+					A = permute(sigma, A);
+				}
+
+				// scale row p to make element at (p, p) equal one
+				if (A[currentRow][currentRow] != 0.) {
+					double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
+					A = scale(currentRow, s, A); // Yp <- s * Yp
+					for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
+																											// from
+						if (A[currentColumn][currentRow] != 0.) {
+							s = (-1.) * A[currentColumn][currentRow];
+							A = addRows(currentRow, currentColumn, s, A);// scale
+																			// row
+																			// p
+																			// by
+																			// s
+																			// and
+																			// add
+																			// to
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void permuteXS(double[][] A, double[][] B, double[][] inverse, int currentRow) {
+		// pivot code here
+		int max = currentRow;
+		for (int i = 0; i < B.length; i++) {
+			if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
+				max = i;
 			}
 		}
 
-		System.out.println("--");
-		a.toString();
-		System.out.println("--");
-		// back substitution
-		double[] solution = new double[N];
-		for (int i = N - 1; i >= 0; i--) {
-			double sum = 0.0;
-			for (int j = i + 1; j < N; j++)
-				sum += A[i][j] * solution[j];
-			solution[i] = (B[i][0] - sum) / A[i][i];
-		}
+		// permutate rows
+		int[] sigma = getSigma(max, currentRow, B.length);
+		permute(sigma, A);
+		permute(sigma, B);
+		permute(sigma, inverse);
+	}
 
-		Matrix sol = new Matrix(solution);
-		sol.toString();
+	public void backwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
+		// iterate over current pivot row p
+		for (int p = A.length - 1; p >= 0; p--) {
+//			 permuteXS(A, B, inverse, p);
+
+			// scale row p to make element at (p, p) equal one
+			if (A[p][p] != 0.) {
+				double s = 1. / A[p][p]; // s <- 1/u_pp
+				A = scale(p, s, A); // Yp <- s * Yp
+				B = scale(p, s, B);
+				System.out.println("START_INVERSE");
+				inverse = scale(p, s, inverse);
+				System.out.println("END_INVERSE");
+				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
+					if (A[r][p] != 0.) {
+						s = (-1.) * A[r][p];
+						A = addRows(p, r, s, A);// scale row p by s and add to
+						B = addRows(p, r, s, B); // row r
+						System.out.println("START_INVERSE");
+						inverse = addRows(p, r, s, inverse);
+						System.out.println("END_INVERSE");
+					}
+				}
+			}
+		}
+	}
+
+	public void backwardSubstitution(double[][] A) {
+		System.out.println("BACKWARD SUBSTITUTION");
+		// iterate over current pivot row p
+		for (int p = A.length - 1; p >= 0; p--) {
+			// permuteXS(A, B, inverse, p);
+
+			// scale row p to make element at (p, p) equal one
+			if (A[p][p] != 0.) {
+				double s = 1. / A[p][p]; // s <- 1/u_pp
+				A = scale(p, s, A); // Yp <- s * Yp
+				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
+					if (A[r][p] != 0.) {
+						s = (-1.) * A[r][p];
+						A = addRows(p, r, s, A);// scale row p by s and add
+												// to
+					}
+				}
+			}
+		}
+	}
+
+	public double[][] adjustMatrix(double[][] A) {
+		if (A.length != A[0].length) {
+			MatrixGenerator generator = new MatrixGenerator();
+			double[][] B = generator.getIdentityNegativeMatrix(A.length);
+			for (int i = 0; i < A.length; i++) {
+				for (int j = 0; j < A[0].length; j++) {
+					System.out.println("B[" + i + "][" + j + "] = A[" + i + "][" + j + "] = " + A[i][j]);
+					B[i][j] = A[i][j];
+				}
+			}
+			return B;
+		}
+		return null;
+	}
+
+	private int[] getSigma(int newIndex, int oldIndex, int size) {
+		int[] sigma = new int[size];
+		for (int i = 0; i < sigma.length; i++) {
+			sigma[i] = i;
+		}
+		sigma[newIndex] = oldIndex;
+		sigma[oldIndex] = newIndex;
+		return sigma;
 	}
 }

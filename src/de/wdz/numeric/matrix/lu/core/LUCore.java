@@ -10,44 +10,22 @@ public class LUCore implements IMatrixDoubleOperations {
 	private List<double[][]> matrixList;
 	private MatrixGenerator generator;
 
+	private double[][] L;
+	private double[][] U;
+
 	public LUCore() {
 		this.matrixList = new ArrayList<>();
 		generator = new MatrixGenerator();
 	}
 
 	public void U(double[][] A) {
+		L = new double[A.length][A[0].length];
+		U = new double[A.length][A[0].length];
 		forwardSubstitution(A);
 	}
 
 	public void L() {
-		List<double[][]> matrixListWithInverses = new ArrayList<>();
-		if (getMatrixList() != null && !getMatrixList().isEmpty()) {
-			// loop :(
-			for (int i = 0; i < getMatrixList().size(); i++) {
-				double[][] inverse = generator.getIdentityMatrix(getMatrixList().get(i).length);
-				forwardSubstitution(getMatrixList().get(i));
-				backwardSubstitution(getMatrixList().get(i));
-				matrixListWithInverses.add(inverse);
-			}
-		} else {
-			System.out.println("ERROR: \t\t\t matrix list is emtpy or null");
-		}
-		if (!matrixListWithInverses.isEmpty()) {
-			double[][] currentResult = matrixListWithInverses.get(matrixListWithInverses.size() - 1);
-			for (int i = matrixListWithInverses.size() - 1; i > 1; i--) {
-				System.out.println("\t\t\t mult matrix");
-				printMatrix(currentResult);
-				System.out.println("\t\t\t with matrix");
-				printMatrix(matrixListWithInverses.get(i));
-				currentResult = mult(currentResult, matrixListWithInverses.get(i));
-				System.out.println("\t\t\t result");
-				printMatrix(currentResult);
-			}
-			System.out.println("---L---");
-			printMatrix(currentResult);
-		} else {
-			System.out.println("ERROR: \t\t\t list with inverses is emtpy");
-		}
+
 	}
 
 	private void forwardSubstitution(double[][] A) {
@@ -59,11 +37,7 @@ public class LUCore implements IMatrixDoubleOperations {
 			if (A[currentRow][currentRow] != 0.) {
 				double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
 				A = scale(currentRow, s, A); // Yp <- s * Yp
-
-				double[][] scaledInverse = scale(currentRow, s, generator.getIdentityMatrix(A.length));
-
-				getMatrixList().add(scaledInverse);
-
+				
 				for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
 																										// from
 																										// future
@@ -75,31 +49,6 @@ public class LUCore implements IMatrixDoubleOperations {
 																		// and
 																		// add
 																		// to
-
-						double[][] e_k = build_e_k_Matrix(A.length, currentRow);
-						double[][] e_l = build_e_l_Matrix(A.length, currentColumn);
-
-						double[][] elMatrix = eliminate(s, e_l, e_k);
-						getMatrixList().add(elMatrix);
-					}
-				}
-			}
-		}
-	}
-
-	private void backwardSubstitution(double[][] A) {
-		// iterate over current pivot row p
-		for (int p = A.length - 1; p >= 0; p--) {
-			// permuteXS(A, B, inverse, p);
-
-			// scale row p to make element at (p, p) equal one
-			if (A[p][p] != 0.) {
-				double s = 1. / A[p][p]; // s <- 1/u_pp
-				A = scale(p, s, A); // Yp <- s * Yp
-				for (int r = p - 1; r >= 0; r--) {// Eliminate from future
-					if (A[r][p] != 0.) {
-						s = (-1.) * A[r][p];
-						A = addRows(p, r, s, A);// scale row p by s and add to
 					}
 				}
 			}
@@ -132,5 +81,21 @@ public class LUCore implements IMatrixDoubleOperations {
 
 	public void setMatrixList(List<double[][]> matrixList) {
 		this.matrixList = matrixList;
+	}
+
+	public double[][] getL() {
+		return L;
+	}
+
+	public void setL(double[][] l) {
+		L = l;
+	}
+
+	public double[][] getU() {
+		return U;
+	}
+
+	public void setU(double[][] u) {
+		U = u;
 	}
 }

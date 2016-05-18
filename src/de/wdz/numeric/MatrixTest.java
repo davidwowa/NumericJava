@@ -5,13 +5,13 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
 
 import de.wdz.numeric.matrix.MatrixGenerator;
-import de.wdz.numeric.matrix.gj.core.GJCore3;
+import de.wdz.numeric.matrix.gj.core.GJCore;
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
 public class MatrixTest implements IMatrixDoubleOperations {
 
 	public static void main(String[] args) {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 		double[][] matrix = { { 1, 1, 3 }, { 1, 2, 3 }, { 1, 3, 4 } };
 		

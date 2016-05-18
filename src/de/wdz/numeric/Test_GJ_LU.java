@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.wdz.numeric.matrix.MatrixGenerator;
-import de.wdz.numeric.matrix.gj.core.GJCore2;
-import de.wdz.numeric.matrix.gj.core.GJCore3;
+import de.wdz.numeric.matrix.gj.core.GJCore;
 import de.wdz.numeric.matrix.lu.core.LUCore;
 
 public class Test_GJ_LU {
@@ -36,7 +35,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void polynomialRegressionBookExample() {
-		GJCore3 core3 = new GJCore3();
+		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getMatrixPolynomialRegressionBookExample();
@@ -48,7 +47,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testLeastSquareMatrix2() {
-		GJCore3 core3 = new GJCore3();
+		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 		System.out.println("LEAST SQUARE EXERCISE");
 		System.out.println("MATRIX A");
@@ -71,7 +70,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testLeastSquareMatrixX() {
-		GJCore3 core3 = new GJCore3();
+		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 		System.out.println("LEAST SQUARE EXERCISE");
 		System.out.println("MATRIX A");
@@ -109,7 +108,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testAddMatrix() {
-		GJCore3 core3 = new GJCore3();
+		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getMatrixPolynomialRegressionBookExample();
@@ -123,7 +122,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void regularisationTest() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 		System.out.println("LEAST SQUARE EXERCISE");
 
@@ -166,7 +165,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testLeastSquareMatrixFinal() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 		System.out.println("LEAST SQUARE EXERCISE");
 
@@ -255,7 +254,7 @@ public class Test_GJ_LU {
 	public static List<double[][]> getAllVectors(List<double[][]> bs) {
 		List<double[][]> result = new ArrayList<>();
 		for (double[][] ds : bs) {
-			GJCore3 core = new GJCore3();
+			GJCore core = new GJCore();
 			MatrixGenerator generator = new MatrixGenerator();
 			System.out.println("LEAST SQUARE EXERCISE");
 
@@ -300,7 +299,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testTMatrix() {
-		GJCore3 core3 = new GJCore3();
+		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] matrix = generator.getRandomMatrix(3, 2);
@@ -314,7 +313,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testMultMatrix() {
-		GJCore3 core3 = new GJCore3();
+		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getRandomMatrix(3, 21);
@@ -329,7 +328,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase11() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getMatrixSquares();
@@ -362,7 +361,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase10() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getMatrixLittle();
@@ -379,7 +378,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase9() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getMatrixLittle();
@@ -396,7 +395,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase8() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getMatrixLong();
@@ -415,7 +414,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase7() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getMatrixLong();
@@ -432,7 +431,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase6() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getTestMatrixBookExample();
@@ -453,7 +452,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCaseRandom() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getRandomMatrix(3);
@@ -474,7 +473,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase5() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getTestRMatrix2();
@@ -495,7 +494,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase4() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getTestRMatrix();
@@ -516,7 +515,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase3() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getTestMatrix777();
@@ -537,7 +536,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase2() {
-		GJCore2 core = new GJCore2();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		final double[][] A = generator.getTestMatrix777();
@@ -558,7 +557,7 @@ public class Test_GJ_LU {
 	}
 
 	public static void testGJCase1() {
-		GJCore3 core = new GJCore3();
+		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
 		double[][] A = generator.getTestMatrix7();
