@@ -352,7 +352,7 @@ public class Test_GJ_LU {
 		core.U(A);
 		System.out.println("U-MATRIX");
 		core.printMatrix(core.getU());
-		
+
 		core.L();
 	}
 

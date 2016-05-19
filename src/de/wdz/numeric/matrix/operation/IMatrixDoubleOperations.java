@@ -165,6 +165,7 @@ public interface IMatrixDoubleOperations {
 	}
 
 	/**
+	 * TODO UMBAUEN
 	 * 
 	 * @param sigma
 	 * @param matrix

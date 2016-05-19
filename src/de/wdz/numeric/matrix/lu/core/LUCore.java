@@ -76,6 +76,8 @@ public class LUCore implements IMatrixDoubleOperations {
 			double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
 			A = scale(currentRow, s, A); // Yp <- s * Yp
 
+			// TODO die Methoden müssen die permuation, scale und
+			// eliminationsmatrizen zurückliefern und nicht das Angewandte auf A
 			double[][] scaledInverse = scale(currentRow, s, generator.getIdentityMatrix(A.length));
 			getMatrixList().add(scaledInverse);
 
@@ -89,11 +91,11 @@ public class LUCore implements IMatrixDoubleOperations {
 																// and
 																// add
 																// to
-//				double[][] e_k = build_e_k_Matrix(A.length, currentRow);
-//				double[][] e_l = build_e_l_Matrix(A.length, currentColumn);
-//
-//				double[][] elMatrix = eliminate(s, e_l, e_k);
-//				getMatrixList().add(elMatrix);
+				double[][] e_k = build_e_k_Matrix(A.length, currentRow);
+				double[][] e_l = build_e_l_Matrix(A.length, currentColumn);
+				//
+				double[][] elMatrix = eliminate(s, e_l, e_k);
+				getMatrixList().add(elMatrix);
 			}
 		}
 		U = A;
