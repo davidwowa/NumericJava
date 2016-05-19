@@ -227,6 +227,7 @@ public interface IMatrixDoubleOperations {
 	 *            result Matrix
 	 * @return new Matrix
 	 */
+	@Deprecated
 	default double[][] eliminate(double c, double[][] e_l, double[][] e_k) {
 		// TODO validate input
 		System.out.println("\t\t\t <---eliminate--->");
@@ -245,6 +246,45 @@ public interface IMatrixDoubleOperations {
 		double[][] lk = mult(e_l, e_k);
 		double[][] lkc = multWithFactor(c, lk);
 		double[][] lkcid = mult(identityMatrix, lkc);
+
+		System.out.println("=");
+		printMatrix(lkcid);
+		return lkcid;
+	}
+
+	/**
+	 * Elimination (Page 70 in Book)
+	 * 
+	 * @param c
+	 *            the factor
+	 * @param e_l
+	 * @param e_k
+	 * @param n
+	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann man
+	 *            es ingorieren, da die Grˆﬂe kann ich von Matrix herausbekommen
+	 *            was in Methode-Signatur drin ist
+	 * @param matrix
+	 *            result Matrix
+	 * @return new Matrix
+	 */
+	default double[][] eliminate_p(double c, double[][] e_l, double[][] e_k) {
+		// TODO validate input
+		System.out.println("\t\t\t <---eliminate--->");
+
+		MatrixGenerator generator = new MatrixGenerator();
+		double[][] identityMatrix = generator.getIdentityMatrix(e_l.length);
+		// identityMatrix * factor * e_l * e_k
+		System.out.println("\t\t\t identity matrix");
+		printMatrix(identityMatrix);
+		System.out.println("\t\t\t with factor " + c);
+		System.out.println("\t\t\t with vector e_l");
+		printMatrix(e_l);
+		System.out.println("\t\t\t with vector e_k");
+		printMatrix(e_k);
+
+		double[][] lk = mult(e_l, e_k);
+		double[][] lkc = multWithFactor(c, lk);
+		double[][] lkcid = add(identityMatrix, lkc);
 
 		System.out.println("=");
 		printMatrix(lkcid);

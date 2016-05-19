@@ -23,7 +23,9 @@ public class Test_GJ_LU {
 		// testGJCase9();
 		// testGJCase10();
 		// testGJCase11();
-		testLUCase1();
+		// testLUCase1();
+		// testLUCase2();
+		testLUCase3();
 		// testTMatrix();
 		// testMultMatrix();
 		// testLeastSquareMatrixFinal();
@@ -354,6 +356,58 @@ public class Test_GJ_LU {
 		core.printMatrix(core.getU());
 
 		core.L();
+	}
+
+	public static void testLUCase2() {
+		LUCore core = new LUCore();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getTestMatrixLUExample();
+		// getTestMatrixCLUExample
+		// getTestMatrixLUExampleMatlab
+		core.U(A);
+		core.L();
+
+		System.out.println("RESULT");
+		System.out.println("L");
+
+		core.printMatrix(core.getL());
+
+		System.out.println("U");
+
+		core.printMatrix(core.getU());
+
+		System.out.println("TEST");
+
+		double[][] test = core.mult(core.getL(), core.getU());
+
+		core.printMatrix(test);
+	}
+
+	public static void testLUCase3() {
+		LUCore core = new LUCore();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getRandomMatrix(5);
+		// getTestMatrixCLUExample
+		// getTestMatrixLUExampleMatlab
+		core.U(A);
+		core.L();
+
+		System.out.println("RESULT");
+		System.out.println("L");
+
+		core.printMatrix(core.getL());
+
+		System.out.println("U");
+
+		core.printMatrix(core.getU());
+
+		System.out.println("TEST");
+
+		double[][] test = core.mult(core.getL(), core.getU());
+
+		core.printMatrix(test);
 	}
 
 	public static void testGJCase10() {

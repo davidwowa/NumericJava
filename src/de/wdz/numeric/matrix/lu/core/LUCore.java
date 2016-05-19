@@ -41,17 +41,13 @@ public class LUCore implements IMatrixDoubleOperations {
 		// calculate L matrix
 		// showAllMatrix();
 
-		// double[][] currentMatrix = inverses.get(inverses.size() - 1);
-		// for (int i = inverses.size() - 2; i >= 0; i--) {
-		// currentMatrix = mult(inverses.get(i), currentMatrix);
-		// }
-
 		double[][] currentMatrix = inverses.get(0);
 		for (int i = 1; i < inverses.size(); i++) {
-			currentMatrix = mult(inverses.get(i), currentMatrix);
+			currentMatrix = mult(currentMatrix, inverses.get(i));
 		}
 		System.out.println("L - Matrix");
 		printMatrix(currentMatrix);
+		L = currentMatrix;
 	}
 
 	private void showAllMatrix() {
@@ -94,7 +90,7 @@ public class LUCore implements IMatrixDoubleOperations {
 				double[][] e_k = build_e_k_Matrix(A.length, currentRow);
 				double[][] e_l = build_e_l_Matrix(A.length, currentColumn);
 				//
-				double[][] elMatrix = eliminate(s, e_l, e_k);
+				double[][] elMatrix = eliminate_p(s, e_l, e_k);
 				getMatrixList().add(elMatrix);
 			}
 		}
