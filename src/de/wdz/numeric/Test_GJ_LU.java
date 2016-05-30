@@ -6,6 +6,7 @@ import java.util.List;
 import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.gj.core.GJCore;
 import de.wdz.numeric.matrix.lu.core.LUCore;
+import de.wdz.numeric.matrix.lu.core.PLUCore;
 
 public class Test_GJ_LU {
 
@@ -23,9 +24,11 @@ public class Test_GJ_LU {
 		// testGJCase9();
 		// testGJCase10();
 		// testGJCase11();
+//		testGJCase12();
 		// testLUCase1();
 		// testLUCase2();
-		testLUCase3();
+		 testLUCase3();
+		// testPLUCase3();
 		// testTMatrix();
 		// testMultMatrix();
 		// testLeastSquareMatrixFinal();
@@ -204,55 +207,6 @@ public class Test_GJ_LU {
 		core.backwardSubstitution(AtTimesA, newb, inverse);
 	}
 
-	public static void testWithAllKnownVectors() {
-		double value = 716.2500000000001;
-
-		List<double[][]> list = new ArrayList<>();
-
-		double[][] newb0 = { { 1 }, { 1 }, { 1 } };
-		double[][] newb1 = { { value }, { value }, { value } };
-		double[][] newb2 = { { (value * -1.) }, { (value * -1.) }, { (value * -1.) } };
-		double[][] newb3 = { { 1 }, { value }, { Math.pow(value, 2) } };
-		double[][] newb4 = { { Math.pow(value, 2) }, { value }, { 1 } };
-		double[][] newb5 = { { Math.pow(value, 2) }, { Math.pow(value, 2) }, { Math.pow(value, 2) } };
-		double[][] newb6 = { { Math.sqrt(value) }, { Math.sqrt(value) }, { Math.sqrt(value) } };
-		double[][] newb7 = { { 1 }, { 0 }, { 0 } };
-
-		list.add(newb0);
-		list.add(newb1);
-		list.add(newb2);
-		list.add(newb3);
-		list.add(newb4);
-		list.add(newb5);
-		list.add(newb6);
-		list.add(newb7);
-
-		List<double[][]> results = getAllVectors(list);
-
-		int count = 0;
-		for (double[][] ds : results) {
-
-			String string = "fx_v" + count + " = @(x) " + ds[2][0] + "*x^2 ";
-
-			if (ds[1][0] > 0.) {
-				string = string.concat("+ " + ds[1][0] + "*x ");
-			}
-			if (ds[1][0] < 0.) {
-				string = string.concat(ds[1][0] + "*x ");
-			}
-
-			if (ds[0][0] > 0.) {
-				string = string.concat("+ " + ds[0][0]);
-			}
-			if (ds[0][0] < 0.) {
-				string = string.concat(ds[0][0] + "");
-			}
-
-			System.out.println(string);
-			count++;
-		}
-	}
-
 	public static List<double[][]> getAllVectors(List<double[][]> bs) {
 		List<double[][]> result = new ArrayList<>();
 		for (double[][] ds : bs) {
@@ -384,11 +338,44 @@ public class Test_GJ_LU {
 		core.printMatrix(test);
 	}
 
+	public static void testPLUCase3() {
+		PLUCore core = new PLUCore();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getTestMatrixPLUExample();
+		// getTestMatrixBookExample
+		// getTestMatrixCLUExample
+		// getTestMatrixLUExampleMatlab
+		core.U(A);
+		core.L();
+		core.calculateP();
+
+		System.out.println("RESULT");
+		System.out.println("P");
+
+		core.printMatrix(core.getP());
+
+		System.out.println("L");
+
+		core.printMatrix(core.getL());
+
+		System.out.println("U");
+
+		core.printMatrix(core.getU());
+
+		System.out.println("TEST");
+
+		double[][] test = core.mult(core.getP(), core.getL());
+		double[][] result = core.mult(test, core.getU());
+
+		core.printMatrix(result);
+	}
+
 	public static void testLUCase3() {
 		LUCore core = new LUCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
-		double[][] A = generator.getRandomMatrix(5);
+		double[][] A = generator.getTestMatrixPLUExample();
 		// getTestMatrixCLUExample
 		// getTestMatrixLUExampleMatlab
 		core.U(A);
@@ -408,6 +395,23 @@ public class Test_GJ_LU {
 		double[][] test = core.mult(core.getL(), core.getU());
 
 		core.printMatrix(test);
+	}
+
+	public static void testGJCase12() {
+		GJCore core = new GJCore();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getTestMatrixPLUExample();
+
+		System.out.println("--START--");
+
+		core.printMatrix(A);
+
+		core.forwardSubstitution(A);
+		 A = core.adjustMatrix(A);
+		// core.backwardSubstitution(A);
+		System.out.println("--END--");
+		core.printMatrix(A);
 	}
 
 	public static void testGJCase10() {

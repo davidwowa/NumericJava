@@ -7,25 +7,30 @@ import de.wdz.numeric.matrix.MatrixGenerator;
 import de.wdz.numeric.matrix.gj.core.GJCore;
 import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
-public class LUCore implements IMatrixDoubleOperations {
-	private List<double[][]> matrixList;
-	private List<double[][]> inverses;
+public class PLUCore implements IMatrixDoubleOperations {
 	private MatrixGenerator generator;
 
+	private List<double[][]> matrixList;
+	private List<double[][]> inverses;
+	private List<double[][]> permuations;
+
+	private double[][] P;
 	private double[][] L;
 	private double[][] U;
 
-	public LUCore() {
+	public PLUCore() {
 		this.matrixList = new ArrayList<>();
 		this.inverses = new ArrayList<>();
+		this.permuations = new ArrayList<>();
 		generator = new MatrixGenerator();
 	}
 
 	public void U(double[][] A) {
 		L = new double[A.length][A[0].length];
 		U = new double[A.length][A[0].length];
+		P = new double[A.length][A[0].length];
 		System.out.println("U - MATRIX");
-		forwardSubstitution(A);
+		forwardSubstitutionP(A);
 	}
 
 	public void L() {
@@ -50,8 +55,6 @@ public class LUCore implements IMatrixDoubleOperations {
 		L = currentMatrix;
 	}
 
-	@SuppressWarnings("unused")
-	@Deprecated
 	private void showAllMatrix() {
 		System.out.println("matrix list");
 		for (int i = 0; i < matrixList.size(); i++) {
@@ -65,10 +68,47 @@ public class LUCore implements IMatrixDoubleOperations {
 		}
 	}
 
-	private void forwardSubstitution(double[][] A) {
+	public void calculateP() {
+		System.out.println("P - MATRIX");
+
+		// showAllMatrix();
+		if (permuations.size() != 0) {
+			double[][] currentMatrix = permuations.get(0);
+			for (int i = 1; i < permuations.size(); i++) {
+				currentMatrix = mult(currentMatrix, permuations.get(i));
+				System.out.println("P - Matrix");
+				printMatrix(currentMatrix);
+				P = currentMatrix;
+			}
+		} else {
+			System.out.println("NO PERMUTATION MATRIX");
+			P = generator.getIdentityMatrix(L.length);
+		}
+	}
+
+	private void forwardSubstitutionP(double[][] A) {
 		// iterate over current pivot row p
 		for (int currentRow = 0; currentRow < A[0].length; currentRow++) {
 			// pivot code here
+
+			int max = currentRow;
+			for (int i = 0; i < A.length; i++) {
+				if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
+					max = i;
+				}
+			}
+
+			if (A[currentRow][currentRow] == 0.) {
+
+				System.out.println("P-MATRIX-START");
+				// permutate rows
+				int[] sigma = getSigma(max, currentRow, A.length);
+				A = permute(sigma, A);
+				double[][] P = generator.getIdentityMatrix(A.length);
+				P = permute(sigma, P);
+				getPermuationsMatrix().add(P);
+				System.out.println("P-MATRIX-END");
+			}
 
 			// scale row p to make element at (p, p) equal one
 			double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
@@ -117,12 +157,46 @@ public class LUCore implements IMatrixDoubleOperations {
 		return resultMatrix;
 	}
 
+	private int[] getSigma(int newIndex, int oldIndex, int size) {
+		int[] sigma = new int[size];
+		for (int i = 0; i < sigma.length; i++) {
+			sigma[i] = i;
+		}
+		sigma[newIndex] = oldIndex;
+		sigma[oldIndex] = newIndex;
+		return sigma;
+	}
+
 	public List<double[][]> getMatrixList() {
 		return matrixList;
 	}
 
 	public void setMatrixList(List<double[][]> matrixList) {
 		this.matrixList = matrixList;
+	}
+
+	public List<double[][]> getPermuationsMatrix() {
+		return permuations;
+	}
+
+	public void setPermuationsMatrix(List<double[][]> permuationsMatrix) {
+		this.permuations = permuationsMatrix;
+	}
+
+	public List<double[][]> getInverses() {
+		return inverses;
+	}
+
+	public void setInverses(List<double[][]> inverses) {
+		this.inverses = inverses;
+	}
+
+	public double[][] getP() {
+		return P;
+	}
+
+	public void setP(double[][] p) {
+		P = p;
 	}
 
 	public double[][] getL() {

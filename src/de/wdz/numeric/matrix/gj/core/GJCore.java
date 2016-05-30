@@ -109,8 +109,8 @@ public class GJCore implements IMatrixDoubleOperations {
 				}
 			}
 
+			System.out.println("A[" + currentRow + "][" + currentRow + "] == 0. -> " + A[currentRow][currentRow]);
 			if (A[currentRow][currentRow] == 0.) {
-
 				// permutate rows
 				int[] sigma = getSigma(max, currentRow, A[0].length);
 				A = permute(sigma, A);

@@ -114,6 +114,11 @@ public class MatrixGenerator {
 		return doubleMatrix;
 	}
 
+	public double[][] getTestMatrixPLUExample() {
+		double[][] doubleMatrix = { { 0, 1, 0 }, { -8, 8, 1 }, { 2, -2, 0 } };
+		return doubleMatrix;
+	}
+	
 	public double[][] getTestVectorBookExample() {
 		double[][] doubleMatrix = { { -3 }, { -1 }, { 4 } };
 		return doubleMatrix;
