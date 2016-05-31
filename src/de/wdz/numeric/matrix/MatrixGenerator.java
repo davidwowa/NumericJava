@@ -85,30 +85,32 @@ public class MatrixGenerator {
 		double[][] doubleMatrix = { { 4, 3 }, { 6, 3 } };
 		return doubleMatrix;
 	}
-	
+
 	/**
 	 * http://www.dorn.org/uni/sls/kap08/h10_02se.htm
+	 * 
 	 * @return
 	 */
 	public double[][] getTestMatrixLUExample() {
-		double[][] doubleMatrix = { { 6, -2, 0 }, { 9, -1, 1 }, {3, 7, 5} };
+		double[][] doubleMatrix = { { 6, -2, 0 }, { 9, -1, 1 }, { 3, 7, 5 } };
 		return doubleMatrix;
 	}
-	
+
 	/**
 	 * http://de.mathworks.com/help/matlab/ref/lu.html
+	 * 
 	 * @return
 	 */
 	public double[][] getTestMatrixLUExampleMatlab() {
-		double[][] doubleMatrix = { { 1, 2, 3 }, { 4, 5, 6 }, {7, 8, 0} };
+		double[][] doubleMatrix = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 0 } };
 		return doubleMatrix;
 	}
-	
+
 	public double[][] getTestMatrixLUExampleWikipedia2() {
-		double[][] doubleMatrix = { { 1, 2, 3 }, { 1, 1, 1 }, {3, 3, 1} };
+		double[][] doubleMatrix = { { 1, 2, 3 }, { 1, 1, 1 }, { 3, 3, 1 } };
 		return doubleMatrix;
 	}
-	
+
 	public double[][] getTestMatrixBookExample() {
 		double[][] doubleMatrix = { { 1, 1, -2 }, { 0, 1, -1 }, { 3, -1, 1 } };
 		return doubleMatrix;
@@ -118,7 +120,12 @@ public class MatrixGenerator {
 		double[][] doubleMatrix = { { 0, 1, 0 }, { -8, 8, 1 }, { 2, -2, 0 } };
 		return doubleMatrix;
 	}
-	
+
+	public double[][] getTestMatrixPLUE2xample() {
+		double[][] doubleMatrix = { { -8, 8, 1 }, { 0, 1, 0 }, { 2, -2, 0 } };
+		return doubleMatrix;
+	}
+
 	public double[][] getTestVectorBookExample() {
 		double[][] doubleMatrix = { { -3 }, { -1 }, { 4 } };
 		return doubleMatrix;

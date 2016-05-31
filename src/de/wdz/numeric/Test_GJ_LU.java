@@ -375,7 +375,7 @@ public class Test_GJ_LU {
 		LUCore core = new LUCore();
 		MatrixGenerator generator = new MatrixGenerator();
 
-		double[][] A = generator.getTestMatrixPLUExample();
+		double[][] A = generator.getTestMatrixPLUE2xample();
 		// getTestMatrixCLUExample
 		// getTestMatrixLUExampleMatlab
 		core.U(A);
