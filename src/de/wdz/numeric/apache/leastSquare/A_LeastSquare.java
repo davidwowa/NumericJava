@@ -1,4 +1,4 @@
-package de.wdz.numeric;
+package de.wdz.numeric.apache.leastSquare;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
@@ -8,8 +8,7 @@ import org.apache.commons.math3.linear.LUDecomposition;
 import org.apache.commons.math3.linear.MatrixUtils;
 import org.apache.commons.math3.linear.RealMatrix;
 
-public class ApacheMathTest {
-
+public class A_LeastSquare {
 	public static void main(String[] args) {
 		CurveFitting();
 	}
@@ -69,5 +68,4 @@ public class ApacheMathTest {
 		final double[] coeff = fitter.fit(obs.toList());
 		System.out.println(ArrayUtils.toString(coeff));
 	}
-
 }
