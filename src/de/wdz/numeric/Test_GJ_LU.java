@@ -27,7 +27,7 @@ public class Test_GJ_LU {
 //		testGJCase12();
 		// testLUCase1();
 		// testLUCase2();
-		 testLUCase3();
+		testInverseCase();
 		// testPLUCase3();
 		// testTMatrix();
 		// testMultMatrix();
@@ -39,6 +39,16 @@ public class Test_GJ_LU {
 		// regularisationTest();
 	}
 
+	public static void testInverseCase() {
+		GJCore core = new GJCore();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getTestMatrixPLUE2xample();
+		// getTestMatrixCLUExample
+		// getTestMatrixLUExampleMatlab
+		core.inverse(A);
+}
+	
 	public static void polynomialRegressionBookExample() {
 		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();

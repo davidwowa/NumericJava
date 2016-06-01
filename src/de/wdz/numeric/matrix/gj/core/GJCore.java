@@ -5,6 +5,14 @@ import de.wdz.numeric.matrix.operation.IMatrixDoubleOperations;
 
 public class GJCore implements IMatrixDoubleOperations {
 
+	public void inverse(double[][] A) {
+		MatrixGenerator generator = new MatrixGenerator();
+		double[][] inverse = generator.getIdentityMatrix(A.length);
+
+		forwardSubstitution(A, inverse);
+		backwardSubstitution(A, inverse);
+	}
+
 	public void forwardSubstitution(double[][] A, double[][] B, double[][] inverse) {
 		// iterate over current pivot row p
 		for (int currentRow = 0; currentRow < A.length; currentRow++) {
