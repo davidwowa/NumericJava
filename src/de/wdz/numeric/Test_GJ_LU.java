@@ -27,11 +27,11 @@ public class Test_GJ_LU {
 //		testGJCase12();
 		// testLUCase1();
 		// testLUCase2();
-		testInverseCase();
+//		testInverseCase();
 		// testPLUCase3();
 		// testTMatrix();
 		// testMultMatrix();
-		// testLeastSquareMatrixFinal();
+		 testLeastSquareMatrixFinal();
 		// testLeastSquareMatrix2();
 		// polynomialRegressionBookExample();
 		// testWithAllKnownVectors();
@@ -192,9 +192,9 @@ public class Test_GJ_LU {
 		double[][] b = generator.getMatrixSquaresb();
 		core.printMatrix(b);
 
-		double[][] At = core.transpose(A);
-		System.out.println("MATRIX At");
-		core.printMatrix(At);
+//		double[][] At = core.transpose(A);
+//		System.out.println("MATRIX At");
+//		core.printMatrix(At);
 
 		System.out.println("BUILD NEW A MATRIX");
 		double[][] rMatrix = core.rebuildMatrixToFormForLeastSquares(A, 3);
@@ -211,10 +211,14 @@ public class Test_GJ_LU {
 		System.out.println("At * b");
 		double[][] newb = core.mult(rAtMatrix, b);
 
+		core.printMatrix(newb);
+		
 		double[][] inverse = generator.getIdentityMatrix(AtTimesA.length);
 
 		core.forwardSubstitution(AtTimesA, newb, inverse);
 		core.backwardSubstitution(AtTimesA, newb, inverse);
+		
+		System.out.println("show result vector next top lines");
 	}
 
 	public static List<double[][]> getAllVectors(List<double[][]> bs) {
