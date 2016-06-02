@@ -313,4 +313,9 @@ public class MatrixGenerator {
 		double[][] doubleMatrix = { { 1 }, { 3 } };
 		return doubleMatrix;
 	}
+
+	public double[][] getMatrixCholesky() {
+		double[][] doubleMatrix = { { 2, -1, 0 }, { -1, 2, -1 }, { 0, -1, 2 } };
+		return doubleMatrix;
+	}
 }
