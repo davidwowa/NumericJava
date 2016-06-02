@@ -15,5 +15,10 @@ public class A_LU {
 		LUDecomposition decomposition = new LUDecomposition(a_Matrix);
 		RealMatrix L = decomposition.getL();
 		RealMatrix U = decomposition.getU();
+		
+		System.out.println("L");
+		System.out.println(L.toString());
+		System.out.println("U");
+		System.out.println(U.toString());
 	}
 }

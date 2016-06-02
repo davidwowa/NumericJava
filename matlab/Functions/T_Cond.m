@@ -5,9 +5,10 @@ classdef T_Cond
     end
     
     methods
-        function t_cond = t_cond(obj, A)
+        function t_cond = t_cond(obj)
+            disp('start condition number')
             tic
-            t_cond = cond(A);
+            t_cond = cond(obj.A);
             toc
         end
     end

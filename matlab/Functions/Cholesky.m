@@ -5,6 +5,7 @@ classdef Cholesky
     
     methods
         function result = cholesky(obj, A)
+            disp('start cholesky decomposition')
             tic
             result = chol(obj.A);
             toc

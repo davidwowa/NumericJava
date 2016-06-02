@@ -24,6 +24,7 @@ classdef LeastSquare
            end
         end
         function result = solveLeastSquare(obj, polynom_grad)
+            disp('start least square')
             tic
             Ar = rebuildMatrixForLeasSquares(obj, polynom_grad);
             At = transpose(Ar);

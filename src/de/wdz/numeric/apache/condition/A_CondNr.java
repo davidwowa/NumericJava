@@ -18,5 +18,6 @@ public class A_CondNr {
 		SingularValueDecomposition decomposition = new SingularValueDecomposition(a_Matrix);
 
 		System.out.println(decomposition.getConditionNumber());
+		System.out.println(a_Matrix.toString());
 	}
 }
