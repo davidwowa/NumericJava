@@ -3,6 +3,31 @@ package de.wdz.numeric.matrix;
 public class MatrixGenerator {
 
 	/**
+	 * Get vector with ones
+	 */
+	public double[][] getVectorWithOnes(int size) {
+		double[][] identityMatrix = new double[size][1];
+		for (int i = 0; i < size; i++) {
+			identityMatrix[i][0] = 1;
+		}
+		return identityMatrix;
+	}
+
+	/**
+	 * Get identity hilbert matrix
+	 */
+	public double[][] getHilbertMatrix(int size) {
+		double[][] identityMatrix = new double[size][size];
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				double value = (i + 1) + (j + 1) - 1;
+				identityMatrix[i][j] = 1 / value;
+			}
+		}
+		return identityMatrix;
+	}
+
+	/**
 	 * Get identity matrix with diagonale with 1
 	 */
 	public double[][] getIdentityMatrix(int size) {
