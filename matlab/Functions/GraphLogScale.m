@@ -35,11 +35,20 @@ classdef GraphLogScale
             xlabel(xlabelT);
             ylabel(ylabelT);
             legend(labelName, 'Location','southoutside');
-
         end
         
-        function f_plot(obj)
-            plot(obj.x, obj.y, 'LineWidth',2);
+        function f_plot(obj, from, to, labelName, xlabelT, ylabelT)
+            figure
+            fplot(obj.p, [from, to], 'LineWidth',2);
+            xlabel(xlabelT);
+            ylabel(ylabelT);
+            title(char(obj.p));
+            legend(labelName, 'Location','southoutside');
+        end
+        
+        function f_plot2(obj)
+            figure
+            fplot(obj.p, 'LineWidth',2);
         end
     end
 end
