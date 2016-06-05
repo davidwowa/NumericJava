@@ -13,9 +13,9 @@ classdef GraphLogScale
     end
     
     methods
-        function g = log_plot_X(obj, labelName, xlabelT, ylabelT)
+        function log_plot_X(obj, labelName, xlabelT, ylabelT)
             figure
-            g = semilogx(obj.x, obj.y, 'LineWidth',2);
+            semilogx(obj.x, obj.y, 'LineWidth',2);
             xlabel(xlabelT);
             ylabel(ylabelT);
             legend(labelName, 'Location','southoutside');
@@ -29,13 +29,17 @@ classdef GraphLogScale
             legend(labelName, 'Cholesky (Java)', 'LU (Java)', 'Location','southoutside');
         end
 
+        function scater_plot(obj, labelName, xlabelT, ylabelT)
+            figure
+            scatter(obj.x, obj.y);
+            xlabel(xlabelT);
+            ylabel(ylabelT);
+            legend(labelName, 'Location','southoutside');
 
-        function g = scater_plot(obj)
-            g = scatter(obj.x, obj.y);
         end
         
-        function g = f_plot(obj, from, to)
-            g = fplot(obj.p, [from, to], 'LineWidth',2);
+        function f_plot(obj)
+            plot(obj.x, obj.y, 'LineWidth',2);
         end
     end
 end
