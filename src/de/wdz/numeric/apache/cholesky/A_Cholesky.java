@@ -1,5 +1,8 @@
 package de.wdz.numeric.apache.cholesky;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.CholeskyDecomposition;
@@ -16,7 +19,8 @@ public class A_Cholesky {
 
 		// positive definite matrix must be
 
-		System.out.println("n\tr\t\t\t\t\t\t\t" + "∆x" + "\t\t\t\t\t\t\tcondition\t\t\t\t\t\t\tequal numbers");
+		System.out.println(
+				"n\tr\t\t\t\t\t\t\t" + "∆x" + "\t\t\t\t\t\t\tcondition\t\t\t\t\t\t\tequal numbers\t\t\t\t\t\t\terror");
 		for (int n = 2; n < 10; n++) {
 
 			double[][] xOnes = generator.getVectorWithOnes(n);
@@ -42,30 +46,34 @@ public class A_Cholesky {
 			// Error
 			RealMatrix error = x_hut.subtract(x);
 
-			int numberOfOnes = equalVectorsToOne(x_hut.getData());
+			int numberOfOnes = equalVectorsToOne(x_hut.getData(), 2);
 
-			// Infinity norm
-			// double residdumInfNorm = residuum.getNorm();
-			// double errorInfNorm = error.getNorm();
-
-			// for example use the b-vector inf norm
 			Matrix jamaMatrixResiduum = new Matrix(residuum.getData());
 			Matrix jamaMatrixError = new Matrix(error.getData());
+			Matrix jamaMatrixX = new Matrix(xOnes);
 
-			System.out.println(n + "\t" + jamaMatrixResiduum.normInf() + "\t\t\t\t\t\t" + jamaMatrixError.normInf()
-					+ "\t\t\t\t\t\t\t" + conitionNumber + "\t\t\t\t\t\t\t" + numberOfOnes);
+			double normOfRsiduum = jamaMatrixResiduum.normInf();
+			double normOfError = jamaMatrixError.normInf();
+
+			Matrix jamaMatrixDeltaX = new Matrix(error.getData());
+
+			double relativeErrorX = (jamaMatrixDeltaX.normInf()) / jamaMatrixX.normInf();
+
+			System.out.println(n + "\t" + normOfRsiduum + "\t\t\t\t\t\t" + normOfError + "\t\t\t\t\t\t\t"
+					+ conitionNumber + "\t\t\t\t\t\t\t" + numberOfOnes + "\t\t\t\t\t\t\t" + relativeErrorX);
 		}
 	}
 
-	private static int equalVectorsToOne(double[][] vector) {
+	private static int equalVectorsToOne(double[][] vector, int scale) {
 		int counter = 0;
 
-		// GJCore core = new GJCore();
-		// core.printMatrix(vector);
-
 		for (int i = 0; i < vector.length; i++) {
-			if (vector[i][0] == 1.d) {
-				counter = counter++;
+			String stringValue = vector[i][0] + "";
+
+			String valueS = (String) stringValue.subSequence(0, scale);
+			BigDecimal value = new BigDecimal(valueS);
+			if (BigDecimal.ONE.equals(value)) {
+				counter = counter + 1;
 			}
 		}
 
