@@ -1,7 +1,6 @@
 package de.wdz.numeric.apache.cholesky;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.BlockRealMatrix;
@@ -76,7 +75,6 @@ public class A_Cholesky {
 				counter = counter + 1;
 			}
 		}
-
 		return counter;
 	}
 }
