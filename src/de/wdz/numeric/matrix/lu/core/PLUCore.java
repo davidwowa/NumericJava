@@ -55,18 +55,18 @@ public class PLUCore implements IMatrixDoubleOperations {
 		L = currentMatrix;
 	}
 
-	private void showAllMatrix() {
-		System.out.println("matrix list");
-		for (int i = 0; i < matrixList.size(); i++) {
-			System.out.println("--");
-			printMatrix(matrixList.get(i));
-		}
-		System.out.println("inverses list");
-		for (int i = 0; i < inverses.size(); i++) {
-			System.out.println("--");
-			printMatrix(inverses.get(i));
-		}
-	}
+	// private void showAllMatrix() {
+	// System.out.println("matrix list");
+	// for (int i = 0; i < matrixList.size(); i++) {
+	// System.out.println("--");
+	// printMatrix(matrixList.get(i));
+	// }
+	// System.out.println("inverses list");
+	// for (int i = 0; i < inverses.size(); i++) {
+	// System.out.println("--");
+	// printMatrix(inverses.get(i));
+	// }
+	// }
 
 	public void calculateP() {
 		System.out.println("P - MATRIX");

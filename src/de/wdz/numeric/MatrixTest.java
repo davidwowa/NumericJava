@@ -13,7 +13,7 @@ public class MatrixTest implements IMatrixDoubleOperations {
 	public static void main(String[] args) {
 		GJCore core = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
-		double[][] matrix = { { 1, 1, 3 }, { 1, 2, 3 }, { 1, 3, 4 } };
+		//double[][] matrix = { { 1, 1, 3 }, { 1, 2, 3 }, { 1, 3, 4 } };
 		
 		double[][] matrix2 = {{21.0, 105.0, 717.5},
 		{105.0, 717.5, 5512.5},
