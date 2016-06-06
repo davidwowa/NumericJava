@@ -19,6 +19,11 @@ public class LeastSquaresForData {
 		// MatlabGPU
 		// f_matlab = @(x) 1.0096618381618518E-7*x^2 + 7.315969030967048E-6*x + 0.023519818181818718;
 
+		// hp size and multiplications
+		// f_matlab = @(x) 1.0096618381618518E-7*x^2 + 7.315969030967048E-6*x + 0.023519818181818718;
+todo lese die daten aus csv aus mit messwerten für multiplications usw
+		
+		
 		CSVHandler csv = new CSVHandler("/Users/David/git/NumericJava/matlab/Functions/measurementMatlabGPU.csv");
 		double[][] data = csv.read();
 		go(data);
