@@ -128,11 +128,13 @@ public interface IMatrixDoubleOperations {
 	 */
 	default double[][] mult(double[][] a, double[][] b) {
 		if (checkSizeMatrix(a, b)) {
+			int multCount = 0;
 			// System.out.println(
 			// "create new matrix with dimension " + b.getMatrix().length + "x"
 			// + a.getMatrix()[0].length);
 			double[][] newMatrix = new double[a.length][b[0].length];
 
+			long startTime = System.currentTimeMillis();
 			for (int i = 0; i < a.length; i++) {
 				for (int j = 0; j < b[0].length; j++) {
 
@@ -152,11 +154,17 @@ public interface IMatrixDoubleOperations {
 						// System.out.println(tmp + "+(array_i[" + array_i[k] +
 						// "] * array_j[" + array_j[k] + "])");
 						tmp = tmp + (array_i[k] * array_j[k]);
+						multCount = multCount + 1;
 					}
 					// System.out.println(tmp);
 					newMatrix[i][j] = tmp;
 				}
 			}
+			long endTime = System.currentTimeMillis();
+			// System.out.println(
+			// "n \t" + a.length + " multiplications \t" + multCount + " time
+			// \t" + (endTime - startTime));
+			System.out.println(a.length + "," + multCount + "," + (endTime - startTime));
 			return newMatrix;
 		} else {
 			System.out.println("\t\t\t ERROR:");
@@ -220,9 +228,9 @@ public interface IMatrixDoubleOperations {
 	 * @param e_l
 	 * @param e_k
 	 * @param n
-	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann man
-	 *            es ingorieren, da die Grˆﬂe kann ich von Matrix herausbekommen
-	 *            was in Methode-Signatur drin ist
+	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann
+	 *            man es ingorieren, da die Grˆﬂe kann ich von Matrix
+	 *            herausbekommen was in Methode-Signatur drin ist
 	 * @param matrix
 	 *            result Matrix
 	 * @return new Matrix
@@ -260,9 +268,9 @@ public interface IMatrixDoubleOperations {
 	 * @param e_l
 	 * @param e_k
 	 * @param n
-	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann man
-	 *            es ingorieren, da die Grˆﬂe kann ich von Matrix herausbekommen
-	 *            was in Methode-Signatur drin ist
+	 *            Wenn das die Grˆﬂe f¸r die Identity Matrix ist, dann kann
+	 *            man es ingorieren, da die Grˆﬂe kann ich von Matrix
+	 *            herausbekommen was in Methode-Signatur drin ist
 	 * @param matrix
 	 *            result Matrix
 	 * @return new Matrix
