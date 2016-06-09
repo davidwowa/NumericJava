@@ -12,7 +12,7 @@ public class Exc2 {
 	public static void main(String[] args) {
 		int step = 100;
 		int measurements = 3;
-		apache(step, measurements);
+//		apache(step, measurements);
 		jama(step, measurements);
 	}
 
@@ -35,7 +35,7 @@ public class Exc2 {
 	public static void apache(int step, int measurements) {
 		MatrixGenerator generator = new MatrixGenerator();
 
-		for (int i = 1; i < 20000; i = i + step) {
+		for (int i = 1; i < 2000; i = i + step) {
 			long[] mes = new long[measurements];
 			for (int j = 0; j < measurements; j++) {
 				RealMatrix currentMatrix = new Array2DRowRealMatrix(generator.getRandomMatrix(i));
@@ -54,6 +54,6 @@ public class Exc2 {
 			sum = sum + mes[i];
 		}
 		double result = sum / mes.length;
-		System.out.println(stepNr - 1 + "\t" + result);
+		System.out.println(stepNr - 1 + "," + result);
 	}
 }

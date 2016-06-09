@@ -19,10 +19,11 @@ public class LeastSquaresForData {
 		// MatlabGPU
 		// f_matlab = @(x) 1.0096618381618518E-7*x^2 + 7.315969030967048E-6*x + 0.023519818181818718;
 
-		// hp size and multiplications
-		// f_matlab = @(x) 1.0096618381618518E-7*x^2 + 7.315969030967048E-6*x + 0.023519818181818718;
 
-		CSVHandler csv = new CSVHandler("/Users/David/git/NumericJava/matlab/Functions/measurementMatlabGPU.csv");
+		// f_apache = @(x) 8.976522701943738E-6*x^3 - 0.010904501799629403*x^2 + 3.7400100985115703*x - 300.81749831493926;
+		// f_jama = = @(x) 3.7724369999908064E-7*x^3 - 6.118945553920316E-5*x^2 + 0.01840316603467466*x + 0.7673992674113563;
+
+		CSVHandler csv = new CSVHandler("/Users/David/git/NumericJava/matlab/Functions/measurementJama.csv");
 		double[][] data = csv.read();
 		go(data);
 	}
@@ -51,7 +52,7 @@ public class LeastSquaresForData {
 		// core.printMatrix(At);
 
 		System.out.println("BUILD NEW A MATRIX");
-		double[][] rMatrix = core.rebuildMatrixToFormForLeastSquares(A, 3);
+		double[][] rMatrix = core.rebuildMatrixToFormForLeastSquares(A, 4);
 		core.printMatrix(rMatrix);
 
 		System.out.println("BUILD NEW At MATRIX");
