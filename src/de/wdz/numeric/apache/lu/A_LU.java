@@ -1,7 +1,9 @@
 package de.wdz.numeric.apache.lu;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.BlockRealMatrix;
 import org.apache.commons.math3.linear.LUDecomposition;
@@ -18,9 +20,9 @@ public class A_LU {
 
 		// positive definite matrix must be
 
-		System.out.println(
-				"n\tr\t\t\t\t\t\t\t" + "∆x" + "\t\t\t\t\t\t\tcondition\t\t\t\t\t\t\tequal numbers\t\t\t\t\t\t\terror");
-		for (int n = 2; n < 10; n++) {
+		System.out.println("n\tr\t\t\t\t\t\t\t" + "∆x"
+				+ "\t\t\t\t\t\t\tcondition\t\t\t\t\t\t\tequal numbers\t\t\t\t\t\t\terror");
+		for (int n = 2; n < 13; n++) {
 
 			double[][] xOnes = generator.getVectorWithOnes(n);
 			double[][] hilbertMatrix = generator.getHilbertMatrix(n);
@@ -44,6 +46,8 @@ public class A_LU {
 
 			// Error
 			RealMatrix error = x_hut.subtract(x);
+
+//			System.out.println(ArrayUtils.toString(x_hut));
 
 			int numberOfOnes = equalVectorsToOne(x_hut.getData(), 2);
 
