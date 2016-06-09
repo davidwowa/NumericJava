@@ -8,22 +8,10 @@ public class LeastSquaresForData {
 
 	public static void main(String[] args) {
 		
-		// fx_result = @(x) -0.2805016493803706*x^2 + 2.8400814288686433*x + 2.140542066628967;
-		// von unten nach oben
-		// APACHE
-		// f_apache = @(x) 0.010639152685035536*x^2 - 10.496754906771143*x + 1896.6352591208715;
-		// Jama
-		// f_jama = @(x) 9.836948239164106E-4*x^2 - 0.7590639992905102*x + 134.84914730392381;
-		// Matlab
-		// f_matlab = @(x) 2.2859314185814158E-8*x^2 - 8.933348101898063E-6*x + 0.0016025072727272648;
-		// MatlabGPU
-		// f_matlab = @(x) 1.0096618381618518E-7*x^2 + 7.315969030967048E-6*x + 0.023519818181818718;
+		// f_apache = @(x) 9.341546267629971E-6*x^3 - 0.011253745270038168*x^2 + 3.621485208118603*x - 236.30065359482387;
+		// f_jama = @(x) 2.873523678476959E-7*x^3 + 1.572970416237519E-4*x^2 - 0.12664244352719234*x + 24.95588235295793;
 
-
-		// f_apache = @(x) 8.976522701943738E-6*x^3 - 0.010904501799629403*x^2 + 3.7400100985115703*x - 300.81749831493926;
-		// f_jama = = @(x) 3.7724369999908064E-7*x^3 - 6.118945553920316E-5*x^2 + 0.01840316603467466*x + 0.7673992674113563;
-
-		CSVHandler csv = new CSVHandler("/Users/David/git/NumericJava/matlab/Functions/measurementJama.csv");
+		CSVHandler csv = new CSVHandler("/Users/David/git/NumericJava/matlab/Functions/measurementApache.csv");
 		double[][] data = csv.read();
 		go(data);
 	}
