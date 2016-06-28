@@ -9,8 +9,9 @@ public class SumExample {
 	private static MathContext context = MathContext.DECIMAL128;
 
 	public static void main(String[] args) {
-		doubleForward();
-		doubleBackward();
+		for (int i = 0; i < limit; i++) {
+			System.out.println( i + " " + Math.ulp(i));
+		}
 	}
 
 	public static void doubleForward() {

@@ -8,10 +8,16 @@ public class FindMashineEpsilon {
 		floatEps();
 		doubleEps();
 		// bigDecimalEps();
+		// smallest numer
+		System.out.println("smallest number " + Math.pow(2, -1022));
+		System.out.println("double min_norm " + Double.MIN_NORMAL);
+		double result = (1.d - Math.pow(2, -53)) * Math.pow(2, 1024);
+		System.out.println("biggest number " + result);
+		System.out.println("double max_val " + Double.MAX_VALUE);
 	}
 
 	/**
-	 * TODO !!!
+	 * TODO !!!danger
 	 */
 	public static void bigDecimalEps() {
 		MathContext context = MathContext.DECIMAL32;
@@ -29,7 +35,7 @@ public class FindMashineEpsilon {
 	}
 
 	public static void doubleEps() {
-		double eps = 1.0;
+		double eps = 0.5;
 		int counter = 0;
 
 		while (eps + 1.0 != 1.0) {
@@ -38,15 +44,20 @@ public class FindMashineEpsilon {
 		}
 		System.out.println("double mashine eps = " + eps);
 		System.out.println("double counter = " + counter);
+
+		for (int i = 1; i < 5; i++) {
+			double realEps = new Double(i) * eps;
+			System.out.println(i + " " + (1 + realEps) + " real eps " + realEps);
+		}
 	}
 
 	public static void floatEps() {
-		float eps = 1;
+		float eps = 0.5f;
 		int counter = 0;
 
-		while (eps + 1.0 != 1.0) {
+		while (eps + 1.0f != 1.0f) {
 			counter = counter + 1;
-			eps = eps / 2;
+			eps = eps / 2f;
 		}
 		System.out.println("float mashine eps = " + eps);
 		System.out.println("float counter = " + counter);
