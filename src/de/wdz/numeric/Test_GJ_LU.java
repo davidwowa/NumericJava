@@ -24,19 +24,29 @@ public class Test_GJ_LU {
 		// testGJCase9();
 		// testGJCase10();
 		// testGJCase11();
-//		testGJCase12();
+		// testGJCase12();
 		// testLUCase1();
 		// testLUCase2();
-//		testInverseCase();
+		// testInverseCase();
 		// testPLUCase3();
 		// testTMatrix();
 		// testMultMatrix();
-		 testLeastSquareMatrixFinal();
+		// testLeastSquareMatrixFinal();
 		// testLeastSquareMatrix2();
 		// polynomialRegressionBookExample();
 		// testWithAllKnownVectors();
 		// testAddMatrix();
 		// regularisationTest();
+		testInhomogen();
+	}
+
+	public static void testInhomogen() {
+		GJCore core = new GJCore();
+		MatrixGenerator generator = new MatrixGenerator();
+
+		double[][] A = generator.getTestMatrix();
+		double[][] b = { { 0 }, { 0 }, { 0 } };
+		core.forwardSubstitutionB(A, b);
 	}
 
 	public static void testInverseCase() {
@@ -47,8 +57,8 @@ public class Test_GJ_LU {
 		// getTestMatrixCLUExample
 		// getTestMatrixLUExampleMatlab
 		core.inverse(A);
-}
-	
+	}
+
 	public static void polynomialRegressionBookExample() {
 		GJCore core3 = new GJCore();
 		MatrixGenerator generator = new MatrixGenerator();
@@ -192,9 +202,9 @@ public class Test_GJ_LU {
 		double[][] b = generator.getMatrixSquaresb();
 		core.printMatrix(b);
 
-//		double[][] At = core.transpose(A);
-//		System.out.println("MATRIX At");
-//		core.printMatrix(At);
+		// double[][] At = core.transpose(A);
+		// System.out.println("MATRIX At");
+		// core.printMatrix(At);
 
 		System.out.println("BUILD NEW A MATRIX");
 		double[][] rMatrix = core.rebuildMatrixToFormForLeastSquares(A, 3);
@@ -212,12 +222,12 @@ public class Test_GJ_LU {
 		double[][] newb = core.mult(rAtMatrix, b);
 
 		core.printMatrix(newb);
-		
+
 		double[][] inverse = generator.getIdentityMatrix(AtTimesA.length);
 
 		core.forwardSubstitution(AtTimesA, newb, inverse);
 		core.backwardSubstitution(AtTimesA, newb, inverse);
-		
+
 		System.out.println("show result vector next top lines");
 	}
 
@@ -422,7 +432,7 @@ public class Test_GJ_LU {
 		core.printMatrix(A);
 
 		core.forwardSubstitution(A);
-		 A = core.adjustMatrix(A);
+		A = core.adjustMatrix(A);
 		// core.backwardSubstitution(A);
 		System.out.println("--END--");
 		core.printMatrix(A);

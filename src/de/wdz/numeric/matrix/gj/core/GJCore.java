@@ -64,6 +64,48 @@ public class GJCore implements IMatrixDoubleOperations {
 		}
 	}
 
+	public void forwardSubstitutionB(double[][] A, double[][] B) {
+		// iterate over current pivot row p
+		for (int currentRow = 0; currentRow < A.length; currentRow++) {
+			// pivot code here
+			int max = currentRow;
+			for (int i = 0; i < B.length; i++) {
+				if (Math.abs(A[i][currentRow]) > Math.abs(A[max][currentRow])) {
+					max = i;
+				}
+			}
+
+			if (A[currentRow][currentRow] == 0.) {
+
+				// permutate rows
+				int[] sigma = getSigma(max, currentRow, B.length);
+				A = permute(sigma, A);
+				B = permute(sigma, B);
+			}
+
+			// scale row p to make element at (p, p) equal one
+			if (A[currentRow][currentRow] != 0.) {
+				double s = 1. / A[currentRow][currentRow]; // s <- 1/u_pp
+				A = scale(currentRow, s, A); // Yp <- s * Yp
+				B = scale(currentRow, s, B);
+				for (int currentColumn = currentRow + 1; currentColumn < A.length; currentColumn++) {// Eliminate
+																										// from
+																										// future
+					if (A[currentColumn][currentRow] != 0.) {
+						s = (-1.) * A[currentColumn][currentRow];
+						A = addRows(currentRow, currentColumn, s, A);// scale
+																		// row p
+																		// by s
+																		// and
+																		// add
+																		// to
+						B = addRows(currentRow, currentColumn, s, B); // row r
+					}
+				}
+			}
+		}
+	}
+
 	public void forwardSubstitution(double[][] A, double[][] inverse) {
 		// iterate over current pivot row p
 		for (int currentRow = 0; currentRow < A[0].length; currentRow++) {

@@ -10,7 +10,7 @@ public class SumExample {
 
 	public static void main(String[] args) {
 		for (int i = 0; i < limit; i++) {
-			System.out.println( i + " " + Math.ulp(i));
+			System.out.println(i + " " + Math.ulp(i));
 		}
 	}
 
